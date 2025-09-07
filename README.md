@@ -107,6 +107,10 @@ make build
 
 ## Documentation
 
+`brew install sphinx-doc`
+
+`make docs` will generate the documentation in the `docs/` folder.
+
 Full documentation is available at [https://antfly-sdk-python.readthedocs.io](https://antfly-sdk-python.readthedocs.io)
 
 ## License

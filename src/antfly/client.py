@@ -1,41 +1,67 @@
 """Main client interface for Antfly SDK."""
 
-from typing import Dict, List, Optional, Any, Union
+from typing import Dict, List, Optional, Any, Union, TYPE_CHECKING
 from pathlib import Path
 import sys
+import os
 
 # Add the generated client to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "antfly-client"))
 
-try:
-    from antfly_client import Client, AuthenticatedClient
-    from antfly_client.api.api_table import (
-        create_table,
-        list_tables,
-        get_table,
-        drop_table,
-        query_table,
-        batch_table_operations,
-        lookup_key,
-    )
-    from antfly_client.api.api_index import (
-        create_index,
-        list_indexes,
-        get_index,
-        drop_index,
-    )
-    from antfly_client.models import (
-        CreateTableRequest,
-        QueryRequest,
-        BatchRequest,
-        Table,
-        TableStatus,
-        QueryResult,
-    )
-except ImportError as e:
-    raise ImportError(
-        "Generated client not found. Please run 'make generate' first."
-    ) from e
+# Check if we're building documentation
+_BUILDING_DOCS = os.environ.get('SPHINX_BUILD', '').lower() in ('true', '1', 'yes')
+
+if _BUILDING_DOCS:
+    # Mock imports for documentation build
+    Client = None
+    AuthenticatedClient = None
+    create_table = None
+    list_tables = None
+    get_table = None
+    drop_table = None
+    query_table = None
+    batch_table_operations = None
+    lookup_key = None
+    create_index = None
+    list_indexes = None
+    get_index = None
+    drop_index = None
+    CreateTableRequest = None
+    QueryRequest = None
+    BatchRequest = None
+    Table = None
+    TableStatus = None
+    QueryResult = None
+else:
+    try:
+        from antfly_client import Client, AuthenticatedClient
+        from antfly_client.api.api_table import (
+            create_table,
+            list_tables,
+            get_table,
+            drop_table,
+            query_table,
+            batch_table_operations,
+            lookup_key,
+        )
+        from antfly_client.api.api_index import (
+            create_index,
+            list_indexes,
+            get_index,
+            drop_index,
+        )
+        from antfly_client.models import (
+            CreateTableRequest,
+            QueryRequest,
+            BatchRequest,
+            Table,
+            TableStatus,
+            QueryResult,
+        )
+    except ImportError as e:
+        raise ImportError(
+            "Generated client not found. Please run 'make generate' first."
+        ) from e
 
 from .exceptions import AntflyException, AntflyConnectionError, AntflyAuthError
 
