@@ -1,5 +1,5 @@
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -7,6 +7,8 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.date_range_result import DateRangeResult
+    from ..models.numeric_range_result import NumericRangeResult
     from ..models.term_facet_result import TermFacetResult
 
 
@@ -21,16 +23,16 @@ class FacetResult:
         total (Union[Unset, int]):
         missing (Union[Unset, int]):
         terms (Union[Unset, list['TermFacetResult']]):
-        date_ranges (Union[Unset, list[Any]]):
-        numeric_ranges (Union[Unset, list[Any]]):
+        date_ranges (Union[Unset, list['DateRangeResult']]):
+        numeric_ranges (Union[Unset, list['NumericRangeResult']]):
     """
 
     field: Union[Unset, str] = UNSET
     total: Union[Unset, int] = UNSET
     missing: Union[Unset, int] = UNSET
     terms: Union[Unset, list["TermFacetResult"]] = UNSET
-    date_ranges: Union[Unset, list[Any]] = UNSET
-    numeric_ranges: Union[Unset, list[Any]] = UNSET
+    date_ranges: Union[Unset, list["DateRangeResult"]] = UNSET
+    numeric_ranges: Union[Unset, list["NumericRangeResult"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -47,13 +49,19 @@ class FacetResult:
                 terms_item = terms_item_data.to_dict()
                 terms.append(terms_item)
 
-        date_ranges: Union[Unset, list[Any]] = UNSET
+        date_ranges: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.date_ranges, Unset):
-            date_ranges = self.date_ranges
+            date_ranges = []
+            for date_ranges_item_data in self.date_ranges:
+                date_ranges_item = date_ranges_item_data.to_dict()
+                date_ranges.append(date_ranges_item)
 
-        numeric_ranges: Union[Unset, list[Any]] = UNSET
+        numeric_ranges: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.numeric_ranges, Unset):
-            numeric_ranges = self.numeric_ranges
+            numeric_ranges = []
+            for numeric_ranges_item_data in self.numeric_ranges:
+                numeric_ranges_item = numeric_ranges_item_data.to_dict()
+                numeric_ranges.append(numeric_ranges_item)
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -75,6 +83,8 @@ class FacetResult:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.date_range_result import DateRangeResult
+        from ..models.numeric_range_result import NumericRangeResult
         from ..models.term_facet_result import TermFacetResult
 
         d = dict(src_dict)
@@ -91,9 +101,19 @@ class FacetResult:
 
             terms.append(terms_item)
 
-        date_ranges = cast(list[Any], d.pop("date_ranges", UNSET))
+        date_ranges = []
+        _date_ranges = d.pop("date_ranges", UNSET)
+        for date_ranges_item_data in _date_ranges or []:
+            date_ranges_item = DateRangeResult.from_dict(date_ranges_item_data)
 
-        numeric_ranges = cast(list[Any], d.pop("numeric_ranges", UNSET))
+            date_ranges.append(date_ranges_item)
+
+        numeric_ranges = []
+        _numeric_ranges = d.pop("numeric_ranges", UNSET)
+        for numeric_ranges_item_data in _numeric_ranges or []:
+            numeric_ranges_item = NumericRangeResult.from_dict(numeric_ranges_item_data)
+
+            numeric_ranges.append(numeric_ranges_item)
 
         facet_result = cls(
             field=field,

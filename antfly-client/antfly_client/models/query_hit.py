@@ -18,14 +18,14 @@ T = TypeVar("T", bound="QueryHit")
 class QueryHit:
     """
     Attributes:
-        field_id (Union[Unset, str]): ID of the record.
-        field_score (Union[Unset, float]): Relevance score of the hit.
+        field_id (str): ID of the record.
+        field_score (float): Relevance score of the hit.
         field_index_scores (Union[Unset, QueryHitIndexScores]): Scores partitioned by index when using RRF search.
         field_source (Union[Unset, QueryHitSource]):
     """
 
-    field_id: Union[Unset, str] = UNSET
-    field_score: Union[Unset, float] = UNSET
+    field_id: str
+    field_score: float
     field_index_scores: Union[Unset, "QueryHitIndexScores"] = UNSET
     field_source: Union[Unset, "QueryHitSource"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -45,11 +45,12 @@ class QueryHit:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if field_id is not UNSET:
-            field_dict["_id"] = field_id
-        if field_score is not UNSET:
-            field_dict["_score"] = field_score
+        field_dict.update(
+            {
+                "_id": field_id,
+                "_score": field_score,
+            }
+        )
         if field_index_scores is not UNSET:
             field_dict["_index_scores"] = field_index_scores
         if field_source is not UNSET:
@@ -63,9 +64,9 @@ class QueryHit:
         from ..models.query_hit_source import QueryHitSource
 
         d = dict(src_dict)
-        field_id = d.pop("_id", UNSET)
+        field_id = d.pop("_id")
 
-        field_score = d.pop("_score", UNSET)
+        field_score = d.pop("_score")
 
         _field_index_scores = d.pop("_index_scores", UNSET)
         field_index_scores: Union[Unset, QueryHitIndexScores]
