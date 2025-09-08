@@ -1,12 +1,9 @@
 """Main client interface for Antfly SDK."""
 
-from typing import Dict, List, Optional, Any, Union, TYPE_CHECKING
+from typing import Dict, List, Optional, Any
 from pathlib import Path
 import sys
 import os
-
-# Add the generated client to path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "antfly-client"))
 
 # Check if we're building documentation
 _BUILDING_DOCS = os.environ.get('SPHINX_BUILD', '').lower() in ('true', '1', 'yes')
@@ -63,12 +60,12 @@ else:
             "Generated client not found. Please run 'make generate' first."
         ) from e
 
-from .exceptions import AntflyException, AntflyConnectionError, AntflyAuthError
+from .exceptions import AntflyException
 
 
 class AntflyClient:
     """High-level client for interacting with Antfly database."""
-    
+
     def __init__(
         self,
         base_url: str,
@@ -78,7 +75,7 @@ class AntflyClient:
     ):
         """
         Initialize Antfly client.
-        
+
         Args:
             base_url: Base URL of the Antfly server
             username: Username for authentication (optional)
@@ -86,7 +83,7 @@ class AntflyClient:
             timeout: Request timeout in seconds
         """
         self.base_url = base_url.rstrip("/")
-        
+
         if username and password:
             self._client = AuthenticatedClient(
                 base_url=self.base_url,
@@ -98,9 +95,9 @@ class AntflyClient:
                 base_url=self.base_url,
                 timeout=timeout,
             )
-    
+
     # Table operations
-    
+
     def create_table(
         self,
         name: str,
@@ -110,16 +107,16 @@ class AntflyClient:
     ) -> Table:
         """
         Create a new table.
-        
+
         Args:
             name: Name of the table
             num_shards: Number of shards for the table
             indexes: Index configurations
             schema: Table schema definition
-            
+
         Returns:
             Created table object
-            
+
         Raises:
             AntflyException: If table creation fails
         """
@@ -128,45 +125,45 @@ class AntflyClient:
             indexes=indexes or {},
             schema=schema,
         )
-        
+
         response = create_table.sync(
             table_name=name,
             client=self._client,
             json_body=request,
         )
-        
+
         if response is None:
             raise AntflyException(f"Failed to create table '{name}'")
-            
+
         return response
-    
+
     def list_tables(self) -> List[Table]:
         """
         List all tables.
-        
+
         Returns:
             List of table objects
-            
+
         Raises:
             AntflyException: If listing tables fails
         """
         response = list_tables.sync(client=self._client)
-        
+
         if response is None:
             raise AntflyException("Failed to list tables")
-            
+
         return response
-    
+
     def get_table(self, name: str) -> TableStatus:
         """
         Get table details.
-        
+
         Args:
             name: Name of the table
-            
+
         Returns:
             Table status object
-            
+
         Raises:
             AntflyException: If getting table fails
         """
@@ -174,19 +171,19 @@ class AntflyClient:
             table_name=name,
             client=self._client,
         )
-        
+
         if response is None:
             raise AntflyException(f"Failed to get table '{name}'")
-            
+
         return response
-    
+
     def drop_table(self, name: str) -> None:
         """
         Drop a table.
-        
+
         Args:
             name: Name of the table to drop
-            
+
         Raises:
             AntflyException: If dropping table fails
         """
@@ -194,12 +191,12 @@ class AntflyClient:
             table_name=name,
             client=self._client,
         )
-        
+
         if response is not None:
             raise AntflyException(f"Failed to drop table '{name}'")
-    
+
     # Query operations
-    
+
     def query(
         self,
         table: Optional[str] = None,
@@ -212,7 +209,7 @@ class AntflyClient:
     ) -> QueryResult:
         """
         Query a table or perform global query.
-        
+
         Args:
             table: Table name (optional for global query)
             full_text_search: Full-text search query
@@ -221,10 +218,10 @@ class AntflyClient:
             limit: Maximum number of results
             offset: Number of results to skip
             **kwargs: Additional query parameters
-            
+
         Returns:
             Query result object
-            
+
         Raises:
             AntflyException: If query fails
         """
@@ -237,7 +234,7 @@ class AntflyClient:
             offset=offset,
             **kwargs,
         )
-        
+
         if table:
             response = query_table.sync(
                 table_name=table,
@@ -251,23 +248,23 @@ class AntflyClient:
                 client=self._client,
                 json_body=request,
             )
-        
+
         if response is None:
             raise AntflyException("Query failed")
-            
+
         return response
-    
+
     def get(self, table: str, key: str) -> Dict[str, Any]:
         """
         Get a single record by key.
-        
+
         Args:
             table: Table name
             key: Record key
-            
+
         Returns:
             Record data
-            
+
         Raises:
             AntflyException: If lookup fails
         """
@@ -276,12 +273,12 @@ class AntflyClient:
             key=key,
             client=self._client,
         )
-        
+
         if response is None:
             raise AntflyException(f"Failed to get key '{key}' from table '{table}'")
-            
+
         return response
-    
+
     def batch(
         self,
         table: str,
@@ -290,12 +287,12 @@ class AntflyClient:
     ) -> None:
         """
         Perform batch operations on a table.
-        
+
         Args:
             table: Table name
             inserts: Dictionary of key-value pairs to insert
             deletes: List of keys to delete
-            
+
         Raises:
             AntflyException: If batch operation fails
         """
@@ -303,12 +300,12 @@ class AntflyClient:
             inserts=inserts or {},
             deletes=deletes or [],
         )
-        
+
         response = batch_table_operations.sync(
             table_name=table,
             client=self._client,
             json_body=request,
         )
-        
+
         if response is None:
             raise AntflyException(f"Batch operation failed for table '{table}'")

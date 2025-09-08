@@ -38,7 +38,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/QueryRequest'
+              $ref: "#/components/schemas/QueryRequest"
           application/x-ndjson:
             description: >
               IMPORTANT: The final line of data must end with a newline
@@ -49,26 +49,26 @@ paths:
               When sending requests to this endpoint the Content-Type header
               should be set to application/x-ndjson.
             schema:
-              $ref: '#/components/schemas/QueryRequest'
+              $ref: "#/components/schemas/QueryRequest"
       responses:
-        '200':
+        "200":
           description: Query successful
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/QueryResponses'
-        '400':
+                $ref: "#/components/schemas/QueryResponses"
+        "400":
           description: Invalid query request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /table:
     servers:
       - url: /
@@ -81,16 +81,16 @@ paths:
       security:
         - BasicAuth: []
       responses:
-        '200':
+        "200":
           description: A list of tables
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Table'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+                  $ref: "#/components/schemas/Table"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /table/{tableName}:
     servers:
       - url: /
@@ -114,16 +114,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateTableRequest'
+              $ref: "#/components/schemas/CreateTableRequest"
       responses:
-        '200':
+        "200":
           description: Table created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Table'
-        '400':
-          $ref: '#/components/responses/BadRequest'
+                $ref: "#/components/schemas/Table"
+        "400":
+          $ref: "#/components/responses/BadRequest"
     delete:
       summary: Drop a table
       tags:
@@ -132,12 +132,12 @@ paths:
       security:
         - BasicAuth: []
       responses:
-        '204':
+        "204":
           description: Table dropped successfully
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     get:
       summary: Get table details
       tags:
@@ -146,14 +146,14 @@ paths:
       security:
         - BasicAuth: []
       responses:
-        '200':
+        "200":
           description: Table details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TableStatus'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                $ref: "#/components/schemas/TableStatus"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /table/{tableName}/query:
     servers:
       - url: /
@@ -177,20 +177,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/QueryRequest'
+              $ref: "#/components/schemas/QueryRequest"
       responses:
-        '200':
+        "200":
           description: Query successful
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/QueryResult'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+                $ref: "#/components/schemas/QueryResult"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /table/{tableName}/batch:
     servers:
       - url: /
@@ -214,9 +214,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BatchRequest'
+              $ref: "#/components/schemas/BatchRequest"
       responses:
-        '201':
+        "201":
           description: Batch operation successful
           content:
             application/json:
@@ -226,12 +226,12 @@ paths:
                   batch:
                     type: string
                     example: successful
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /table/{tableName}/backup:
     servers:
       - url: /
@@ -255,9 +255,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BackupRequest'
+              $ref: "#/components/schemas/BackupRequest"
       responses:
-        '201':
+        "201":
           description: Backup process initiated successfully
           content:
             application/json:
@@ -267,12 +267,12 @@ paths:
                   backup:
                     type: string
                     example: successful
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /table/{tableName}/restore:
     servers:
       - url: /
@@ -296,9 +296,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RestoreRequest'
+              $ref: "#/components/schemas/RestoreRequest"
       responses:
-        '202':
+        "202":
           description: Restore process triggered successfully
           content:
             application/json:
@@ -308,10 +308,10 @@ paths:
                   restore:
                     type: string
                     example: triggered
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /table/{tableName}/key/{key}:
     servers:
       - url: /
@@ -337,19 +337,19 @@ paths:
       security:
         - BasicAuth: []
       responses:
-        '200':
+        "200":
           description: Record found
           content:
             application/json:
               schema:
                 type: object
                 additionalProperties: true
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /table/{tableName}/index:
     servers:
       - url: /
@@ -369,16 +369,16 @@ paths:
       security:
         - BasicAuth: []
       responses:
-        '200':
+        "200":
           description: A list of indexes for the table
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/IndexStatus'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+                  $ref: "#/components/schemas/IndexStatus"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /table/{tableName}/index/{indexName}:
     servers:
       - url: /
@@ -408,14 +408,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateIndexRequest'
+              $ref: "#/components/schemas/CreateIndexRequest"
       responses:
-        '201':
+        "201":
           description: Index added successfully
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     delete:
       summary: Drop an index from a table
       tags:
@@ -424,10 +424,10 @@ paths:
       security:
         - BasicAuth: []
       responses:
-        '201':
+        "201":
           description: Index dropped successfully
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     get:
       summary: Get index details
       tags:
@@ -436,22 +436,22 @@ paths:
       security:
         - BasicAuth: []
       responses:
-        '200':
+        "200":
           description: Index details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IndexStatus'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+                $ref: "#/components/schemas/IndexStatus"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /user/{userName}:
     servers:
       - url: /user
         description: User API server
     parameters:
-      - $ref: '#/components/parameters/UserNamePathParameter'
+      - $ref: "#/components/parameters/UserNamePathParameter"
     post:
       tags:
         - User
@@ -466,32 +466,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUserRequest'
+              $ref: "#/components/schemas/CreateUserRequest"
       responses:
-        '201':
+        "201":
           description: User created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        '400':
+                $ref: "#/components/schemas/User"
+        "400":
           description: Bad Request (e.g., invalid input, username/password mismatch)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '409':
+                $ref: "#/components/schemas/Error"
+        "409":
           description: Conflict (e.g., user already exists)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
     get:
       tags:
         - User
@@ -499,30 +499,30 @@ paths:
       description: Retrieves details for a specific user.
       operationId: getUserByName
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        '400':
+                $ref: "#/components/schemas/User"
+        "400":
           description: Bad Request (e.g., username is required)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: User not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
     delete:
       tags:
         - User
@@ -530,32 +530,32 @@ paths:
       description: Deletes a specific user.
       operationId: deleteUser
       responses:
-        '204':
+        "204":
           description: User deleted successfully
-        '400':
+        "400":
           description: Bad Request (e.g., username is required)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: User not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /user/{userName}/password:
     servers:
       - url: /user
         description: User API server
     parameters:
-      - $ref: '#/components/parameters/UserNamePathParameter'
+      - $ref: "#/components/parameters/UserNamePathParameter"
     put:
       tags:
         - User
@@ -568,38 +568,38 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdatePasswordRequest'
+              $ref: "#/components/schemas/UpdatePasswordRequest"
       responses:
-        '200':
+        "200":
           description: Password updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessMessage'
-        '400':
+                $ref: "#/components/schemas/SuccessMessage"
+        "400":
           description: Bad Request (e.g., new password empty, username required)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: User not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
   /user/{userName}/permission:
     servers:
       - url: /user
         description: User API server
     parameters:
-      - $ref: '#/components/parameters/UserNamePathParameter'
+      - $ref: "#/components/parameters/UserNamePathParameter"
     get:
       tags:
         - Permission
@@ -607,32 +607,32 @@ paths:
       description: Retrieves all permissions for a specific user.
       operationId: getUserPermissions
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Permission'
-        '400':
+                  $ref: "#/components/schemas/Permission"
+        "400":
           description: Bad Request (e.g., username is required)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: User not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
     post:
       tags:
         - Permission
@@ -645,32 +645,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Permission'
+              $ref: "#/components/schemas/Permission"
       responses:
-        '201':
+        "201":
           description: Permission added successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessMessage'
-        '400':
+                $ref: "#/components/schemas/SuccessMessage"
+        "400":
           description: Bad Request (e.g., invalid input, username required)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: User not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
     delete:
       tags:
         - Permission
@@ -692,30 +692,30 @@ paths:
           required: true
           description: The type of the resource for the permission to be removed.
           schema:
-            $ref: '#/components/schemas/ResourceType'
+            $ref: "#/components/schemas/ResourceType"
       responses:
-        '204':
+        "204":
           description: Permission removed successfully
-        '400':
+        "400":
           description: >-
             Bad Request (e.g., missing query parameters, invalid resourceType,
             username required)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
+                $ref: "#/components/schemas/Error"
+        "404":
           description: User not found or Role not found for the given resource
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 components:
   securitySchemes:
     BasicAuth:
@@ -743,7 +743,7 @@ components:
         - byte_range
       properties:
         byte_range:
-          $ref: '#/components/schemas/ByteRange'
+          $ref: "#/components/schemas/ByteRange"
     CreateTableRequest:
       type: object
       properties:
@@ -753,9 +753,9 @@ components:
         indexes:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/CreateIndexRequest'
+            $ref: "#/components/schemas/CreateIndexRequest"
         schema:
-          $ref: '#/components/schemas/TableSchema'
+          $ref: "#/components/schemas/TableSchema"
     Table:
       type: object
       required:
@@ -768,13 +768,13 @@ components:
         indexes:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/IndexConfig'
+            $ref: "#/components/schemas/IndexConfig"
         shards:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/ShardConfig'
+            $ref: "#/components/schemas/ShardConfig"
         schema:
-          $ref: '#/components/schemas/TableSchema'
+          $ref: "#/components/schemas/TableSchema"
     ValueSchema:
       x-go-type-skip-optional-pointer: false
       type: object
@@ -782,9 +782,9 @@ components:
         - type
       properties:
         type:
-          $ref: '#/components/schemas/ValueType'
+          $ref: "#/components/schemas/ValueType"
         schema:
-          $ref: '#/components/schemas/DocumentSchema'
+          $ref: "#/components/schemas/DocumentSchema"
           description: |
             For object types, this schema defines the structure of the content.
             For other types, this field is ignored.
@@ -795,7 +795,7 @@ components:
         fields:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/ValueSchema'
+            $ref: "#/components/schemas/ValueSchema"
           description: >
             A map of field names to their value schema (type, defaults,
             configuration etc.).
@@ -815,7 +815,7 @@ components:
         document_types:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/DocumentSchema'
+            $ref: "#/components/schemas/DocumentSchema"
             description: >
               A map of type names to their content schemas.
 
@@ -865,7 +865,7 @@ components:
           type: integer
     DateRangeResult:
       allof:
-        - $ref: '#/components/schemas/DateRange'
+        - $ref: "#/components/schemas/DateRange"
         - type: object
           properties:
             count:
@@ -874,7 +874,7 @@ components:
             - count
     NumericRangeResult:
       allof:
-        - $ref: '#/components/schemas/NumericRange'
+        - $ref: "#/components/schemas/NumericRange"
         - type: object
           properties:
             count:
@@ -891,11 +891,11 @@ components:
         date_ranges:
           type: array
           items:
-            $ref: '#/components/schemas/DateRange'
+            $ref: "#/components/schemas/DateRange"
         numeric_ranges:
           type: array
           items:
-            $ref: '#/components/schemas/NumericRange'
+            $ref: "#/components/schemas/NumericRange"
     FacetResult:
       type: object
       properties:
@@ -908,15 +908,15 @@ components:
         terms:
           type: array
           items:
-            $ref: '#/components/schemas/TermFacetResult'
+            $ref: "#/components/schemas/TermFacetResult"
         date_ranges:
           type: array
           items:
-            $ref: '#/components/schemas/DateRangeResult'
+            $ref: "#/components/schemas/DateRangeResult"
         numeric_ranges:
           type: array
           items:
-            $ref: '#/components/schemas/NumericRangeResult'
+            $ref: "#/components/schemas/NumericRangeResult"
     ValueType:
       type: string
       enum:
@@ -951,7 +951,7 @@ components:
           additionalProperties: true
     IndexStatus:
       allof:
-        - $ref: '#/components/schemas/IndexConfig'
+        - $ref: "#/components/schemas/IndexConfig"
         - type: object
           required:
             - status
@@ -976,13 +976,13 @@ components:
           description: Whether the table has received data.
     TableStatus:
       allof:
-        - $ref: '#/components/schemas/Table'
+        - $ref: "#/components/schemas/Table"
         - type: object
           required:
             - storage_status
           properties:
             storage_status:
-              $ref: '#/components/schemas/StorageStatus'
+              $ref: "#/components/schemas/StorageStatus"
     EmbedderConfig:
       type: object
       required:
@@ -1029,9 +1029,9 @@ components:
           type: integer
           minimum: 1
         summarizer_config:
-          $ref: '#/components/schemas/SummarizerConfig'
+          $ref: "#/components/schemas/SummarizerConfig"
         embedder_config:
-          $ref: '#/components/schemas/EmbedderConfig'
+          $ref: "#/components/schemas/EmbedderConfig"
     BatchRequest:
       type: object
       properties:
@@ -1078,7 +1078,7 @@ components:
             s3://bucket/path)
     RestoreRequest:
       allOf:
-        - $ref: '#/components/schemas/BackupRequest'
+        - $ref: "#/components/schemas/BackupRequest"
     QueryRequest:
       type: object
       properties:
@@ -1111,7 +1111,7 @@ components:
         facets:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/FacetOption'
+            $ref: "#/components/schemas/FacetOption"
         embeddings:
           type: object
           additionalProperties:
@@ -1148,7 +1148,7 @@ components:
         count:
           type: boolean
         reranker:
-          $ref: '#/components/schemas/Reranker'
+          $ref: "#/components/schemas/Reranker"
     Reranker:
       x-go-type-skip-optional-pointer: false
       type: object
@@ -1210,7 +1210,7 @@ components:
           x-omitzero: false
           type: array
           items:
-            $ref: '#/components/schemas/QueryHit'
+            $ref: "#/components/schemas/QueryHit"
         max_score:
           type: number
           format: float
@@ -1223,7 +1223,7 @@ components:
         responses:
           type: array
           items:
-            $ref: '#/components/schemas/QueryResult'
+            $ref: "#/components/schemas/QueryResult"
     QueryResult:
       type: object
       description: Result of a query operation as an array of results and a count.
@@ -1232,11 +1232,11 @@ components:
         - status
       properties:
         hits:
-          $ref: '#/components/schemas/QueryHits'
+          $ref: "#/components/schemas/QueryHits"
         facets:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/FacetResult'
+            $ref: "#/components/schemas/FacetResult"
         took:
           type: integer
           format: int64
@@ -1268,7 +1268,7 @@ components:
       enum:
         - table
         - user
-        - '*'
+        - "*"
       description: Type of the resource, e.g., table, user, or global ('*').
       example: table
     PermissionType:
@@ -1289,9 +1289,9 @@ components:
             global).
           example: orders_table
         resource_type:
-          $ref: '#/components/schemas/ResourceType'
+          $ref: "#/components/schemas/ResourceType"
         type:
-          $ref: '#/components/schemas/PermissionType'
+          $ref: "#/components/schemas/PermissionType"
       required:
         - resource
         - resource_type
@@ -1312,7 +1312,7 @@ components:
         initial_policies:
           type: array
           items:
-            $ref: '#/components/schemas/Permission'
+            $ref: "#/components/schemas/Permission"
           nullable: true
           description: Optional list of initial permissions for the user.
       required:
@@ -1338,31 +1338,31 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
     NotFound:
       description: Resource not found
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
     InternalServerError:
       description: Internal server error
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
     Unauthorized:
       description: Unauthorized
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
     Forbidden:
       description: Forbidden
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
   parameters:
     UserNamePathParameter:
       name: userName
