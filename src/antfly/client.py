@@ -200,9 +200,9 @@ class AntflyClient:
         """
         request = QueryRequest(
             table=table if table is not None else UNSET,
-            full_text_search=cast(QueryRequestFullTextSearch, full_text_search)
-            if full_text_search is not None
-            else UNSET,
+            full_text_search=(
+                cast(QueryRequestFullTextSearch, full_text_search) if full_text_search is not None else UNSET
+            ),
             semantic_search=semantic_search if semantic_search is not None else UNSET,
             filter_prefix=filter_prefix if filter_prefix is not None else UNSET,
             limit=limit,
@@ -253,9 +253,7 @@ class AntflyClient:
         )
 
         if isinstance(response, Error):
-            raise AntflyException(
-                f"Failed to get key '{key}' from table '{table}': {response.error}"
-            )
+            raise AntflyException(f"Failed to get key '{key}' from table '{table}': {response.error}")
         if response is None:
             raise AntflyException(f"Failed to get key '{key}' from table '{table}'")
 
@@ -290,8 +288,6 @@ class AntflyClient:
         )
 
         if isinstance(response, Error):
-            raise AntflyException(
-                f"Batch operation failed for table '{table}': {response.error}"
-            )
+            raise AntflyException(f"Batch operation failed for table '{table}': {response.error}")
         if response is None:
             raise AntflyException(f"Batch operation failed for table '{table}'")

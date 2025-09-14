@@ -10,7 +10,7 @@ __version__ = "0.1.0"
 __all__ = [
     "AntflyClient",
     "AntflyException",
-    "AntflyConnectionError", 
+    "AntflyConnectionError",
     "AntflyAuthError",
     "__version__",
 ]

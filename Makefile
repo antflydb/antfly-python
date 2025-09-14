@@ -1,4 +1,4 @@
-.PHONY: generate clean install test build publish docs
+.PHONY: generate clean install test build publish docs fmt
 
 generate:
 	openapi-python-client generate --path ./openapi.yaml --output-path antfly-client --overwrite --config .openapi-generator-config.yaml
@@ -23,3 +23,7 @@ publish: build
 
 docs:
 	cd docs && make html
+
+fmt:
+	ruff check src tests --fix
+	black src tests
