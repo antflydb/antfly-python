@@ -1,7 +1,7 @@
 """Main client interface for Antfly SDK."""
 
 from typing import Dict, List, Optional, Any
-from antfly_client import Client, AuthenticatedClient
+from antfly_client import Client
 from antfly_client.api.api_table import (
     create_table,
     list_tables,
@@ -48,17 +48,15 @@ class AntflyClient:
         """
         self.base_url = base_url.rstrip("/")
 
+        httpx_args: Dict[str, Any] = {}
         if username and password:
-            self._client = AuthenticatedClient(
-                base_url=self.base_url,
-                auth=(username, password),
-                timeout=timeout,
-            )
-        else:
-            self._client = Client(
-                base_url=self.base_url,
-                timeout=timeout,
-            )
+            httpx_args["auth"] = (username, password)
+
+        self._client = Client(
+            base_url=self.base_url,
+            timeout=timeout,
+            httpx_args=httpx_args,
+        )
 
     # Table operations
 
