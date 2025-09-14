@@ -4,6 +4,8 @@ import sys
 from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 
+import pytest
+
 # Mock the generated client modules before importing antfly
 sys.modules['antfly_client'] = MagicMock()
 sys.modules['antfly_client.api'] = MagicMock()
@@ -14,8 +16,7 @@ sys.modules['antfly_client.models'] = MagicMock()
 # Add src directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-import pytest
-from antfly import AntflyClient, AntflyException
+from antfly import AntflyClient, AntflyException  # noqa: E402
 
 
 class TestAntflyClient:

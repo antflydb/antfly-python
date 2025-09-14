@@ -19,11 +19,7 @@ from antfly_client.models import (
     BatchRequest,
     Table,
     TableStatus,
-    QueryResult,
     Error,
-    SuccessMessage,
-    LookupKeyResponse200,
-    BatchTableOperationsResponse201,
     CreateTableRequestIndexes,
     TableSchema,
     QueryRequestFullTextSearch,
@@ -31,7 +27,7 @@ from antfly_client.models import (
     QueryResponses,
 )
 from antfly_client.client import AuthenticatedClient
-from antfly_client.types import UNSET, Unset
+from antfly_client.types import UNSET
 
 
 class AntflyClient:
