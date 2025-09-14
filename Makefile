@@ -27,3 +27,10 @@ docs:
 fmt:
 	ruff check src tests --fix
 	black src tests
+
+update-deps:
+	python3 -m pip install --upgrade -e ".[dev]"
+	#pip install -U -r requirements.txt
+	#pip install -U -r requirements-dev.txt
+	#pip freeze > requirements.txt
+	#pip freeze > requirements-dev.txt

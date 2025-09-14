@@ -39,6 +39,10 @@ dev = [
     "ruff>=0.1.0",
     "mypy>=1.0.0",
     "openapi-python-client>=0.15.0",
+    "pyright>=1.1.300",
+    "build>=0.10.0",
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
 ]
 
 [project.urls]
@@ -49,6 +53,7 @@ Issues = "https://github.com/antflydb/antfly-py/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["antfly*"]
 
 [tool.ruff]
 line-length = 120
@@ -63,6 +68,7 @@ python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
+mypy_path = "antfly-client"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

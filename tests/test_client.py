@@ -1,10 +1,10 @@
 """Tests for Antfly client."""
 
 import sys
-from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 
 import pytest
+from httpx import Timeout
 
 # Mock the generated client modules before importing antfly
 sys.modules["antfly_client"] = MagicMock()
@@ -13,10 +13,8 @@ sys.modules["antfly_client.api.api_table"] = MagicMock()
 sys.modules["antfly_client.api.api_index"] = MagicMock()
 sys.modules["antfly_client.models"] = MagicMock()
 
-# Add src directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-
 from antfly import AntflyClient, AntflyException  # noqa: E402
+from antfly.client_generated.types import UNSET  # noqa: E402
 
 
 class TestAntflyClient:
@@ -30,7 +28,7 @@ class TestAntflyClient:
         assert client.base_url == "http://localhost:8080"
         mock_client.assert_called_once_with(
             base_url="http://localhost:8080",
-            timeout=30.0,
+            timeout=Timeout(30.0),
             httpx_args={},
         )
 
@@ -40,7 +38,7 @@ class TestAntflyClient:
         assert client.base_url == "http://localhost:8080"
         mock_client.assert_called_once_with(
             base_url="http://localhost:8080",
-            timeout=30.0,
+            timeout=Timeout(30.0),
             httpx_args={"auth": ("admin", "password")},
         )
 
@@ -71,7 +69,7 @@ class TestAntflyClient:
         result = client.create_table(name="test_table", num_shards=2)
 
         assert result.name == "test_table"
-        mock_request_class.assert_called_once_with(num_shards=2, indexes={}, schema=None)
+        mock_request_class.assert_called_once_with(num_shards=2, indexes=UNSET, schema=UNSET)
         mock_create_table.sync.assert_called_once()
 
     @patch("antfly.client.Client")
@@ -79,7 +77,9 @@ class TestAntflyClient:
     def test_get_record(self, mock_lookup_key, mock_client_class):
         """Test getting a record by key."""
         # Setup mock
-        mock_lookup_key.sync.return_value = {"name": "John Doe"}
+        mock_response = Mock()
+        mock_response.to_dict.return_value = {"name": "John Doe"}
+        mock_lookup_key.sync.return_value = mock_response
 
         client = AntflyClient(base_url="http://localhost:8080")
         record = client.get(table="users", key="user:1")

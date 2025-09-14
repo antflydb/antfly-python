@@ -85,9 +85,12 @@ user = client.get(table="users", key="user:1")
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-python3 -m pip install --upgrade pip build pyright -e ".[dev]"
-deactivate
+python3 -m pip install --upgrade pip
+python3 -m pip install -e ".[dev]"
 ```
+
+The development dependencies are listed in `pyproject.toml` under `[project.optional-dependencies.dev]`.
+
 
 ### Generate Client
 
@@ -110,8 +113,6 @@ make build
 ```
 
 ## Documentation
-
-`brew install sphinx-doc`
 
 `make docs` will generate the documentation in the `docs/` folder.
 

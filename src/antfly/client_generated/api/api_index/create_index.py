@@ -24,7 +24,6 @@ def _get_kwargs(
         "url": f"/table/{table_name}/index/{index_name}",
     }
 
-    _kwargs["json"]: dict[str, Any]
     if isinstance(body, BleveIndexV2Config):
         _kwargs["json"] = body.to_dict()
     else:

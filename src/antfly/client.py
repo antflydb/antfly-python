@@ -3,8 +3,8 @@
 from typing import Dict, List, Optional, Any, cast
 from httpx import Timeout
 from .exceptions import AntflyException
-from antfly_client import Client
-from antfly_client.api.api_table import (
+from antfly.client_generated import Client
+from antfly.client_generated.api.api_table import (
     create_table,
     list_tables,
     get_table,
@@ -13,7 +13,7 @@ from antfly_client.api.api_table import (
     batch_table_operations,
     lookup_key,
 )
-from antfly_client.models import (
+from antfly.client_generated.models import (
     CreateTableRequest,
     QueryRequest,
     BatchRequest,
@@ -26,8 +26,8 @@ from antfly_client.models import (
     BatchRequestInserts,
     QueryResponses,
 )
-from antfly_client.client import AuthenticatedClient
-from antfly_client.types import UNSET
+from antfly.client_generated.client import AuthenticatedClient
+from antfly.client_generated.types import UNSET
 
 
 class AntflyClient:
@@ -178,7 +178,7 @@ class AntflyClient:
         filter_prefix: Optional[str] = None,
         limit: int = 10,
         offset: int = 0,
-        **kwargs,
+        **kwargs: Any,
     ) -> QueryResponses:
         """
         Query a table or perform global query.
@@ -218,7 +218,7 @@ class AntflyClient:
             )
         else:
             # Use global query endpoint
-            from antfly_client.api.api_table import global_query
+            from antfly.client_generated.api.api_table import global_query
 
             response = global_query.sync(
                 client=cast(AuthenticatedClient, self._client),
