@@ -74,7 +74,7 @@ def _build_response(
 def sync_detailed(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     body: CreateUserRequest,
 ) -> Response[Union[Error, User]]:
     """Create a new user
@@ -108,7 +108,7 @@ def sync_detailed(
 def sync(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     body: CreateUserRequest,
 ) -> Optional[Union[Error, User]]:
     """Create a new user
@@ -137,7 +137,7 @@ def sync(
 async def asyncio_detailed(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     body: CreateUserRequest,
 ) -> Response[Union[Error, User]]:
     """Create a new user
@@ -169,7 +169,7 @@ async def asyncio_detailed(
 async def asyncio(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     body: CreateUserRequest,
 ) -> Optional[Union[Error, User]]:
     """Create a new user

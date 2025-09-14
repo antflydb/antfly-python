@@ -1,11 +1,12 @@
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.index_config_config import IndexConfigConfig
+    from ..models.bleve_index_v2_config import BleveIndexV2Config
+    from ..models.embedding_index_config import EmbeddingIndexConfig
     from ..models.index_status_shard_status import IndexStatusShardStatus
     from ..models.index_status_status import IndexStatusStatus
 
@@ -17,26 +18,24 @@ T = TypeVar("T", bound="IndexStatus")
 class IndexStatus:
     """
     Attributes:
-        name (str):
-        type_ (str):
-        config (IndexConfigConfig):
+        config (Union['BleveIndexV2Config', 'EmbeddingIndexConfig']): Configuration for an index
         shard_status (IndexStatusShardStatus):
         status (IndexStatusStatus):
     """
 
-    name: str
-    type_: str
-    config: "IndexConfigConfig"
+    config: Union["BleveIndexV2Config", "EmbeddingIndexConfig"]
     shard_status: "IndexStatusShardStatus"
     status: "IndexStatusStatus"
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        name = self.name
+        from ..models.bleve_index_v2_config import BleveIndexV2Config
 
-        type_ = self.type_
-
-        config = self.config.to_dict()
+        config: dict[str, Any]
+        if isinstance(self.config, BleveIndexV2Config):
+            config = self.config.to_dict()
+        else:
+            config = self.config.to_dict()
 
         shard_status = self.shard_status.to_dict()
 
@@ -46,8 +45,6 @@ class IndexStatus:
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "name": name,
-                "type": type_,
                 "config": config,
                 "shard_status": shard_status,
                 "status": status,
@@ -58,24 +55,35 @@ class IndexStatus:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.index_config_config import IndexConfigConfig
+        from ..models.bleve_index_v2_config import BleveIndexV2Config
+        from ..models.embedding_index_config import EmbeddingIndexConfig
         from ..models.index_status_shard_status import IndexStatusShardStatus
         from ..models.index_status_status import IndexStatusStatus
 
         d = dict(src_dict)
-        name = d.pop("name")
 
-        type_ = d.pop("type")
+        def _parse_config(data: object) -> Union["BleveIndexV2Config", "EmbeddingIndexConfig"]:
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_index_config_type_0 = BleveIndexV2Config.from_dict(data)
 
-        config = IndexConfigConfig.from_dict(d.pop("config"))
+                return componentsschemas_index_config_type_0
+            except:  # noqa: E722
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            componentsschemas_index_config_type_1 = EmbeddingIndexConfig.from_dict(data)
+
+            return componentsschemas_index_config_type_1
+
+        config = _parse_config(d.pop("config"))
 
         shard_status = IndexStatusShardStatus.from_dict(d.pop("shard_status"))
 
         status = IndexStatusStatus.from_dict(d.pop("status"))
 
         index_status = cls(
-            name=name,
-            type_=type_,
             config=config,
             shard_status=shard_status,
             status=status,

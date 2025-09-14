@@ -1,31 +1,55 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="IndexConfigConfig")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="Analyses")
 
 
 @_attrs_define
-class IndexConfigConfig:
-    """ """
+class Analyses:
+    """
+    Attributes:
+        pca (Union[Unset, bool]):
+        tsne (Union[Unset, bool]):
+    """
 
+    pca: Union[Unset, bool] = UNSET
+    tsne: Union[Unset, bool] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        pca = self.pca
+
+        tsne = self.tsne
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if pca is not UNSET:
+            field_dict["pca"] = pca
+        if tsne is not UNSET:
+            field_dict["tsne"] = tsne
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        index_config_config = cls()
+        pca = d.pop("pca", UNSET)
 
-        index_config_config.additional_properties = d
-        return index_config_config
+        tsne = d.pop("tsne", UNSET)
+
+        analyses = cls(
+            pca=pca,
+            tsne=tsne,
+        )
+
+        analyses.additional_properties = d
+        return analyses
 
     @property
     def additional_keys(self) -> list[str]:

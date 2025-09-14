@@ -74,7 +74,7 @@ def _build_response(
 def sync_detailed(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     body: UpdatePasswordRequest,
 ) -> Response[Union[Error, SuccessMessage]]:
     """Update user password
@@ -108,7 +108,7 @@ def sync_detailed(
 def sync(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     body: UpdatePasswordRequest,
 ) -> Optional[Union[Error, SuccessMessage]]:
     """Update user password
@@ -137,7 +137,7 @@ def sync(
 async def asyncio_detailed(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     body: UpdatePasswordRequest,
 ) -> Response[Union[Error, SuccessMessage]]:
     """Update user password
@@ -169,7 +169,7 @@ async def asyncio_detailed(
 async def asyncio(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     body: UpdatePasswordRequest,
 ) -> Optional[Union[Error, SuccessMessage]]:
     """Update user password

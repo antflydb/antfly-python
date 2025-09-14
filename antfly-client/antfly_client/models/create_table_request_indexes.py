@@ -1,11 +1,12 @@
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.create_index_request import CreateIndexRequest
+    from ..models.bleve_index_v2_config import BleveIndexV2Config
+    from ..models.embedding_index_config import EmbeddingIndexConfig
 
 
 T = TypeVar("T", bound="CreateTableRequestIndexes")
@@ -15,25 +16,49 @@ T = TypeVar("T", bound="CreateTableRequestIndexes")
 class CreateTableRequestIndexes:
     """ """
 
-    additional_properties: dict[str, "CreateIndexRequest"] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Union["BleveIndexV2Config", "EmbeddingIndexConfig"]] = _attrs_field(
+        init=False, factory=dict
+    )
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.bleve_index_v2_config import BleveIndexV2Config
+
         field_dict: dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
-            field_dict[prop_name] = prop.to_dict()
+            if isinstance(prop, BleveIndexV2Config):
+                field_dict[prop_name] = prop.to_dict()
+            else:
+                field_dict[prop_name] = prop.to_dict()
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.create_index_request import CreateIndexRequest
+        from ..models.bleve_index_v2_config import BleveIndexV2Config
+        from ..models.embedding_index_config import EmbeddingIndexConfig
 
         d = dict(src_dict)
         create_table_request_indexes = cls()
 
         additional_properties = {}
         for prop_name, prop_dict in d.items():
-            additional_property = CreateIndexRequest.from_dict(prop_dict)
+
+            def _parse_additional_property(data: object) -> Union["BleveIndexV2Config", "EmbeddingIndexConfig"]:
+                try:
+                    if not isinstance(data, dict):
+                        raise TypeError()
+                    componentsschemas_index_config_type_0 = BleveIndexV2Config.from_dict(data)
+
+                    return componentsschemas_index_config_type_0
+                except:  # noqa: E722
+                    pass
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_index_config_type_1 = EmbeddingIndexConfig.from_dict(data)
+
+                return componentsschemas_index_config_type_1
+
+            additional_property = _parse_additional_property(prop_dict)
 
             additional_properties[prop_name] = additional_property
 
@@ -44,10 +69,10 @@ class CreateTableRequestIndexes:
     def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> "CreateIndexRequest":
+    def __getitem__(self, key: str) -> Union["BleveIndexV2Config", "EmbeddingIndexConfig"]:
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: "CreateIndexRequest") -> None:
+    def __setitem__(self, key: str, value: Union["BleveIndexV2Config", "EmbeddingIndexConfig"]) -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:

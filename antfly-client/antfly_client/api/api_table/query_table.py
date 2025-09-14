@@ -7,7 +7,7 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error import Error
 from ...models.query_request import QueryRequest
-from ...models.query_result import QueryResult
+from ...models.query_responses import QueryResponses
 from ...types import Response
 
 
@@ -33,9 +33,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Error, QueryResult]]:
+) -> Optional[Union[Error, QueryResponses]]:
     if response.status_code == 200:
-        response_200 = QueryResult.from_dict(response.json())
+        response_200 = QueryResponses.from_dict(response.json())
 
         return response_200
 
@@ -62,7 +62,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Error, QueryResult]]:
+) -> Response[Union[Error, QueryResponses]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -76,7 +76,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: QueryRequest,
-) -> Response[Union[Error, QueryResult]]:
+) -> Response[Union[Error, QueryResponses]]:
     """Query a specific table
 
     Args:
@@ -88,7 +88,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, QueryResult]]
+        Response[Union[Error, QueryResponses]]
     """
 
     kwargs = _get_kwargs(
@@ -108,7 +108,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: QueryRequest,
-) -> Optional[Union[Error, QueryResult]]:
+) -> Optional[Union[Error, QueryResponses]]:
     """Query a specific table
 
     Args:
@@ -120,7 +120,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Error, QueryResult]
+        Union[Error, QueryResponses]
     """
 
     return sync_detailed(
@@ -135,7 +135,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: QueryRequest,
-) -> Response[Union[Error, QueryResult]]:
+) -> Response[Union[Error, QueryResponses]]:
     """Query a specific table
 
     Args:
@@ -147,7 +147,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, QueryResult]]
+        Response[Union[Error, QueryResponses]]
     """
 
     kwargs = _get_kwargs(
@@ -165,7 +165,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: QueryRequest,
-) -> Optional[Union[Error, QueryResult]]:
+) -> Optional[Union[Error, QueryResponses]]:
     """Query a specific table
 
     Args:
@@ -177,7 +177,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Error, QueryResult]
+        Union[Error, QueryResponses]
     """
 
     return (

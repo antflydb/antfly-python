@@ -62,7 +62,7 @@ def _build_response(
 def sync_detailed(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
 ) -> Response[Union[Any, Error]]:
     """Delete a user
 
@@ -93,7 +93,7 @@ def sync_detailed(
 def sync(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
 ) -> Optional[Union[Any, Error]]:
     """Delete a user
 
@@ -119,7 +119,7 @@ def sync(
 async def asyncio_detailed(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
 ) -> Response[Union[Any, Error]]:
     """Delete a user
 
@@ -148,7 +148,7 @@ async def asyncio_detailed(
 async def asyncio(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
 ) -> Optional[Union[Any, Error]]:
     """Delete a user
 

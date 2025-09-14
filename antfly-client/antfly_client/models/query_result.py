@@ -8,6 +8,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.query_hits import QueryHits
+    from ..models.query_result_analyses import QueryResultAnalyses
     from ..models.query_result_facets import QueryResultFacets
 
 
@@ -23,6 +24,7 @@ class QueryResult:
         status (int): HTTP status code of the query operation.
         hits (Union[Unset, QueryHits]): A list of query hits.
         facets (Union[Unset, QueryResultFacets]):
+        analyses (Union[Unset, QueryResultAnalyses]): Analysis results like PCA and t-SNE per index embeddings.
         error (Union[Unset, str]): Error message if the query failed.
     """
 
@@ -30,6 +32,7 @@ class QueryResult:
     status: int
     hits: Union[Unset, "QueryHits"] = UNSET
     facets: Union[Unset, "QueryResultFacets"] = UNSET
+    analyses: Union[Unset, "QueryResultAnalyses"] = UNSET
     error: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -46,6 +49,10 @@ class QueryResult:
         if not isinstance(self.facets, Unset):
             facets = self.facets.to_dict()
 
+        analyses: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.analyses, Unset):
+            analyses = self.analyses.to_dict()
+
         error = self.error
 
         field_dict: dict[str, Any] = {}
@@ -60,6 +67,8 @@ class QueryResult:
             field_dict["hits"] = hits
         if facets is not UNSET:
             field_dict["facets"] = facets
+        if analyses is not UNSET:
+            field_dict["analyses"] = analyses
         if error is not UNSET:
             field_dict["error"] = error
 
@@ -68,6 +77,7 @@ class QueryResult:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.query_hits import QueryHits
+        from ..models.query_result_analyses import QueryResultAnalyses
         from ..models.query_result_facets import QueryResultFacets
 
         d = dict(src_dict)
@@ -89,6 +99,13 @@ class QueryResult:
         else:
             facets = QueryResultFacets.from_dict(_facets)
 
+        _analyses = d.pop("analyses", UNSET)
+        analyses: Union[Unset, QueryResultAnalyses]
+        if isinstance(_analyses, Unset):
+            analyses = UNSET
+        else:
+            analyses = QueryResultAnalyses.from_dict(_analyses)
+
         error = d.pop("error", UNSET)
 
         query_result = cls(
@@ -96,6 +113,7 @@ class QueryResult:
             status=status,
             hits=hits,
             facets=facets,
+            analyses=analyses,
             error=error,
         )
 

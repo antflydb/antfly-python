@@ -1,12 +1,15 @@
 """Contains all the data models used in inputs/outputs"""
 
+from .analyses import Analyses
+from .analyses_result import AnalysesResult
 from .backup_request import BackupRequest
 from .backup_table_response_201 import BackupTableResponse201
 from .batch_request import BatchRequest
 from .batch_request_inserts import BatchRequestInserts
 from .batch_request_inserts_additional_property import BatchRequestInsertsAdditionalProperty
 from .batch_table_operations_response_201 import BatchTableOperationsResponse201
-from .create_index_request import CreateIndexRequest
+from .bedrock_config import BedrockConfig
+from .bleve_index_v2_config import BleveIndexV2Config
 from .create_table_request import CreateTableRequest
 from .create_table_request_indexes import CreateTableRequestIndexes
 from .create_user_request import CreateUserRequest
@@ -14,21 +17,25 @@ from .date_range import DateRange
 from .date_range_result import DateRangeResult
 from .document_schema import DocumentSchema
 from .document_schema_fields import DocumentSchemaFields
-from .embedder_config import EmbedderConfig
+from .embedding_index_config import EmbeddingIndexConfig
 from .error import Error
 from .facet_option import FacetOption
 from .facet_result import FacetResult
-from .index_config import IndexConfig
-from .index_config_config import IndexConfigConfig
+from .google_config import GoogleConfig
 from .index_status import IndexStatus
 from .index_status_shard_status import IndexStatusShardStatus
 from .index_status_shard_status_additional_property import IndexStatusShardStatusAdditionalProperty
 from .index_status_status import IndexStatusStatus
+from .index_type import IndexType
 from .lookup_key_response_200 import LookupKeyResponse200
+from .model_config import ModelConfig
 from .numeric_range import NumericRange
 from .numeric_range_result import NumericRangeResult
+from .ollama_config import OllamaConfig
+from .open_ai_config import OpenAIConfig
 from .permission import Permission
 from .permission_type import PermissionType
+from .provider import Provider
 from .query_hit import QueryHit
 from .query_hit_index_scores import QueryHitIndexScores
 from .query_hit_source import QueryHitSource
@@ -42,14 +49,14 @@ from .query_request_full_text_search import QueryRequestFullTextSearch
 from .query_request_order_by import QueryRequestOrderBy
 from .query_responses import QueryResponses
 from .query_result import QueryResult
+from .query_result_analyses import QueryResultAnalyses
 from .query_result_facets import QueryResultFacets
-from .reranker import Reranker
+from .reranker_config import RerankerConfig
 from .resource_type import ResourceType
 from .restore_table_response_202 import RestoreTableResponse202
 from .shard_config import ShardConfig
 from .storage_status import StorageStatus
 from .success_message import SuccessMessage
-from .summarizer_config import SummarizerConfig
 from .table import Table
 from .table_indexes import TableIndexes
 from .table_schema import TableSchema
@@ -63,13 +70,16 @@ from .value_schema import ValueSchema
 from .value_type import ValueType
 
 __all__ = (
+    "Analyses",
+    "AnalysesResult",
     "BackupRequest",
     "BackupTableResponse201",
     "BatchRequest",
     "BatchRequestInserts",
     "BatchRequestInsertsAdditionalProperty",
     "BatchTableOperationsResponse201",
-    "CreateIndexRequest",
+    "BedrockConfig",
+    "BleveIndexV2Config",
     "CreateTableRequest",
     "CreateTableRequestIndexes",
     "CreateUserRequest",
@@ -77,21 +87,25 @@ __all__ = (
     "DateRangeResult",
     "DocumentSchema",
     "DocumentSchemaFields",
-    "EmbedderConfig",
+    "EmbeddingIndexConfig",
     "Error",
     "FacetOption",
     "FacetResult",
-    "IndexConfig",
-    "IndexConfigConfig",
+    "GoogleConfig",
     "IndexStatus",
     "IndexStatusShardStatus",
     "IndexStatusShardStatusAdditionalProperty",
     "IndexStatusStatus",
+    "IndexType",
     "LookupKeyResponse200",
+    "ModelConfig",
     "NumericRange",
     "NumericRangeResult",
+    "OllamaConfig",
+    "OpenAIConfig",
     "Permission",
     "PermissionType",
+    "Provider",
     "QueryHit",
     "QueryHitIndexScores",
     "QueryHits",
@@ -105,14 +119,14 @@ __all__ = (
     "QueryRequestOrderBy",
     "QueryResponses",
     "QueryResult",
+    "QueryResultAnalyses",
     "QueryResultFacets",
-    "Reranker",
+    "RerankerConfig",
     "ResourceType",
     "RestoreTableResponse202",
     "ShardConfig",
     "StorageStatus",
     "SuccessMessage",
-    "SummarizerConfig",
     "Table",
     "TableIndexes",
     "TableSchema",

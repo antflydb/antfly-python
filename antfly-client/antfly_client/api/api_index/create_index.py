@@ -5,7 +5,8 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.create_index_request import CreateIndexRequest
+from ...models.bleve_index_v2_config import BleveIndexV2Config
+from ...models.embedding_index_config import EmbeddingIndexConfig
 from ...models.error import Error
 from ...types import Response
 
@@ -14,7 +15,7 @@ def _get_kwargs(
     table_name: str,
     index_name: str,
     *,
-    body: CreateIndexRequest,
+    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig"],
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -23,7 +24,11 @@ def _get_kwargs(
         "url": f"/table/{table_name}/index/{index_name}",
     }
 
-    _kwargs["json"] = body.to_dict()
+    _kwargs["json"]: dict[str, Any]
+    if isinstance(body, BleveIndexV2Config):
+        _kwargs["json"] = body.to_dict()
+    else:
+        _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -70,14 +75,14 @@ def sync_detailed(
     index_name: str,
     *,
     client: AuthenticatedClient,
-    body: CreateIndexRequest,
+    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig"],
 ) -> Response[Union[Any, Error]]:
     """Add an index to a table
 
     Args:
         table_name (str):
         index_name (str):
-        body (CreateIndexRequest):
+        body (Union['BleveIndexV2Config', 'EmbeddingIndexConfig']): Configuration for an index
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -105,14 +110,14 @@ def sync(
     index_name: str,
     *,
     client: AuthenticatedClient,
-    body: CreateIndexRequest,
+    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig"],
 ) -> Optional[Union[Any, Error]]:
     """Add an index to a table
 
     Args:
         table_name (str):
         index_name (str):
-        body (CreateIndexRequest):
+        body (Union['BleveIndexV2Config', 'EmbeddingIndexConfig']): Configuration for an index
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -135,14 +140,14 @@ async def asyncio_detailed(
     index_name: str,
     *,
     client: AuthenticatedClient,
-    body: CreateIndexRequest,
+    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig"],
 ) -> Response[Union[Any, Error]]:
     """Add an index to a table
 
     Args:
         table_name (str):
         index_name (str):
-        body (CreateIndexRequest):
+        body (Union['BleveIndexV2Config', 'EmbeddingIndexConfig']): Configuration for an index
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -168,14 +173,14 @@ async def asyncio(
     index_name: str,
     *,
     client: AuthenticatedClient,
-    body: CreateIndexRequest,
+    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig"],
 ) -> Optional[Union[Any, Error]]:
     """Add an index to a table
 
     Args:
         table_name (str):
         index_name (str):
-        body (CreateIndexRequest):
+        body (Union['BleveIndexV2Config', 'EmbeddingIndexConfig']): Configuration for an index
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

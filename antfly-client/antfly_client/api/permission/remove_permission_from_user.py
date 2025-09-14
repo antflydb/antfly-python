@@ -76,7 +76,7 @@ def _build_response(
 def sync_detailed(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     resource: str,
     resource_type: ResourceType,
 ) -> Response[Union[Any, Error]]:
@@ -114,7 +114,7 @@ def sync_detailed(
 def sync(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     resource: str,
     resource_type: ResourceType,
 ) -> Optional[Union[Any, Error]]:
@@ -147,7 +147,7 @@ def sync(
 async def asyncio_detailed(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     resource: str,
     resource_type: ResourceType,
 ) -> Response[Union[Any, Error]]:
@@ -183,7 +183,7 @@ async def asyncio_detailed(
 async def asyncio(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
     resource: str,
     resource_type: ResourceType,
 ) -> Optional[Union[Any, Error]]:

@@ -1,74 +1,52 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
+from ..models.provider import Provider
 
-T = TypeVar("T", bound="SummarizerConfig")
+T = TypeVar("T", bound="ModelConfig")
 
 
 @_attrs_define
-class SummarizerConfig:
-    """
+class ModelConfig:
+    """A unified configuration for an embedding provider.
+
+    Example:
+        {'provider': 'openai', 'model': 'text-embedding-004'}
+
     Attributes:
-        provider (str):
-        model (str):
-        model_provider (Union[Unset, str]):
-        url (Union[Unset, str]):
+        provider (Provider): The embedding provider to use.
     """
 
-    provider: str
-    model: str
-    model_provider: Union[Unset, str] = UNSET
-    url: Union[Unset, str] = UNSET
+    provider: Provider
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        provider = self.provider
-
-        model = self.model
-
-        model_provider = self.model_provider
-
-        url = self.url
+        provider = self.provider.value
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "provider": provider,
-                "model": model,
             }
         )
-        if model_provider is not UNSET:
-            field_dict["model_provider"] = model_provider
-        if url is not UNSET:
-            field_dict["url"] = url
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        provider = d.pop("provider")
+        provider = Provider(d.pop("provider"))
 
-        model = d.pop("model")
-
-        model_provider = d.pop("model_provider", UNSET)
-
-        url = d.pop("url", UNSET)
-
-        summarizer_config = cls(
+        model_config = cls(
             provider=provider,
-            model=model,
-            model_provider=model_provider,
-            url=url,
         )
 
-        summarizer_config.additional_properties = d
-        return summarizer_config
+        model_config.additional_properties = d
+        return model_config
 
     @property
     def additional_keys(self) -> list[str]:

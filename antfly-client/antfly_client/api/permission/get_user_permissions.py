@@ -69,7 +69,7 @@ def _build_response(
 def sync_detailed(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
 ) -> Response[Union[Error, list["Permission"]]]:
     """Get user permissions
 
@@ -100,7 +100,7 @@ def sync_detailed(
 def sync(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
 ) -> Optional[Union[Error, list["Permission"]]]:
     """Get user permissions
 
@@ -126,7 +126,7 @@ def sync(
 async def asyncio_detailed(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
 ) -> Response[Union[Error, list["Permission"]]]:
     """Get user permissions
 
@@ -155,7 +155,7 @@ async def asyncio_detailed(
 async def asyncio(
     user_name: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient,
 ) -> Optional[Union[Error, list["Permission"]]]:
     """Get user permissions
 

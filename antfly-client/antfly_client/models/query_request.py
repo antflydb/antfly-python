@@ -7,13 +7,14 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.analyses import Analyses
     from ..models.query_request_embeddings import QueryRequestEmbeddings
     from ..models.query_request_exclusion_query import QueryRequestExclusionQuery
     from ..models.query_request_facets import QueryRequestFacets
     from ..models.query_request_filter_query import QueryRequestFilterQuery
     from ..models.query_request_full_text_search import QueryRequestFullTextSearch
     from ..models.query_request_order_by import QueryRequestOrderBy
-    from ..models.reranker import Reranker
+    from ..models.reranker_config import RerankerConfig
 
 
 T = TypeVar("T", bound="QueryRequest")
@@ -40,7 +41,9 @@ class QueryRequest:
         distance_under (Union[Unset, float]): Maximum distance for semantic similarity search.
         distance_over (Union[Unset, float]): Minimum distance for semantic similarity search.
         count (Union[Unset, bool]):
-        reranker (Union[Unset, Reranker]):
+        reranker (Union[Unset, RerankerConfig]): A unified configuration for an embedding provider. Example:
+            {'provider': 'openai', 'model': 'text-embedding-004', 'field': 'content'}.
+        analyses (Union[Unset, Analyses]):
     """
 
     table: Union[Unset, str] = UNSET
@@ -59,7 +62,8 @@ class QueryRequest:
     distance_under: Union[Unset, float] = UNSET
     distance_over: Union[Unset, float] = UNSET
     count: Union[Unset, bool] = UNSET
-    reranker: Union[Unset, "Reranker"] = UNSET
+    reranker: Union[Unset, "RerankerConfig"] = UNSET
+    analyses: Union[Unset, "Analyses"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -115,6 +119,10 @@ class QueryRequest:
         if not isinstance(self.reranker, Unset):
             reranker = self.reranker.to_dict()
 
+        analyses: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.analyses, Unset):
+            analyses = self.analyses.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -152,18 +160,21 @@ class QueryRequest:
             field_dict["count"] = count
         if reranker is not UNSET:
             field_dict["reranker"] = reranker
+        if analyses is not UNSET:
+            field_dict["analyses"] = analyses
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.analyses import Analyses
         from ..models.query_request_embeddings import QueryRequestEmbeddings
         from ..models.query_request_exclusion_query import QueryRequestExclusionQuery
         from ..models.query_request_facets import QueryRequestFacets
         from ..models.query_request_filter_query import QueryRequestFilterQuery
         from ..models.query_request_full_text_search import QueryRequestFullTextSearch
         from ..models.query_request_order_by import QueryRequestOrderBy
-        from ..models.reranker import Reranker
+        from ..models.reranker_config import RerankerConfig
 
         d = dict(src_dict)
         table = d.pop("table", UNSET)
@@ -229,11 +240,18 @@ class QueryRequest:
         count = d.pop("count", UNSET)
 
         _reranker = d.pop("reranker", UNSET)
-        reranker: Union[Unset, Reranker]
+        reranker: Union[Unset, RerankerConfig]
         if isinstance(_reranker, Unset):
             reranker = UNSET
         else:
-            reranker = Reranker.from_dict(_reranker)
+            reranker = RerankerConfig.from_dict(_reranker)
+
+        _analyses = d.pop("analyses", UNSET)
+        analyses: Union[Unset, Analyses]
+        if isinstance(_analyses, Unset):
+            analyses = UNSET
+        else:
+            analyses = Analyses.from_dict(_analyses)
 
         query_request = cls(
             table=table,
@@ -253,6 +271,7 @@ class QueryRequest:
             distance_over=distance_over,
             count=count,
             reranker=reranker,
+            analyses=analyses,
         )
 
         query_request.additional_properties = d

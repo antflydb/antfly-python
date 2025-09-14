@@ -70,9 +70,12 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: QueryRequest,
 ) -> Response[Union[Error, QueryResponses]]:
-    """Perform a global query
+    r"""Perform a global query
 
      Executes a query across all relevant tables and shards based on the query content.
+    IMPORTANT: The final line of data must end with a newline character \n. Each newline character may
+    be preceded by a carriage return \r. When sending requests to this endpoint the Content-Type header
+    should be set to application/x-ndjson.
 
     Args:
         body (QueryRequest):
@@ -101,9 +104,12 @@ def sync(
     client: AuthenticatedClient,
     body: QueryRequest,
 ) -> Optional[Union[Error, QueryResponses]]:
-    """Perform a global query
+    r"""Perform a global query
 
      Executes a query across all relevant tables and shards based on the query content.
+    IMPORTANT: The final line of data must end with a newline character \n. Each newline character may
+    be preceded by a carriage return \r. When sending requests to this endpoint the Content-Type header
+    should be set to application/x-ndjson.
 
     Args:
         body (QueryRequest):
@@ -127,9 +133,12 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: QueryRequest,
 ) -> Response[Union[Error, QueryResponses]]:
-    """Perform a global query
+    r"""Perform a global query
 
      Executes a query across all relevant tables and shards based on the query content.
+    IMPORTANT: The final line of data must end with a newline character \n. Each newline character may
+    be preceded by a carriage return \r. When sending requests to this endpoint the Content-Type header
+    should be set to application/x-ndjson.
 
     Args:
         body (QueryRequest):
@@ -156,9 +165,12 @@ async def asyncio(
     client: AuthenticatedClient,
     body: QueryRequest,
 ) -> Optional[Union[Error, QueryResponses]]:
-    """Perform a global query
+    r"""Perform a global query
 
      Executes a query across all relevant tables and shards based on the query content.
+    IMPORTANT: The final line of data must end with a newline character \n. Each newline character may
+    be preceded by a carriage return \r. When sending requests to this endpoint the Content-Type header
+    should be set to application/x-ndjson.
 
     Args:
         body (QueryRequest):

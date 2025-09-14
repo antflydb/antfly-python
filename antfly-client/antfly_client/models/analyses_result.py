@@ -1,68 +1,59 @@
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import Any, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-if TYPE_CHECKING:
-    from ..models.index_config_config import IndexConfigConfig
+from ..types import UNSET, Unset
 
-
-T = TypeVar("T", bound="IndexConfig")
+T = TypeVar("T", bound="AnalysesResult")
 
 
 @_attrs_define
-class IndexConfig:
+class AnalysesResult:
     """
     Attributes:
-        name (str):
-        type_ (str):
-        config (IndexConfigConfig):
+        pca (Union[Unset, list[float]]):
+        tsne (Union[Unset, list[float]]):
     """
 
-    name: str
-    type_: str
-    config: "IndexConfigConfig"
+    pca: Union[Unset, list[float]] = UNSET
+    tsne: Union[Unset, list[float]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        name = self.name
+        pca: Union[Unset, list[float]] = UNSET
+        if not isinstance(self.pca, Unset):
+            pca = self.pca
 
-        type_ = self.type_
-
-        config = self.config.to_dict()
+        tsne: Union[Unset, list[float]] = UNSET
+        if not isinstance(self.tsne, Unset):
+            tsne = self.tsne
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "name": name,
-                "type": type_,
-                "config": config,
-            }
-        )
+        field_dict.update({})
+        if pca is not UNSET:
+            field_dict["pca"] = pca
+        if tsne is not UNSET:
+            field_dict["tsne"] = tsne
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.index_config_config import IndexConfigConfig
-
         d = dict(src_dict)
-        name = d.pop("name")
+        pca = cast(list[float], d.pop("pca", UNSET))
 
-        type_ = d.pop("type")
+        tsne = cast(list[float], d.pop("tsne", UNSET))
 
-        config = IndexConfigConfig.from_dict(d.pop("config"))
-
-        index_config = cls(
-            name=name,
-            type_=type_,
-            config=config,
+        analyses_result = cls(
+            pca=pca,
+            tsne=tsne,
         )
 
-        index_config.additional_properties = d
-        return index_config
+        analyses_result.additional_properties = d
+        return analyses_result
 
     @property
     def additional_keys(self) -> list[str]:
