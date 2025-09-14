@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Advanced search examples for Antfly SDK."""
 
+from typing import cast
 from antfly import AntflyClient
+from antfly_client.types import Unset
 
 
 def main():
@@ -107,13 +109,15 @@ def main():
         limit=10
     )
     print_results(results)
-    if results.facets:
-        print("  Facets:")
-        for facet_name, facet_data in results.facets.items():
-            print(f"    {facet_name}:")
-            if facet_data.terms:
-                for term in facet_data.terms:
-                    print(f"      - {term.term}: {term.count}")
+    if not isinstance(results.responses, Unset):
+        result = results.responses[0]
+        if result.facets:
+            print("  Facets:")
+            for facet_name, facet_data in result.facets.additional_properties.items():
+                print(f"    {facet_name}:")
+                if facet_data.terms:
+                    for term in facet_data.terms:
+                        print(f"      - {term.term}: {term.count}")
     
     # Range queries
     print("\n3. Articles with high view count (>1000):")
@@ -160,13 +164,17 @@ def main():
 
 def print_results(results):
     """Helper to print search results."""
-    if results.hits and results.hits.hits:
-        print(f"  Found {results.hits.total} results:")
-        for i, hit in enumerate(results.hits.hits, 1):
-            print(f"    {i}. {hit.source.get('title')} (score: {hit.score:.3f})")
-            print(f"       Author: {hit.source.get('author')}, Views: {hit.source.get('views')}")
-    else:
-        print("  No results found")
+    if not isinstance(results.responses, Unset):
+        result = results.responses[0]
+        if result.hits and result.hits.hits:
+            print(f"  Found {result.hits.total} results:")
+            for i, hit in enumerate(result.hits.hits, 1):
+                if not isinstance(hit.field_source, Unset):
+                    source = cast(dict, hit.field_source)
+                    print(f"    {i}. {source.get('title')} (score: {hit.field_score:.3f})")
+                    print(f"       Author: {source.get('author')}, Views: {source.get('views')}")
+        else:
+            print("  No results found")
 
 
 if __name__ == "__main__":

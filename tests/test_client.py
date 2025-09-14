@@ -22,28 +22,29 @@ class TestAntflyClient:
     """Test cases for AntflyClient."""
     
     @patch('antfly.client.Client')
-    @patch('antfly.client.AuthenticatedClient')
-    def test_client_initialization(self, mock_auth_client, mock_client):
+    def test_client_initialization(self, mock_client):
         """Test client initialization with and without auth."""
         # Without auth
         client = AntflyClient(base_url="http://localhost:8080")
         assert client.base_url == "http://localhost:8080"
         mock_client.assert_called_once_with(
             base_url="http://localhost:8080",
-            timeout=30.0
+            timeout=30.0,
+            httpx_args={},
         )
         
         # With auth
+        mock_client.reset_mock()
         client = AntflyClient(
             base_url="http://localhost:8080/",
             username="admin",
             password="password"
         )
         assert client.base_url == "http://localhost:8080"
-        mock_auth_client.assert_called_once_with(
+        mock_client.assert_called_once_with(
             base_url="http://localhost:8080",
-            auth=("admin", "password"),
-            timeout=30.0
+            timeout=30.0,
+            httpx_args={'auth': ('admin', 'password')},
         )
     
     @patch('antfly.client.Client')

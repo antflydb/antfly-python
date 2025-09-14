@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Basic usage example for Antfly SDK."""
 
+from typing import cast
 from antfly import AntflyClient
+from antfly_client.types import Unset
 
 
 def main():
@@ -78,9 +80,13 @@ def main():
         limit=5
     )
     
-    if results.hits and results.hits.hits:
-        for hit in results.hits.hits:
-            print(f"  Found: {hit.source.get('name')} - ${hit.source.get('price')}")
+    if not isinstance(results.responses, Unset):
+        result = results.responses[0]
+        if result.hits and result.hits.hits:
+            for hit in result.hits.hits:
+                if not isinstance(hit.field_source, Unset):
+                    source = cast(dict, hit.field_source)
+                    print(f"  Found: {source.get('name')} - ${source.get('price')}")
     
     # Get specific product
     print("\nFetching product 'prod:001'...")

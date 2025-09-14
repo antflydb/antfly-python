@@ -10,7 +10,7 @@ clean:
 	find . -type f -name "*.pyc" -delete
 
 install:
-	pip install -e .[dev]
+	pip install -e ".[dev]"
 
 test:
 	pytest tests/
