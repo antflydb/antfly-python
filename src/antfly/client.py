@@ -6,7 +6,7 @@ from httpx import Timeout
 
 from antfly.client_generated import Client
 from antfly.client_generated.api.api_table import (
-    batch_table_operations,
+    batch,
     create_table,
     drop_table,
     get_table,
@@ -284,7 +284,7 @@ class AntflyClient:
             deletes=deletes or [],
         )
 
-        response = batch_table_operations.sync(
+        response = batch.sync(
             table_name=table,
             client=cast(AuthenticatedClient, self._client),
             body=request,

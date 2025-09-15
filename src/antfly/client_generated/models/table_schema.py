@@ -8,7 +8,6 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.table_schema_document_schemas import TableSchemaDocumentSchemas
-    from ..models.table_schema_document_types import TableSchemaDocumentTypes
 
 
 T = TypeVar("T", bound="TableSchema")
@@ -20,15 +19,11 @@ class TableSchema:
     Attributes:
         key (Union[Unset, str]):
         default_type (Union[Unset, str]): Default type to use from the document_types.
-        document_types (Union[Unset, TableSchemaDocumentTypes]): A map of type names to their content schemas.
-            The key is the type name, and the value is the schema for that document type.
-            This allows for flexible content types per field.
         document_schemas (Union[Unset, TableSchemaDocumentSchemas]): A map of type names to their document json schemas.
     """
 
     key: Union[Unset, str] = UNSET
     default_type: Union[Unset, str] = UNSET
-    document_types: Union[Unset, "TableSchemaDocumentTypes"] = UNSET
     document_schemas: Union[Unset, "TableSchemaDocumentSchemas"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -36,10 +31,6 @@ class TableSchema:
         key = self.key
 
         default_type = self.default_type
-
-        document_types: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.document_types, Unset):
-            document_types = self.document_types.to_dict()
 
         document_schemas: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.document_schemas, Unset):
@@ -52,8 +43,6 @@ class TableSchema:
             field_dict["key"] = key
         if default_type is not UNSET:
             field_dict["default_type"] = default_type
-        if document_types is not UNSET:
-            field_dict["document_types"] = document_types
         if document_schemas is not UNSET:
             field_dict["document_schemas"] = document_schemas
 
@@ -62,19 +51,11 @@ class TableSchema:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.table_schema_document_schemas import TableSchemaDocumentSchemas
-        from ..models.table_schema_document_types import TableSchemaDocumentTypes
 
         d = dict(src_dict)
         key = d.pop("key", UNSET)
 
         default_type = d.pop("default_type", UNSET)
-
-        _document_types = d.pop("document_types", UNSET)
-        document_types: Union[Unset, TableSchemaDocumentTypes]
-        if isinstance(_document_types, Unset):
-            document_types = UNSET
-        else:
-            document_types = TableSchemaDocumentTypes.from_dict(_document_types)
 
         _document_schemas = d.pop("document_schemas", UNSET)
         document_schemas: Union[Unset, TableSchemaDocumentSchemas]
@@ -86,7 +67,6 @@ class TableSchema:
         table_schema = cls(
             key=key,
             default_type=default_type,
-            document_types=document_types,
             document_schemas=document_schemas,
         )
 

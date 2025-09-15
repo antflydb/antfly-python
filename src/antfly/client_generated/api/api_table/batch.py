@@ -1,34 +1,29 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, Optional, Union
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.bleve_index_v2_config import BleveIndexV2Config
-from ...models.embedding_index_config import EmbeddingIndexConfig
+from ...models.batch_request import BatchRequest
+from ...models.batch_response_201 import BatchResponse201
 from ...models.error import Error
 from ...types import Response
 
 
 def _get_kwargs(
     table_name: str,
-    index_name: str,
     *,
-    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig"],
+    body: BatchRequest,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": f"/table/{table_name}/index/{index_name}",
+        "url": f"/table/{table_name}/batch",
     }
 
-    _kwargs["json"]: dict[str, Any]
-    if isinstance(body, BleveIndexV2Config):
-        _kwargs["json"] = body.to_dict()
-    else:
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -38,15 +33,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Any, Error]]:
+) -> Optional[Union[BatchResponse201, Error]]:
     if response.status_code == 201:
-        response_201 = cast(Any, None)
+        response_201 = BatchResponse201.from_dict(response.json())
+
         return response_201
 
     if response.status_code == 400:
         response_400 = Error.from_dict(response.json())
 
         return response_400
+
+    if response.status_code == 404:
+        response_404 = Error.from_dict(response.json())
+
+        return response_404
 
     if response.status_code == 500:
         response_500 = Error.from_dict(response.json())
@@ -61,7 +62,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Any, Error]]:
+) -> Response[Union[BatchResponse201, Error]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -72,29 +73,29 @@ def _build_response(
 
 def sync_detailed(
     table_name: str,
-    index_name: str,
     *,
     client: AuthenticatedClient,
-    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig"],
-) -> Response[Union[Any, Error]]:
-    """Add an index to a table
+    body: BatchRequest,
+) -> Response[Union[BatchResponse201, Error]]:
+    """Perform batch inserts and deletes on a table
 
     Args:
         table_name (str):
-        index_name (str):
-        body (Union['BleveIndexV2Config', 'EmbeddingIndexConfig']): Configuration for an index
+        body (BatchRequest):  Example: {'inserts': {'user:123': {'name': 'John Doe', 'email':
+            'john@example.com', 'age': 30, 'tags': ['customer', 'premium']}, 'user:456': {'name':
+            'Jane Smith', 'email': 'jane@example.com', 'age': 25, 'tags': ['customer']}}, 'deletes':
+            ['user:789', 'user:old_account']}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, Error]]
+        Response[Union[BatchResponse201, Error]]
     """
 
     kwargs = _get_kwargs(
         table_name=table_name,
-        index_name=index_name,
         body=body,
     )
 
@@ -107,29 +108,29 @@ def sync_detailed(
 
 def sync(
     table_name: str,
-    index_name: str,
     *,
     client: AuthenticatedClient,
-    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig"],
-) -> Optional[Union[Any, Error]]:
-    """Add an index to a table
+    body: BatchRequest,
+) -> Optional[Union[BatchResponse201, Error]]:
+    """Perform batch inserts and deletes on a table
 
     Args:
         table_name (str):
-        index_name (str):
-        body (Union['BleveIndexV2Config', 'EmbeddingIndexConfig']): Configuration for an index
+        body (BatchRequest):  Example: {'inserts': {'user:123': {'name': 'John Doe', 'email':
+            'john@example.com', 'age': 30, 'tags': ['customer', 'premium']}, 'user:456': {'name':
+            'Jane Smith', 'email': 'jane@example.com', 'age': 25, 'tags': ['customer']}}, 'deletes':
+            ['user:789', 'user:old_account']}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, Error]
+        Union[BatchResponse201, Error]
     """
 
     return sync_detailed(
         table_name=table_name,
-        index_name=index_name,
         client=client,
         body=body,
     ).parsed
@@ -137,29 +138,29 @@ def sync(
 
 async def asyncio_detailed(
     table_name: str,
-    index_name: str,
     *,
     client: AuthenticatedClient,
-    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig"],
-) -> Response[Union[Any, Error]]:
-    """Add an index to a table
+    body: BatchRequest,
+) -> Response[Union[BatchResponse201, Error]]:
+    """Perform batch inserts and deletes on a table
 
     Args:
         table_name (str):
-        index_name (str):
-        body (Union['BleveIndexV2Config', 'EmbeddingIndexConfig']): Configuration for an index
+        body (BatchRequest):  Example: {'inserts': {'user:123': {'name': 'John Doe', 'email':
+            'john@example.com', 'age': 30, 'tags': ['customer', 'premium']}, 'user:456': {'name':
+            'Jane Smith', 'email': 'jane@example.com', 'age': 25, 'tags': ['customer']}}, 'deletes':
+            ['user:789', 'user:old_account']}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, Error]]
+        Response[Union[BatchResponse201, Error]]
     """
 
     kwargs = _get_kwargs(
         table_name=table_name,
-        index_name=index_name,
         body=body,
     )
 
@@ -170,30 +171,30 @@ async def asyncio_detailed(
 
 async def asyncio(
     table_name: str,
-    index_name: str,
     *,
     client: AuthenticatedClient,
-    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig"],
-) -> Optional[Union[Any, Error]]:
-    """Add an index to a table
+    body: BatchRequest,
+) -> Optional[Union[BatchResponse201, Error]]:
+    """Perform batch inserts and deletes on a table
 
     Args:
         table_name (str):
-        index_name (str):
-        body (Union['BleveIndexV2Config', 'EmbeddingIndexConfig']): Configuration for an index
+        body (BatchRequest):  Example: {'inserts': {'user:123': {'name': 'John Doe', 'email':
+            'john@example.com', 'age': 30, 'tags': ['customer', 'premium']}, 'user:456': {'name':
+            'Jane Smith', 'email': 'jane@example.com', 'age': 25, 'tags': ['customer']}}, 'deletes':
+            ['user:789', 'user:old_account']}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, Error]
+        Union[BatchResponse201, Error]
     """
 
     return (
         await asyncio_detailed(
             table_name=table_name,
-            index_name=index_name,
             client=client,
             body=body,
         )

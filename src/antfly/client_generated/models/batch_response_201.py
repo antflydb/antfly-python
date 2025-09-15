@@ -6,11 +6,11 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="BatchTableOperationsResponse201")
+T = TypeVar("T", bound="BatchResponse201")
 
 
 @_attrs_define
-class BatchTableOperationsResponse201:
+class BatchResponse201:
     """
     Attributes:
         batch (Union[Unset, str]):  Example: successful.
@@ -35,12 +35,12 @@ class BatchTableOperationsResponse201:
         d = dict(src_dict)
         batch = d.pop("batch", UNSET)
 
-        batch_table_operations_response_201 = cls(
+        batch_response_201 = cls(
             batch=batch,
         )
 
-        batch_table_operations_response_201.additional_properties = d
-        return batch_table_operations_response_201
+        batch_response_201.additional_properties = d
+        return batch_response_201
 
     @property
     def additional_keys(self) -> list[str]:

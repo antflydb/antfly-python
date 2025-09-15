@@ -2,12 +2,13 @@
 
 from .analyses import Analyses
 from .analyses_result import AnalysesResult
+from .antfly_type import AntflyType
 from .backup_request import BackupRequest
 from .backup_table_response_201 import BackupTableResponse201
 from .batch_request import BatchRequest
 from .batch_request_inserts import BatchRequestInserts
 from .batch_request_inserts_additional_property import BatchRequestInsertsAdditionalProperty
-from .batch_table_operations_response_201 import BatchTableOperationsResponse201
+from .batch_response_201 import BatchResponse201
 from .bedrock_config import BedrockConfig
 from .bleve_index_v2_config import BleveIndexV2Config
 from .create_table_request import CreateTableRequest
@@ -16,6 +17,7 @@ from .create_user_request import CreateUserRequest
 from .date_range import DateRange
 from .date_range_result import DateRangeResult
 from .document_schema import DocumentSchema
+from .document_schema_schema import DocumentSchemaSchema
 from .embedding_index_config import EmbeddingIndexConfig
 from .error import Error
 from .facet_option import FacetOption
@@ -26,6 +28,8 @@ from .index_status_shard_status import IndexStatusShardStatus
 from .index_status_shard_status_additional_property import IndexStatusShardStatusAdditionalProperty
 from .index_status_status import IndexStatusStatus
 from .index_type import IndexType
+from .insert_documents_json_body import InsertDocumentsJsonBody
+from .insert_documents_response_201 import InsertDocumentsResponse201
 from .lookup_key_response_200 import LookupKeyResponse200
 from .model_config import ModelConfig
 from .numeric_range import NumericRange
@@ -60,7 +64,6 @@ from .table import Table
 from .table_indexes import TableIndexes
 from .table_schema import TableSchema
 from .table_schema_document_schemas import TableSchemaDocumentSchemas
-from .table_schema_document_types import TableSchemaDocumentTypes
 from .table_shards import TableShards
 from .table_status import TableStatus
 from .term_facet_result import TermFacetResult
@@ -70,12 +73,13 @@ from .user import User
 __all__ = (
     "Analyses",
     "AnalysesResult",
+    "AntflyType",
     "BackupRequest",
     "BackupTableResponse201",
     "BatchRequest",
     "BatchRequestInserts",
     "BatchRequestInsertsAdditionalProperty",
-    "BatchTableOperationsResponse201",
+    "BatchResponse201",
     "BedrockConfig",
     "BleveIndexV2Config",
     "CreateTableRequest",
@@ -84,6 +88,7 @@ __all__ = (
     "DateRange",
     "DateRangeResult",
     "DocumentSchema",
+    "DocumentSchemaSchema",
     "EmbeddingIndexConfig",
     "Error",
     "FacetOption",
@@ -94,6 +99,8 @@ __all__ = (
     "IndexStatusShardStatusAdditionalProperty",
     "IndexStatusStatus",
     "IndexType",
+    "InsertDocumentsJsonBody",
+    "InsertDocumentsResponse201",
     "LookupKeyResponse200",
     "ModelConfig",
     "NumericRange",
@@ -128,7 +135,6 @@ __all__ = (
     "TableIndexes",
     "TableSchema",
     "TableSchemaDocumentSchemas",
-    "TableSchemaDocumentTypes",
     "TableShards",
     "TableStatus",
     "TermFacetResult",
