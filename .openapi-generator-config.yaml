@@ -1,6 +1,6 @@
-project_name_override: antfly-client
-package_name_override: antfly_client
+project_name_override: antfly
+package_name_override: client_generated
 package_version_override: 0.0.1
 post_hooks:
-  - "ruff check antfly_client --fix"
-  - "ruff format antfly_client"
+  - "ruff check client_generated --fix"
+  - "ruff format client_generated"

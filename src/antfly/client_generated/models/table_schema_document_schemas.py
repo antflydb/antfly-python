@@ -5,21 +5,17 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.value_schema import ValueSchema
+    from ..models.document_schema import DocumentSchema
 
 
-T = TypeVar("T", bound="DocumentSchemaFields")
+T = TypeVar("T", bound="TableSchemaDocumentSchemas")
 
 
 @_attrs_define
-class DocumentSchemaFields:
-    """A map of field names to their value schema (type, defaults, configuration etc.).
-    This allows for flexible content types per field.
-    The key is the field name, and the value is the value type schema.
+class TableSchemaDocumentSchemas:
+    """A map of type names to their document json schemas."""
 
-    """
-
-    additional_properties: dict[str, "ValueSchema"] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, "DocumentSchema"] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         field_dict: dict[str, Any] = {}
@@ -30,28 +26,28 @@ class DocumentSchemaFields:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.value_schema import ValueSchema
+        from ..models.document_schema import DocumentSchema
 
         d = dict(src_dict)
-        document_schema_fields = cls()
+        table_schema_document_schemas = cls()
 
         additional_properties = {}
         for prop_name, prop_dict in d.items():
-            additional_property = ValueSchema.from_dict(prop_dict)
+            additional_property = DocumentSchema.from_dict(prop_dict)
 
             additional_properties[prop_name] = additional_property
 
-        document_schema_fields.additional_properties = additional_properties
-        return document_schema_fields
+        table_schema_document_schemas.additional_properties = additional_properties
+        return table_schema_document_schemas
 
     @property
     def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> "ValueSchema":
+    def __getitem__(self, key: str) -> "DocumentSchema":
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: "ValueSchema") -> None:
+    def __setitem__(self, key: str, value: "DocumentSchema") -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:

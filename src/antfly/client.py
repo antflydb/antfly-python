@@ -1,33 +1,36 @@
 """Main client interface for Antfly SDK."""
 
-from typing import Dict, List, Optional, Any, cast
+from typing import Any, Optional, cast
+
 from httpx import Timeout
-from .exceptions import AntflyException
+
 from antfly.client_generated import Client
 from antfly.client_generated.api.api_table import (
-    create_table,
-    list_tables,
-    get_table,
-    drop_table,
-    query_table,
     batch_table_operations,
+    create_table,
+    drop_table,
+    get_table,
+    list_tables,
     lookup_key,
-)
-from antfly.client_generated.models import (
-    CreateTableRequest,
-    QueryRequest,
-    BatchRequest,
-    Table,
-    TableStatus,
-    Error,
-    CreateTableRequestIndexes,
-    TableSchema,
-    QueryRequestFullTextSearch,
-    BatchRequestInserts,
-    QueryResponses,
+    query_table,
 )
 from antfly.client_generated.client import AuthenticatedClient
+from antfly.client_generated.models import (
+    BatchRequest,
+    BatchRequestInserts,
+    CreateTableRequest,
+    CreateTableRequestIndexes,
+    Error,
+    QueryRequest,
+    QueryRequestFullTextSearch,
+    QueryResponses,
+    Table,
+    TableSchema,
+    TableStatus,
+)
 from antfly.client_generated.types import UNSET
+
+from .exceptions import AntflyException
 
 
 class AntflyClient:
@@ -51,7 +54,7 @@ class AntflyClient:
         """
         self.base_url = base_url.rstrip("/")
 
-        httpx_args: Dict[str, Any] = {}
+        httpx_args: dict[str, Any] = {}
         if username and password:
             httpx_args["auth"] = (username, password)
 
@@ -67,8 +70,8 @@ class AntflyClient:
         self,
         name: str,
         num_shards: Optional[int] = None,
-        indexes: Optional[Dict[str, Any]] = None,
-        schema: Optional[Dict[str, Any]] = None,
+        indexes: Optional[dict[str, Any]] = None,
+        schema: Optional[dict[str, Any]] = None,
     ) -> Table:
         """
         Create a new table.
@@ -104,7 +107,7 @@ class AntflyClient:
 
         return response
 
-    def list_tables(self) -> List[TableStatus]:
+    def list_tables(self) -> list[TableStatus]:
         """
         List all tables.
 
@@ -173,7 +176,7 @@ class AntflyClient:
     def query(
         self,
         table: Optional[str] = None,
-        full_text_search: Optional[Dict[str, Any]] = None,
+        full_text_search: Optional[dict[str, Any]] = None,
         semantic_search: Optional[str] = None,
         filter_prefix: Optional[str] = None,
         limit: int = 10,
@@ -232,7 +235,7 @@ class AntflyClient:
 
         return response
 
-    def get(self, table: str, key: str) -> Dict[str, Any]:
+    def get(self, table: str, key: str) -> dict[str, Any]:
         """
         Get a single record by key.
 
@@ -262,8 +265,8 @@ class AntflyClient:
     def batch(
         self,
         table: str,
-        inserts: Optional[Dict[str, Dict[str, Any]]] = None,
-        deletes: Optional[List[str]] = None,
+        inserts: Optional[dict[str, dict[str, Any]]] = None,
+        deletes: Optional[list[str]] = None,
     ) -> None:
         """
         Perform batch operations on a table.

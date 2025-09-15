@@ -13,7 +13,11 @@ T = TypeVar("T", bound="TableSchemaDocumentTypes")
 
 @_attrs_define
 class TableSchemaDocumentTypes:
-    """ """
+    """A map of type names to their content schemas.
+    The key is the type name, and the value is the schema for that document type.
+    This allows for flexible content types per field.
+
+    """
 
     additional_properties: dict[str, "DocumentSchema"] = _attrs_field(init=False, factory=dict)
 

@@ -3,7 +3,7 @@ Antfly SDK - Python client for Antfly distributed key-value store and search eng
 """
 
 from .client import AntflyClient
-from .exceptions import AntflyException, AntflyConnectionError, AntflyAuthError
+from .exceptions import AntflyAuthError, AntflyConnectionError, AntflyException
 
 __version__ = "0.1.0"
 

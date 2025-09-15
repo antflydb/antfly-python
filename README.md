@@ -85,8 +85,8 @@ user = client.get(table="users", key="user:1")
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-python3 -m pip install --upgrade pip
-python3 -m pip install -e ".[dev]"
+python3 -m pip install --upgrade pip -e ".[dev]"
+deactivate
 ```
 
 The development dependencies are listed in `pyproject.toml` under `[project.optional-dependencies.dev]`.

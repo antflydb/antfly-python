@@ -1,7 +1,7 @@
 .PHONY: generate clean install test build publish docs fmt
 
 generate:
-	openapi-python-client generate --path ./openapi.yaml --output-path antfly-client --overwrite --config .openapi-generator-config.yaml
+	openapi-python-client generate --path ../openapi.yaml --output-path src/antfly --overwrite --config .openapi-generator-config.yaml
 
 clean:
 	rm -rf build dist *.egg-info
