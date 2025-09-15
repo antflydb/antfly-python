@@ -3,7 +3,7 @@
 
 from typing import cast
 from antfly import AntflyClient
-from antfly_client.types import Unset
+from antfly.client_generated.types import Unset
 
 
 def main():

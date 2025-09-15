@@ -16,7 +16,6 @@ from .create_user_request import CreateUserRequest
 from .date_range import DateRange
 from .date_range_result import DateRangeResult
 from .document_schema import DocumentSchema
-from .document_schema_fields import DocumentSchemaFields
 from .embedding_index_config import EmbeddingIndexConfig
 from .error import Error
 from .facet_option import FacetOption
@@ -60,14 +59,13 @@ from .success_message import SuccessMessage
 from .table import Table
 from .table_indexes import TableIndexes
 from .table_schema import TableSchema
+from .table_schema_document_schemas import TableSchemaDocumentSchemas
 from .table_schema_document_types import TableSchemaDocumentTypes
 from .table_shards import TableShards
 from .table_status import TableStatus
 from .term_facet_result import TermFacetResult
 from .update_password_request import UpdatePasswordRequest
 from .user import User
-from .value_schema import ValueSchema
-from .value_type import ValueType
 
 __all__ = (
     "Analyses",
@@ -86,7 +84,6 @@ __all__ = (
     "DateRange",
     "DateRangeResult",
     "DocumentSchema",
-    "DocumentSchemaFields",
     "EmbeddingIndexConfig",
     "Error",
     "FacetOption",
@@ -130,12 +127,11 @@ __all__ = (
     "Table",
     "TableIndexes",
     "TableSchema",
+    "TableSchemaDocumentSchemas",
     "TableSchemaDocumentTypes",
     "TableShards",
     "TableStatus",
     "TermFacetResult",
     "UpdatePasswordRequest",
     "User",
-    "ValueSchema",
-    "ValueType",
 )
