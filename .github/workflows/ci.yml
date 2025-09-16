@@ -31,10 +31,10 @@ jobs:
       - name: Run linting
         run: |
           ruff check src tests
-          black --check src tests
+          ruff format --check src tests
 
       - name: Run type checking
-        run: mypy src
+        run: pyright src
 
       - name: Run tests
         run: pytest tests --cov=antfly --cov-report=xml
