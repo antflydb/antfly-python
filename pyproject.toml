@@ -69,6 +69,7 @@ line-ending = "auto"
 
 [tool.pyright]
 include = ["src"]
+exclude = ["src/antfly/client_generated"]
 pythonVersion = "3.13"
 reportMissingImports = "warning"
 reportUndefinedVariable = "warning"
