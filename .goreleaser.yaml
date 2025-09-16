@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+version: 2
+builds:
+  - id: wheel
+    builder: poetry
+    buildmode: wheel
+  - id: sdist
+    builder: poetry
+    buildmode: sdist
