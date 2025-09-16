@@ -1,6 +1,11 @@
 # Antfly Python SDK
 
+[![PyPI version](https://badge.fury.io/py/antfly.svg)](https://badge.fury.io/py/antfly)
+[![Python](https://img.shields.io/pypi/pyversions/antfly.svg)](https://pypi.org/project/antfly/)
+
 Python SDK for [Antfly](https://github.com/antflydb/antfly) - a distributed key-value store and search engine.
+
+For the nightly version, visit the [TestPyPI page](https://test.pypi.org/project/antfly-sdk/).
 
 ## Installation
 
@@ -85,7 +90,8 @@ user = client.get(table="users", key="user:1")
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-python3 -m pip install --upgrade pip -e ".[dev]"
+python3 -m pip install --upgrade pip poetry
+poetry install
 deactivate
 ```
 

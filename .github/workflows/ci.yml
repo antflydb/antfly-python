@@ -36,14 +36,14 @@ jobs:
 
       - name: Run linting
         run: |
-          ruff check src tests
-          ruff format --check src tests
+          poetry run ruff check src tests
+          poetry run ruff format --check src tests
 
       - name: Run type checking
-        run: pyright src tests
+        run: poetry run pyright src tests
 
       - name: Run tests
-        run: pytest tests --cov=antfly --cov-report=xml
+        run: poetry run pytest tests --cov=antfly --cov-report=xml
 
       - name: Upload coverage
         uses: codecov/codecov-action@v3
