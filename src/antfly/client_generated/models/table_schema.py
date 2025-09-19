@@ -19,11 +19,16 @@ class TableSchema:
     Attributes:
         key (Union[Unset, str]):
         default_type (Union[Unset, str]): Default type to use from the document_types.
+        enforce_types (Union[Unset, bool]): Whether to enforce that documents must match one of the provided document
+            types.
+            If false, documents not matching any type will be accepted but not indexed.
+             Default: False.
         document_schemas (Union[Unset, TableSchemaDocumentSchemas]): A map of type names to their document json schemas.
     """
 
     key: Union[Unset, str] = UNSET
     default_type: Union[Unset, str] = UNSET
+    enforce_types: Union[Unset, bool] = False
     document_schemas: Union[Unset, "TableSchemaDocumentSchemas"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -31,6 +36,8 @@ class TableSchema:
         key = self.key
 
         default_type = self.default_type
+
+        enforce_types = self.enforce_types
 
         document_schemas: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.document_schemas, Unset):
@@ -43,6 +50,8 @@ class TableSchema:
             field_dict["key"] = key
         if default_type is not UNSET:
             field_dict["default_type"] = default_type
+        if enforce_types is not UNSET:
+            field_dict["enforce_types"] = enforce_types
         if document_schemas is not UNSET:
             field_dict["document_schemas"] = document_schemas
 
@@ -57,6 +66,8 @@ class TableSchema:
 
         default_type = d.pop("default_type", UNSET)
 
+        enforce_types = d.pop("enforce_types", UNSET)
+
         _document_schemas = d.pop("document_schemas", UNSET)
         document_schemas: Union[Unset, TableSchemaDocumentSchemas]
         if isinstance(_document_schemas, Unset):
@@ -67,6 +78,7 @@ class TableSchema:
         table_schema = cls(
             key=key,
             default_type=default_type,
+            enforce_types=enforce_types,
             document_schemas=document_schemas,
         )
 
