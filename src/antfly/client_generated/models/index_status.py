@@ -6,9 +6,10 @@ from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
     from ..models.bleve_index_v2_config import BleveIndexV2Config
+    from ..models.bleve_index_v2_stats import BleveIndexV2Stats
     from ..models.embedding_index_config import EmbeddingIndexConfig
+    from ..models.embedding_index_stats import EmbeddingIndexStats
     from ..models.index_status_shard_status import IndexStatusShardStatus
-    from ..models.index_status_status import IndexStatusStatus
 
 
 T = TypeVar("T", bound="IndexStatus")
@@ -18,18 +19,21 @@ T = TypeVar("T", bound="IndexStatus")
 class IndexStatus:
     """
     Attributes:
-        config (Union['BleveIndexV2Config', 'EmbeddingIndexConfig']): Configuration for an index
         shard_status (IndexStatusShardStatus):
-        status (IndexStatusStatus):
+        config (Union['BleveIndexV2Config', 'EmbeddingIndexConfig']): Configuration for an index
+        status (Union['BleveIndexV2Stats', 'EmbeddingIndexStats']): Statistics for an index
     """
 
-    config: Union["BleveIndexV2Config", "EmbeddingIndexConfig"]
     shard_status: "IndexStatusShardStatus"
-    status: "IndexStatusStatus"
+    config: Union["BleveIndexV2Config", "EmbeddingIndexConfig"]
+    status: Union["BleveIndexV2Stats", "EmbeddingIndexStats"]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.bleve_index_v2_config import BleveIndexV2Config
+        from ..models.bleve_index_v2_stats import BleveIndexV2Stats
+
+        shard_status = self.shard_status.to_dict()
 
         config: dict[str, Any]
         if isinstance(self.config, BleveIndexV2Config):
@@ -37,16 +41,18 @@ class IndexStatus:
         else:
             config = self.config.to_dict()
 
-        shard_status = self.shard_status.to_dict()
-
-        status = self.status.to_dict()
+        status: dict[str, Any]
+        if isinstance(self.status, BleveIndexV2Stats):
+            status = self.status.to_dict()
+        else:
+            status = self.status.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "config": config,
                 "shard_status": shard_status,
+                "config": config,
                 "status": status,
             }
         )
@@ -56,11 +62,13 @@ class IndexStatus:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.bleve_index_v2_config import BleveIndexV2Config
+        from ..models.bleve_index_v2_stats import BleveIndexV2Stats
         from ..models.embedding_index_config import EmbeddingIndexConfig
+        from ..models.embedding_index_stats import EmbeddingIndexStats
         from ..models.index_status_shard_status import IndexStatusShardStatus
-        from ..models.index_status_status import IndexStatusStatus
 
         d = dict(src_dict)
+        shard_status = IndexStatusShardStatus.from_dict(d.pop("shard_status"))
 
         def _parse_config(data: object) -> Union["BleveIndexV2Config", "EmbeddingIndexConfig"]:
             try:
@@ -79,13 +87,26 @@ class IndexStatus:
 
         config = _parse_config(d.pop("config"))
 
-        shard_status = IndexStatusShardStatus.from_dict(d.pop("shard_status"))
+        def _parse_status(data: object) -> Union["BleveIndexV2Stats", "EmbeddingIndexStats"]:
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_index_stats_type_0 = BleveIndexV2Stats.from_dict(data)
 
-        status = IndexStatusStatus.from_dict(d.pop("status"))
+                return componentsschemas_index_stats_type_0
+            except:  # noqa: E722
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            componentsschemas_index_stats_type_1 = EmbeddingIndexStats.from_dict(data)
+
+            return componentsschemas_index_stats_type_1
+
+        status = _parse_status(d.pop("status"))
 
         index_status = cls(
-            config=config,
             shard_status=shard_status,
+            config=config,
             status=status,
         )
 

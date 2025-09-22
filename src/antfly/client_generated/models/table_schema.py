@@ -17,27 +17,33 @@ T = TypeVar("T", bound="TableSchema")
 class TableSchema:
     """
     Attributes:
-        key (Union[Unset, str]):
-        default_type (Union[Unset, str]): Default type to use from the document_types.
+        version (Union[Unset, int]): Version of the schema. Used for migrations.
+             Default: 0.
+        key (Union[Unset, str]): The default field to use as the document ID (optional).
+            Useful if no type-specific key is defined or if all types share the same key field.
+             Example: _id.
         enforce_types (Union[Unset, bool]): Whether to enforce that documents must match one of the provided document
             types.
             If false, documents not matching any type will be accepted but not indexed.
-             Default: False.
+        default_type (Union[Unset, str]): Default type to use from the document_types.
         document_schemas (Union[Unset, TableSchemaDocumentSchemas]): A map of type names to their document json schemas.
     """
 
+    version: Union[Unset, int] = 0
     key: Union[Unset, str] = UNSET
+    enforce_types: Union[Unset, bool] = UNSET
     default_type: Union[Unset, str] = UNSET
-    enforce_types: Union[Unset, bool] = False
     document_schemas: Union[Unset, "TableSchemaDocumentSchemas"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        version = self.version
+
         key = self.key
 
-        default_type = self.default_type
-
         enforce_types = self.enforce_types
+
+        default_type = self.default_type
 
         document_schemas: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.document_schemas, Unset):
@@ -46,12 +52,14 @@ class TableSchema:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if version is not UNSET:
+            field_dict["version"] = version
         if key is not UNSET:
             field_dict["key"] = key
-        if default_type is not UNSET:
-            field_dict["default_type"] = default_type
         if enforce_types is not UNSET:
             field_dict["enforce_types"] = enforce_types
+        if default_type is not UNSET:
+            field_dict["default_type"] = default_type
         if document_schemas is not UNSET:
             field_dict["document_schemas"] = document_schemas
 
@@ -62,11 +70,13 @@ class TableSchema:
         from ..models.table_schema_document_schemas import TableSchemaDocumentSchemas
 
         d = dict(src_dict)
+        version = d.pop("version", UNSET)
+
         key = d.pop("key", UNSET)
 
-        default_type = d.pop("default_type", UNSET)
-
         enforce_types = d.pop("enforce_types", UNSET)
+
+        default_type = d.pop("default_type", UNSET)
 
         _document_schemas = d.pop("document_schemas", UNSET)
         document_schemas: Union[Unset, TableSchemaDocumentSchemas]
@@ -76,9 +86,10 @@ class TableSchema:
             document_schemas = TableSchemaDocumentSchemas.from_dict(_document_schemas)
 
         table_schema = cls(
+            version=version,
             key=key,
-            default_type=default_type,
             enforce_types=enforce_types,
+            default_type=default_type,
             document_schemas=document_schemas,
         )
 

@@ -11,6 +11,7 @@ from .batch_request_inserts_additional_property import BatchRequestInsertsAdditi
 from .batch_response_201 import BatchResponse201
 from .bedrock_config import BedrockConfig
 from .bleve_index_v2_config import BleveIndexV2Config
+from .bleve_index_v2_stats import BleveIndexV2Stats
 from .create_table_request import CreateTableRequest
 from .create_table_request_indexes import CreateTableRequestIndexes
 from .create_user_request import CreateUserRequest
@@ -19,14 +20,13 @@ from .date_range_result import DateRangeResult
 from .document_schema import DocumentSchema
 from .document_schema_schema import DocumentSchemaSchema
 from .embedding_index_config import EmbeddingIndexConfig
+from .embedding_index_stats import EmbeddingIndexStats
 from .error import Error
 from .facet_option import FacetOption
 from .facet_result import FacetResult
 from .google_config import GoogleConfig
 from .index_status import IndexStatus
 from .index_status_shard_status import IndexStatusShardStatus
-from .index_status_shard_status_additional_property import IndexStatusShardStatusAdditionalProperty
-from .index_status_status import IndexStatusStatus
 from .index_type import IndexType
 from .insert_documents_json_body import InsertDocumentsJsonBody
 from .insert_documents_response_201 import InsertDocumentsResponse201
@@ -82,6 +82,7 @@ __all__ = (
     "BatchResponse201",
     "BedrockConfig",
     "BleveIndexV2Config",
+    "BleveIndexV2Stats",
     "CreateTableRequest",
     "CreateTableRequestIndexes",
     "CreateUserRequest",
@@ -90,14 +91,13 @@ __all__ = (
     "DocumentSchema",
     "DocumentSchemaSchema",
     "EmbeddingIndexConfig",
+    "EmbeddingIndexStats",
     "Error",
     "FacetOption",
     "FacetResult",
     "GoogleConfig",
     "IndexStatus",
     "IndexStatusShardStatus",
-    "IndexStatusShardStatusAdditionalProperty",
-    "IndexStatusStatus",
     "IndexType",
     "InsertDocumentsJsonBody",
     "InsertDocumentsResponse201",
