@@ -24,6 +24,7 @@ class TableStatus:
         indexes (TableIndexes):
         shards (TableShards):
         storage_status (StorageStatus):
+        description (Union[Unset, str]): Optional description of the table. Example: Table for user data.
         schema (Union[Unset, TableSchema]):
     """
 
@@ -31,6 +32,7 @@ class TableStatus:
     indexes: "TableIndexes"
     shards: "TableShards"
     storage_status: "StorageStatus"
+    description: Union[Unset, str] = UNSET
     schema: Union[Unset, "TableSchema"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -42,6 +44,8 @@ class TableStatus:
         shards = self.shards.to_dict()
 
         storage_status = self.storage_status.to_dict()
+
+        description = self.description
 
         schema: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.schema, Unset):
@@ -57,6 +61,8 @@ class TableStatus:
                 "storage_status": storage_status,
             }
         )
+        if description is not UNSET:
+            field_dict["description"] = description
         if schema is not UNSET:
             field_dict["schema"] = schema
 
@@ -78,6 +84,8 @@ class TableStatus:
 
         storage_status = StorageStatus.from_dict(d.pop("storage_status"))
 
+        description = d.pop("description", UNSET)
+
         _schema = d.pop("schema", UNSET)
         schema: Union[Unset, TableSchema]
         if isinstance(_schema, Unset):
@@ -90,6 +98,7 @@ class TableStatus:
             indexes=indexes,
             shards=shards,
             storage_status=storage_status,
+            description=description,
             schema=schema,
         )
 

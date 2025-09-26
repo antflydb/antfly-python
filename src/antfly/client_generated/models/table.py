@@ -22,12 +22,14 @@ class Table:
         name (str):
         indexes (TableIndexes):
         shards (TableShards):
+        description (Union[Unset, str]): Optional description of the table. Example: Table for user data.
         schema (Union[Unset, TableSchema]):
     """
 
     name: str
     indexes: "TableIndexes"
     shards: "TableShards"
+    description: Union[Unset, str] = UNSET
     schema: Union[Unset, "TableSchema"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -37,6 +39,8 @@ class Table:
         indexes = self.indexes.to_dict()
 
         shards = self.shards.to_dict()
+
+        description = self.description
 
         schema: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.schema, Unset):
@@ -51,6 +55,8 @@ class Table:
                 "shards": shards,
             }
         )
+        if description is not UNSET:
+            field_dict["description"] = description
         if schema is not UNSET:
             field_dict["schema"] = schema
 
@@ -69,6 +75,8 @@ class Table:
 
         shards = TableShards.from_dict(d.pop("shards"))
 
+        description = d.pop("description", UNSET)
+
         _schema = d.pop("schema", UNSET)
         schema: Union[Unset, TableSchema]
         if isinstance(_schema, Unset):
@@ -80,6 +88,7 @@ class Table:
             name=name,
             indexes=indexes,
             shards=shards,
+            description=description,
             schema=schema,
         )
 

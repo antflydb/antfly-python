@@ -18,16 +18,20 @@ class DocumentSchema:
     """
     Attributes:
         key (Union[Unset, str]): The field to use as the document ID (optional).
+        description (Union[Unset, str]): A description of the document type. Example: A user document.
         schema (Union[Unset, DocumentSchemaSchema]): A valid JSON Schema defining the document's structure.
             This is used to infer indexing rules.
     """
 
     key: Union[Unset, str] = UNSET
+    description: Union[Unset, str] = UNSET
     schema: Union[Unset, "DocumentSchemaSchema"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         key = self.key
+
+        description = self.description
 
         schema: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.schema, Unset):
@@ -38,6 +42,8 @@ class DocumentSchema:
         field_dict.update({})
         if key is not UNSET:
             field_dict["key"] = key
+        if description is not UNSET:
+            field_dict["description"] = description
         if schema is not UNSET:
             field_dict["schema"] = schema
 
@@ -50,6 +56,8 @@ class DocumentSchema:
         d = dict(src_dict)
         key = d.pop("key", UNSET)
 
+        description = d.pop("description", UNSET)
+
         _schema = d.pop("schema", UNSET)
         schema: Union[Unset, DocumentSchemaSchema]
         if isinstance(_schema, Unset):
@@ -59,6 +67,7 @@ class DocumentSchema:
 
         document_schema = cls(
             key=key,
+            description=description,
             schema=schema,
         )
 

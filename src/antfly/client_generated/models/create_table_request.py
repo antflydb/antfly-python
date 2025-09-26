@@ -19,17 +19,21 @@ class CreateTableRequest:
     """
     Attributes:
         num_shards (Union[Unset, int]):
+        description (Union[Unset, str]): Optional description of the table. Example: Table for user data.
         indexes (Union[Unset, CreateTableRequestIndexes]):
         schema (Union[Unset, TableSchema]):
     """
 
     num_shards: Union[Unset, int] = UNSET
+    description: Union[Unset, str] = UNSET
     indexes: Union[Unset, "CreateTableRequestIndexes"] = UNSET
     schema: Union[Unset, "TableSchema"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         num_shards = self.num_shards
+
+        description = self.description
 
         indexes: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.indexes, Unset):
@@ -44,6 +48,8 @@ class CreateTableRequest:
         field_dict.update({})
         if num_shards is not UNSET:
             field_dict["num_shards"] = num_shards
+        if description is not UNSET:
+            field_dict["description"] = description
         if indexes is not UNSET:
             field_dict["indexes"] = indexes
         if schema is not UNSET:
@@ -58,6 +64,8 @@ class CreateTableRequest:
 
         d = dict(src_dict)
         num_shards = d.pop("num_shards", UNSET)
+
+        description = d.pop("description", UNSET)
 
         _indexes = d.pop("indexes", UNSET)
         indexes: Union[Unset, CreateTableRequestIndexes]
@@ -75,6 +83,7 @@ class CreateTableRequest:
 
         create_table_request = cls(
             num_shards=num_shards,
+            description=description,
             indexes=indexes,
             schema=schema,
         )
