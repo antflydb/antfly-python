@@ -9,6 +9,7 @@ from .batch_request import BatchRequest
 from .batch_request_inserts import BatchRequestInserts
 from .batch_request_inserts_additional_property import BatchRequestInsertsAdditionalProperty
 from .batch_response_201 import BatchResponse201
+from .batch_response_201_failed_item import BatchResponse201FailedItem
 from .bedrock_config import BedrockConfig
 from .bleve_index_v2_config import BleveIndexV2Config
 from .bleve_index_v2_stats import BleveIndexV2Stats
@@ -30,6 +31,7 @@ from .index_status_shard_status import IndexStatusShardStatus
 from .index_type import IndexType
 from .insert_documents_json_body import InsertDocumentsJsonBody
 from .insert_documents_response_201 import InsertDocumentsResponse201
+from .insert_documents_response_201_failed_item import InsertDocumentsResponse201FailedItem
 from .lookup_key_response_200 import LookupKeyResponse200
 from .model_config import ModelConfig
 from .numeric_range import NumericRange
@@ -80,6 +82,7 @@ __all__ = (
     "BatchRequestInserts",
     "BatchRequestInsertsAdditionalProperty",
     "BatchResponse201",
+    "BatchResponse201FailedItem",
     "BedrockConfig",
     "BleveIndexV2Config",
     "BleveIndexV2Stats",
@@ -101,6 +104,7 @@ __all__ = (
     "IndexType",
     "InsertDocumentsJsonBody",
     "InsertDocumentsResponse201",
+    "InsertDocumentsResponse201FailedItem",
     "LookupKeyResponse200",
     "ModelConfig",
     "NumericRange",
