@@ -9,7 +9,6 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.analyses import Analyses
-    from ..models.model_config import ModelConfig
     from ..models.query_request_embeddings import QueryRequestEmbeddings
     from ..models.query_request_exclusion_query import QueryRequestExclusionQuery
     from ..models.query_request_facets import QueryRequestFacets
@@ -50,8 +49,6 @@ class QueryRequest:
         count (Union[Unset, bool]):
         reranker (Union[Unset, RerankerConfig]): A unified configuration for an embedding provider. Example:
             {'provider': 'openai', 'model': 'text-embedding-004', 'field': 'content'}.
-        summarizer (Union[Unset, ModelConfig]): A unified configuration for an embedding provider. Example: {'provider':
-            'openai', 'model': 'text-embedding-004'}.
         analyses (Union[Unset, Analyses]):
     """
 
@@ -73,7 +70,6 @@ class QueryRequest:
     merge_strategy: Union[Unset, MergeStrategy] = UNSET
     count: Union[Unset, bool] = UNSET
     reranker: Union[Unset, "RerankerConfig"] = UNSET
-    summarizer: Union[Unset, "ModelConfig"] = UNSET
     analyses: Union[Unset, "Analyses"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -134,10 +130,6 @@ class QueryRequest:
         if not isinstance(self.reranker, Unset):
             reranker = self.reranker.to_dict()
 
-        summarizer: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.summarizer, Unset):
-            summarizer = self.summarizer.to_dict()
-
         analyses: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.analyses, Unset):
             analyses = self.analyses.to_dict()
@@ -181,8 +173,6 @@ class QueryRequest:
             field_dict["count"] = count
         if reranker is not UNSET:
             field_dict["reranker"] = reranker
-        if summarizer is not UNSET:
-            field_dict["summarizer"] = summarizer
         if analyses is not UNSET:
             field_dict["analyses"] = analyses
 
@@ -191,7 +181,6 @@ class QueryRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.analyses import Analyses
-        from ..models.model_config import ModelConfig
         from ..models.query_request_embeddings import QueryRequestEmbeddings
         from ..models.query_request_exclusion_query import QueryRequestExclusionQuery
         from ..models.query_request_facets import QueryRequestFacets
@@ -277,13 +266,6 @@ class QueryRequest:
         else:
             reranker = RerankerConfig.from_dict(_reranker)
 
-        _summarizer = d.pop("summarizer", UNSET)
-        summarizer: Union[Unset, ModelConfig]
-        if isinstance(_summarizer, Unset):
-            summarizer = UNSET
-        else:
-            summarizer = ModelConfig.from_dict(_summarizer)
-
         _analyses = d.pop("analyses", UNSET)
         analyses: Union[Unset, Analyses]
         if isinstance(_analyses, Unset):
@@ -310,7 +292,6 @@ class QueryRequest:
             merge_strategy=merge_strategy,
             count=count,
             reranker=reranker,
-            summarizer=summarizer,
             analyses=analyses,
         )
 

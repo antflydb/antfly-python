@@ -59,6 +59,7 @@ from .query_responses import QueryResponses
 from .query_result import QueryResult
 from .query_result_analyses import QueryResultAnalyses
 from .query_result_facets import QueryResultFacets
+from .rag_request import RAGRequest
 from .reranker_config import RerankerConfig
 from .resource_type import ResourceType
 from .restore_table_response_202 import RestoreTableResponse202
@@ -135,6 +136,7 @@ __all__ = (
     "QueryResult",
     "QueryResultAnalyses",
     "QueryResultFacets",
+    "RAGRequest",
     "RerankerConfig",
     "ResourceType",
     "RestoreTableResponse202",
