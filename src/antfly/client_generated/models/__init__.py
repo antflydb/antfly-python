@@ -13,6 +13,8 @@ from .batch_response_201_failed_item import BatchResponse201FailedItem
 from .bedrock_config import BedrockConfig
 from .bleve_index_v2_config import BleveIndexV2Config
 from .bleve_index_v2_stats import BleveIndexV2Stats
+from .cluster_health import ClusterHealth
+from .cluster_status import ClusterStatus
 from .create_table_request import CreateTableRequest
 from .create_table_request_indexes import CreateTableRequestIndexes
 from .create_user_request import CreateUserRequest
@@ -33,6 +35,7 @@ from .insert_documents_json_body import InsertDocumentsJsonBody
 from .insert_documents_response_201 import InsertDocumentsResponse201
 from .insert_documents_response_201_failed_item import InsertDocumentsResponse201FailedItem
 from .lookup_key_response_200 import LookupKeyResponse200
+from .merge_strategy import MergeStrategy
 from .model_config import ModelConfig
 from .numeric_range import NumericRange
 from .numeric_range_result import NumericRangeResult
@@ -86,6 +89,8 @@ __all__ = (
     "BedrockConfig",
     "BleveIndexV2Config",
     "BleveIndexV2Stats",
+    "ClusterHealth",
+    "ClusterStatus",
     "CreateTableRequest",
     "CreateTableRequestIndexes",
     "CreateUserRequest",
@@ -106,6 +111,7 @@ __all__ = (
     "InsertDocumentsResponse201",
     "InsertDocumentsResponse201FailedItem",
     "LookupKeyResponse200",
+    "MergeStrategy",
     "ModelConfig",
     "NumericRange",
     "NumericRangeResult",

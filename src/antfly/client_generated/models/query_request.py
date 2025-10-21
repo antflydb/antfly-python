@@ -4,10 +4,12 @@ from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.merge_strategy import MergeStrategy
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.analyses import Analyses
+    from ..models.model_config import ModelConfig
     from ..models.query_request_embeddings import QueryRequestEmbeddings
     from ..models.query_request_exclusion_query import QueryRequestExclusionQuery
     from ..models.query_request_facets import QueryRequestFacets
@@ -32,17 +34,24 @@ class QueryRequest:
         filter_query (Union[Unset, QueryRequestFilterQuery]): Full JSON Bleve search queries
         exclusion_query (Union[Unset, QueryRequestExclusionQuery]): Full JSON Bleve search queries
         facets (Union[Unset, QueryRequestFacets]):
-        embeddings (Union[Unset, QueryRequestEmbeddings]):
-        fields (Union[Unset, list[str]]):
+        embeddings (Union[Unset, QueryRequestEmbeddings]): Raw embeddings to use for semantic searches (the keys are the
+            indexes to use for the queries).
+        fields (Union[Unset, list[str]]): List of fields to include in the results.
         limit (Union[Unset, int]): Maximum number of results to return or topk for semantic_search.
         offset (Union[Unset, int]): Number of results to skip for pagination, only available for full_text_search
             queries.
         order_by (Union[Unset, QueryRequestOrderBy]):
         distance_under (Union[Unset, float]): Maximum distance for semantic similarity search.
         distance_over (Union[Unset, float]): Minimum distance for semantic similarity search.
+        merge_strategy (Union[Unset, MergeStrategy]): Merge strategy for combining results from the semantic_search and
+            full_text_search.
+            rrf: Reciprocal Rank Fusion
+            failover: Use full_text_search if embedding generation fails
         count (Union[Unset, bool]):
         reranker (Union[Unset, RerankerConfig]): A unified configuration for an embedding provider. Example:
             {'provider': 'openai', 'model': 'text-embedding-004', 'field': 'content'}.
+        summarizer (Union[Unset, ModelConfig]): A unified configuration for an embedding provider. Example: {'provider':
+            'openai', 'model': 'text-embedding-004'}.
         analyses (Union[Unset, Analyses]):
     """
 
@@ -61,8 +70,10 @@ class QueryRequest:
     order_by: Union[Unset, "QueryRequestOrderBy"] = UNSET
     distance_under: Union[Unset, float] = UNSET
     distance_over: Union[Unset, float] = UNSET
+    merge_strategy: Union[Unset, MergeStrategy] = UNSET
     count: Union[Unset, bool] = UNSET
     reranker: Union[Unset, "RerankerConfig"] = UNSET
+    summarizer: Union[Unset, "ModelConfig"] = UNSET
     analyses: Union[Unset, "Analyses"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -113,11 +124,19 @@ class QueryRequest:
 
         distance_over = self.distance_over
 
+        merge_strategy: Union[Unset, str] = UNSET
+        if not isinstance(self.merge_strategy, Unset):
+            merge_strategy = self.merge_strategy.value
+
         count = self.count
 
         reranker: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.reranker, Unset):
             reranker = self.reranker.to_dict()
+
+        summarizer: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.summarizer, Unset):
+            summarizer = self.summarizer.to_dict()
 
         analyses: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.analyses, Unset):
@@ -156,10 +175,14 @@ class QueryRequest:
             field_dict["distance_under"] = distance_under
         if distance_over is not UNSET:
             field_dict["distance_over"] = distance_over
+        if merge_strategy is not UNSET:
+            field_dict["merge_strategy"] = merge_strategy
         if count is not UNSET:
             field_dict["count"] = count
         if reranker is not UNSET:
             field_dict["reranker"] = reranker
+        if summarizer is not UNSET:
+            field_dict["summarizer"] = summarizer
         if analyses is not UNSET:
             field_dict["analyses"] = analyses
 
@@ -168,6 +191,7 @@ class QueryRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.analyses import Analyses
+        from ..models.model_config import ModelConfig
         from ..models.query_request_embeddings import QueryRequestEmbeddings
         from ..models.query_request_exclusion_query import QueryRequestExclusionQuery
         from ..models.query_request_facets import QueryRequestFacets
@@ -237,6 +261,13 @@ class QueryRequest:
 
         distance_over = d.pop("distance_over", UNSET)
 
+        _merge_strategy = d.pop("merge_strategy", UNSET)
+        merge_strategy: Union[Unset, MergeStrategy]
+        if isinstance(_merge_strategy, Unset):
+            merge_strategy = UNSET
+        else:
+            merge_strategy = MergeStrategy(_merge_strategy)
+
         count = d.pop("count", UNSET)
 
         _reranker = d.pop("reranker", UNSET)
@@ -245,6 +276,13 @@ class QueryRequest:
             reranker = UNSET
         else:
             reranker = RerankerConfig.from_dict(_reranker)
+
+        _summarizer = d.pop("summarizer", UNSET)
+        summarizer: Union[Unset, ModelConfig]
+        if isinstance(_summarizer, Unset):
+            summarizer = UNSET
+        else:
+            summarizer = ModelConfig.from_dict(_summarizer)
 
         _analyses = d.pop("analyses", UNSET)
         analyses: Union[Unset, Analyses]
@@ -269,8 +307,10 @@ class QueryRequest:
             order_by=order_by,
             distance_under=distance_under,
             distance_over=distance_over,
+            merge_strategy=merge_strategy,
             count=count,
             reranker=reranker,
+            summarizer=summarizer,
             analyses=analyses,
         )
 

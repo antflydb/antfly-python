@@ -23,18 +23,18 @@ class EmbeddingIndexConfig:
             for more information. Example: Hello, {{if eq .Name "John"}}Johnathan{{else}}{{.Name}}{{end}}! You are {{.Age}}
             years old..
         mem_only (Union[Unset, bool]): Whether to use in-memory only storage
-        embedder_config (Union[Unset, ModelConfig]): A unified configuration for an embedding provider. Example:
-            {'provider': 'openai', 'model': 'text-embedding-004'}.
-        summarizer_config (Union[Unset, ModelConfig]): A unified configuration for an embedding provider. Example:
-            {'provider': 'openai', 'model': 'text-embedding-004'}.
+        embedder (Union[Unset, ModelConfig]): A unified configuration for an embedding provider. Example: {'provider':
+            'openai', 'model': 'text-embedding-004'}.
+        summarizer (Union[Unset, ModelConfig]): A unified configuration for an embedding provider. Example: {'provider':
+            'openai', 'model': 'text-embedding-004'}.
     """
 
     dimension: int
     field: Union[Unset, str] = UNSET
     template: Union[Unset, str] = UNSET
     mem_only: Union[Unset, bool] = UNSET
-    embedder_config: Union[Unset, "ModelConfig"] = UNSET
-    summarizer_config: Union[Unset, "ModelConfig"] = UNSET
+    embedder: Union[Unset, "ModelConfig"] = UNSET
+    summarizer: Union[Unset, "ModelConfig"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -46,13 +46,13 @@ class EmbeddingIndexConfig:
 
         mem_only = self.mem_only
 
-        embedder_config: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.embedder_config, Unset):
-            embedder_config = self.embedder_config.to_dict()
+        embedder: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.embedder, Unset):
+            embedder = self.embedder.to_dict()
 
-        summarizer_config: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.summarizer_config, Unset):
-            summarizer_config = self.summarizer_config.to_dict()
+        summarizer: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.summarizer, Unset):
+            summarizer = self.summarizer.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -67,10 +67,10 @@ class EmbeddingIndexConfig:
             field_dict["template"] = template
         if mem_only is not UNSET:
             field_dict["mem_only"] = mem_only
-        if embedder_config is not UNSET:
-            field_dict["embedder_config"] = embedder_config
-        if summarizer_config is not UNSET:
-            field_dict["summarizer_config"] = summarizer_config
+        if embedder is not UNSET:
+            field_dict["embedder"] = embedder
+        if summarizer is not UNSET:
+            field_dict["summarizer"] = summarizer
 
         return field_dict
 
@@ -87,27 +87,27 @@ class EmbeddingIndexConfig:
 
         mem_only = d.pop("mem_only", UNSET)
 
-        _embedder_config = d.pop("embedder_config", UNSET)
-        embedder_config: Union[Unset, ModelConfig]
-        if isinstance(_embedder_config, Unset):
-            embedder_config = UNSET
+        _embedder = d.pop("embedder", UNSET)
+        embedder: Union[Unset, ModelConfig]
+        if isinstance(_embedder, Unset):
+            embedder = UNSET
         else:
-            embedder_config = ModelConfig.from_dict(_embedder_config)
+            embedder = ModelConfig.from_dict(_embedder)
 
-        _summarizer_config = d.pop("summarizer_config", UNSET)
-        summarizer_config: Union[Unset, ModelConfig]
-        if isinstance(_summarizer_config, Unset):
-            summarizer_config = UNSET
+        _summarizer = d.pop("summarizer", UNSET)
+        summarizer: Union[Unset, ModelConfig]
+        if isinstance(_summarizer, Unset):
+            summarizer = UNSET
         else:
-            summarizer_config = ModelConfig.from_dict(_summarizer_config)
+            summarizer = ModelConfig.from_dict(_summarizer)
 
         embedding_index_config = cls(
             dimension=dimension,
             field=field,
             template=template,
             mem_only=mem_only,
-            embedder_config=embedder_config,
-            summarizer_config=summarizer_config,
+            embedder=embedder,
+            summarizer=summarizer,
         )
 
         embedding_index_config.additional_properties = d

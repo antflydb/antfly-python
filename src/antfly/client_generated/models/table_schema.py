@@ -18,7 +18,6 @@ class TableSchema:
     """
     Attributes:
         version (Union[Unset, int]): Version of the schema. Used for migrations.
-             Default: 0.
         key (Union[Unset, str]): The default field to use as the document ID (optional).
             Useful if no type-specific key is defined or if all types share the same key field.
              Example: _id.
@@ -28,7 +27,7 @@ class TableSchema:
         default_type (Union[Unset, str]): Default type to use from the document_types.
         ttl_field (Union[Unset, str]): The field containing the timestamp for TTL expiration (optional).
             Defaults to "_timestamp" if ttl_duration is specified but ttl_field is not.
-             Default: '_timestamp'. Example: created_at.
+             Example: created_at.
         ttl_duration (Union[Unset, str]): The duration after which documents should expire, based on the ttl_field
             timestamp (optional).
             Uses Go duration format (e.g., '24h', '7d', '168h').
@@ -36,11 +35,11 @@ class TableSchema:
         document_schemas (Union[Unset, TableSchemaDocumentSchemas]): A map of type names to their document json schemas.
     """
 
-    version: Union[Unset, int] = 0
+    version: Union[Unset, int] = UNSET
     key: Union[Unset, str] = UNSET
     enforce_types: Union[Unset, bool] = UNSET
     default_type: Union[Unset, str] = UNSET
-    ttl_field: Union[Unset, str] = "_timestamp"
+    ttl_field: Union[Unset, str] = UNSET
     ttl_duration: Union[Unset, str] = UNSET
     document_schemas: Union[Unset, "TableSchemaDocumentSchemas"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)

@@ -9,7 +9,7 @@ T = TypeVar("T", bound="QueryRequestEmbeddings")
 
 @_attrs_define
 class QueryRequestEmbeddings:
-    """ """
+    """Raw embeddings to use for semantic searches (the keys are the indexes to use for the queries)."""
 
     additional_properties: dict[str, list[float]] = _attrs_field(init=False, factory=dict)
 
