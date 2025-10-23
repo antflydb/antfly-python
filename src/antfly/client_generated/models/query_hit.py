@@ -16,7 +16,8 @@ T = TypeVar("T", bound="QueryHit")
 
 @_attrs_define
 class QueryHit:
-    """
+    """A single query result hit
+
     Attributes:
         field_id (str): ID of the record.
         field_score (float): Relevance score of the hit.

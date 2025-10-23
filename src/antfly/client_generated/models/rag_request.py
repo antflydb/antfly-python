@@ -24,6 +24,7 @@ class RAGRequest:
         system_prompt (Union[Unset, str]): Optional system prompt to guide the summarization Example: You are a helpful
             AI assistant. Summarize the following search results concisely..
         with_citations (Union[Unset, bool]): Enable citations in the summary output
+        with_streaming (Union[Unset, bool]): Enable SSE streaming of results instead of JSON response
         document_renderer (Union[Unset, str]): Optional Go template string for rendering document content to the prompt
             Example: {{.title}}: {{.body}}.
     """
@@ -32,6 +33,7 @@ class RAGRequest:
     summarizer: "ModelConfig"
     system_prompt: Union[Unset, str] = UNSET
     with_citations: Union[Unset, bool] = UNSET
+    with_streaming: Union[Unset, bool] = UNSET
     document_renderer: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -43,6 +45,8 @@ class RAGRequest:
         system_prompt = self.system_prompt
 
         with_citations = self.with_citations
+
+        with_streaming = self.with_streaming
 
         document_renderer = self.document_renderer
 
@@ -58,6 +62,8 @@ class RAGRequest:
             field_dict["system_prompt"] = system_prompt
         if with_citations is not UNSET:
             field_dict["with_citations"] = with_citations
+        if with_streaming is not UNSET:
+            field_dict["with_streaming"] = with_streaming
         if document_renderer is not UNSET:
             field_dict["document_renderer"] = document_renderer
 
@@ -77,6 +83,8 @@ class RAGRequest:
 
         with_citations = d.pop("with_citations", UNSET)
 
+        with_streaming = d.pop("with_streaming", UNSET)
+
         document_renderer = d.pop("document_renderer", UNSET)
 
         rag_request = cls(
@@ -84,6 +92,7 @@ class RAGRequest:
             summarizer=summarizer,
             system_prompt=system_prompt,
             with_citations=with_citations,
+            with_streaming=with_streaming,
             document_renderer=document_renderer,
         )
 

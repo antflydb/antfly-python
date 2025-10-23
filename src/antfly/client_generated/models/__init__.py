@@ -13,6 +13,7 @@ from .batch_response_201_failed_item import BatchResponse201FailedItem
 from .bedrock_config import BedrockConfig
 from .bleve_index_v2_config import BleveIndexV2Config
 from .bleve_index_v2_stats import BleveIndexV2Stats
+from .citation import Citation
 from .cluster_health import ClusterHealth
 from .cluster_status import ClusterStatus
 from .create_table_request import CreateTableRequest
@@ -60,12 +61,14 @@ from .query_result import QueryResult
 from .query_result_analyses import QueryResultAnalyses
 from .query_result_facets import QueryResultFacets
 from .rag_request import RAGRequest
+from .rag_result import RAGResult
 from .reranker_config import RerankerConfig
 from .resource_type import ResourceType
 from .restore_table_response_202 import RestoreTableResponse202
 from .shard_config import ShardConfig
 from .storage_status import StorageStatus
 from .success_message import SuccessMessage
+from .summarize_result import SummarizeResult
 from .table import Table
 from .table_indexes import TableIndexes
 from .table_schema import TableSchema
@@ -90,6 +93,7 @@ __all__ = (
     "BedrockConfig",
     "BleveIndexV2Config",
     "BleveIndexV2Stats",
+    "Citation",
     "ClusterHealth",
     "ClusterStatus",
     "CreateTableRequest",
@@ -137,12 +141,14 @@ __all__ = (
     "QueryResultAnalyses",
     "QueryResultFacets",
     "RAGRequest",
+    "RAGResult",
     "RerankerConfig",
     "ResourceType",
     "RestoreTableResponse202",
     "ShardConfig",
     "StorageStatus",
     "SuccessMessage",
+    "SummarizeResult",
     "Table",
     "TableIndexes",
     "TableSchema",
