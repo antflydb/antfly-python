@@ -6,11 +6,11 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="BedrockConfig")
+T = TypeVar("T", bound="BedrockEmbedderConfig")
 
 
 @_attrs_define
-class BedrockConfig:
+class BedrockEmbedderConfig:
     """Configuration for the Bedrock embedding provider.
 
     Attributes:
@@ -62,15 +62,15 @@ class BedrockConfig:
 
         batch_size = d.pop("batch_size", UNSET)
 
-        bedrock_config = cls(
+        bedrock_embedder_config = cls(
             model=model,
             region=region,
             strip_new_lines=strip_new_lines,
             batch_size=batch_size,
         )
 
-        bedrock_config.additional_properties = d
-        return bedrock_config
+        bedrock_embedder_config.additional_properties = d
+        return bedrock_embedder_config
 
     @property
     def additional_keys(self) -> list[str]:

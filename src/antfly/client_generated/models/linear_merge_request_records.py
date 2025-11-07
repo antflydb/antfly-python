@@ -1,58 +1,35 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-T = TypeVar("T", bound="OllamaConfig")
+T = TypeVar("T", bound="LinearMergeRequestRecords")
 
 
 @_attrs_define
-class OllamaConfig:
-    """Configuration for the Ollama embedding provider.
+class LinearMergeRequestRecords:
+    """Map of document ID to document object: {"doc_id_1": {...}, "doc_id_2": {...}}
+    Server will sort keys lexicographically before processing.
+    This format avoids duplicate IDs (matches Antfly's batch write interface).
 
-    Attributes:
-        model (str): The name of the Ollama model to use.
-        url (Union[Unset, str]): The URL of the Ollama API endpoint.
     """
 
-    model: str
-    url: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        model = self.model
-
-        url = self.url
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "model": model,
-            }
-        )
-        if url is not UNSET:
-            field_dict["url"] = url
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        model = d.pop("model")
+        linear_merge_request_records = cls()
 
-        url = d.pop("url", UNSET)
-
-        ollama_config = cls(
-            model=model,
-            url=url,
-        )
-
-        ollama_config.additional_properties = d
-        return ollama_config
+        linear_merge_request_records.additional_properties = d
+        return linear_merge_request_records
 
     @property
     def additional_keys(self) -> list[str]:

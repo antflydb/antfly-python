@@ -1,43 +1,33 @@
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-if TYPE_CHECKING:
-    from ..models.citation import Citation
-
 
 T = TypeVar("T", bound="SummarizeResult")
 
 
 @_attrs_define
 class SummarizeResult:
-    """Result of a summarization operation with optional citations.
+    """Result of a summarization operation. The summary is formatted as markdown with inline document references using
+    [doc_id <id>] or [doc_id <id1>, <id2>] format.
 
-    Attributes:
-        summary (str): The generated summary text
-        citations (list['Citation']): List of citations referencing source documents
+        Attributes:
+            summary (str): The generated summary text in markdown format with inline document references like [doc_id doc1]
+                or [doc_id doc1, doc2]
     """
 
     summary: str
-    citations: list["Citation"]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         summary = self.summary
-
-        citations = []
-        for citations_item_data in self.citations:
-            citations_item = citations_item_data.to_dict()
-            citations.append(citations_item)
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "summary": summary,
-                "citations": citations,
             }
         )
 
@@ -45,21 +35,11 @@ class SummarizeResult:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.citation import Citation
-
         d = dict(src_dict)
         summary = d.pop("summary")
 
-        citations = []
-        _citations = d.pop("citations")
-        for citations_item_data in _citations:
-            citations_item = Citation.from_dict(citations_item_data)
-
-            citations.append(citations_item)
-
         summarize_result = cls(
             summary=summary,
-            citations=citations,
         )
 
         summarize_result.additional_properties = d

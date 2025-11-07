@@ -7,7 +7,8 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.model_config import ModelConfig
+    from ..models.embedder_config import EmbedderConfig
+    from ..models.generator_config import GeneratorConfig
 
 
 T = TypeVar("T", bound="EmbeddingIndexConfig")
@@ -19,22 +20,22 @@ class EmbeddingIndexConfig:
     Attributes:
         dimension (int): Vector dimension
         field (Union[Unset, str]): Field to extract embeddings from
-        template (Union[Unset, str]): Go string template for generating prompts. See https://pkg.go.dev/text/template
-            for more information. Example: Hello, {{if eq .Name "John"}}Johnathan{{else}}{{.Name}}{{end}}! You are {{.Age}}
+        template (Union[Unset, str]): Handlebars template for generating prompts. See https://handlebarsjs.com/guide/
+            for more information. Example: Hello, {{#if (eq Name "John")}}Johnathan{{else}}{{Name}}{{/if}}! You are {{Age}}
             years old..
         mem_only (Union[Unset, bool]): Whether to use in-memory only storage
-        embedder (Union[Unset, ModelConfig]): A unified configuration for an embedding provider. Example: {'provider':
-            'openai', 'model': 'text-embedding-004'}.
-        summarizer (Union[Unset, ModelConfig]): A unified configuration for an embedding provider. Example: {'provider':
-            'openai', 'model': 'text-embedding-004'}.
+        embedder (Union[Unset, EmbedderConfig]): A unified configuration for an embedding provider. Example:
+            {'provider': 'openai', 'model': 'text-embedding-004'}.
+        summarizer (Union[Unset, GeneratorConfig]): A unified configuration for a generative AI provider. Example:
+            {'provider': 'openai', 'model': 'gpt-4o', 'temperature': 0.7, 'max_tokens': 2048}.
     """
 
     dimension: int
     field: Union[Unset, str] = UNSET
     template: Union[Unset, str] = UNSET
     mem_only: Union[Unset, bool] = UNSET
-    embedder: Union[Unset, "ModelConfig"] = UNSET
-    summarizer: Union[Unset, "ModelConfig"] = UNSET
+    embedder: Union[Unset, "EmbedderConfig"] = UNSET
+    summarizer: Union[Unset, "GeneratorConfig"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -76,7 +77,8 @@ class EmbeddingIndexConfig:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.model_config import ModelConfig
+        from ..models.embedder_config import EmbedderConfig
+        from ..models.generator_config import GeneratorConfig
 
         d = dict(src_dict)
         dimension = d.pop("dimension")
@@ -88,18 +90,18 @@ class EmbeddingIndexConfig:
         mem_only = d.pop("mem_only", UNSET)
 
         _embedder = d.pop("embedder", UNSET)
-        embedder: Union[Unset, ModelConfig]
+        embedder: Union[Unset, EmbedderConfig]
         if isinstance(_embedder, Unset):
             embedder = UNSET
         else:
-            embedder = ModelConfig.from_dict(_embedder)
+            embedder = EmbedderConfig.from_dict(_embedder)
 
         _summarizer = d.pop("summarizer", UNSET)
-        summarizer: Union[Unset, ModelConfig]
+        summarizer: Union[Unset, GeneratorConfig]
         if isinstance(_summarizer, Unset):
             summarizer = UNSET
         else:
-            summarizer = ModelConfig.from_dict(_summarizer)
+            summarizer = GeneratorConfig.from_dict(_summarizer)
 
         embedding_index_config = cls(
             dimension=dimension,

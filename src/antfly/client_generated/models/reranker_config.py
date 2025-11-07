@@ -4,7 +4,7 @@ from typing import Any, TypeVar, Union
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.provider import Provider
+from ..models.embedder_provider import EmbedderProvider
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="RerankerConfig")
@@ -18,12 +18,12 @@ class RerankerConfig:
         {'provider': 'openai', 'model': 'text-embedding-004', 'field': 'content'}
 
     Attributes:
-        provider (Provider): The embedding provider to use.
+        provider (EmbedderProvider): The embedding provider to use.
         field (Union[Unset, str]):
         template (Union[Unset, str]):
     """
 
-    provider: Provider
+    provider: EmbedderProvider
     field: Union[Unset, str] = UNSET
     template: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -52,7 +52,7 @@ class RerankerConfig:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        provider = Provider(d.pop("provider"))
+        provider = EmbedderProvider(d.pop("provider"))
 
         field = d.pop("field", UNSET)
 

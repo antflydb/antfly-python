@@ -1,55 +1,67 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="Citation")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="OpenAIEmbedderConfig")
 
 
 @_attrs_define
-class Citation:
-    """A reference to a source document used in the summary.
+class OpenAIEmbedderConfig:
+    """Configuration for the OpenAI embedding provider.
 
     Attributes:
-        id (str): ID of the source document
-        quote (str): Relevant quote from the document
+        model (str): The name of the OpenAI model to use.
+        url (Union[Unset, str]): The URL of the OpenAI API endpoint.
+        api_key (Union[Unset, str]): The OpenAI API key.
     """
 
-    id: str
-    quote: str
+    model: str
+    url: Union[Unset, str] = UNSET
+    api_key: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        id = self.id
+        model = self.model
 
-        quote = self.quote
+        url = self.url
+
+        api_key = self.api_key
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "id": id,
-                "quote": quote,
+                "model": model,
             }
         )
+        if url is not UNSET:
+            field_dict["url"] = url
+        if api_key is not UNSET:
+            field_dict["api_key"] = api_key
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        id = d.pop("id")
+        model = d.pop("model")
 
-        quote = d.pop("quote")
+        url = d.pop("url", UNSET)
 
-        citation = cls(
-            id=id,
-            quote=quote,
+        api_key = d.pop("api_key", UNSET)
+
+        open_ai_embedder_config = cls(
+            model=model,
+            url=url,
+            api_key=api_key,
         )
 
-        citation.additional_properties = d
-        return citation
+        open_ai_embedder_config.additional_properties = d
+        return open_ai_embedder_config
 
     @property
     def additional_keys(self) -> list[str]:

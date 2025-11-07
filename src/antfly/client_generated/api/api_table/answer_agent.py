@@ -5,22 +5,20 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.answer_agent_request import AnswerAgentRequest
 from ...models.error import Error
-from ...models.table import Table
-from ...models.table_schema import TableSchema
 from ...types import Response
 
 
 def _get_kwargs(
-    table_name: str,
     *,
-    body: TableSchema,
+    body: AnswerAgentRequest,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
     _kwargs: dict[str, Any] = {
-        "method": "put",
-        "url": f"/table/{table_name}/schema",
+        "method": "post",
+        "url": "/agents/answer",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -33,21 +31,15 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Error, Table]]:
+) -> Optional[Union[Error, str]]:
     if response.status_code == 200:
-        response_200 = Table.from_dict(response.json())
-
+        response_200 = response.text
         return response_200
 
     if response.status_code == 400:
         response_400 = Error.from_dict(response.json())
 
         return response_400
-
-    if response.status_code == 404:
-        response_404 = Error.from_dict(response.json())
-
-        return response_404
 
     if response.status_code == 500:
         response_500 = Error.from_dict(response.json())
@@ -62,7 +54,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Error, Table]]:
+) -> Response[Union[Error, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -72,27 +64,28 @@ def _build_response(
 
 
 def sync_detailed(
-    table_name: str,
     *,
     client: AuthenticatedClient,
-    body: TableSchema,
-) -> Response[Union[Error, Table]]:
-    """Update a table's schema
+    body: AnswerAgentRequest,
+) -> Response[Union[Error, str]]:
+    """Answer Agent - Intelligent query routing with automatic query generation
+
+     Uses LLM to classify the query, generate optimal search queries across tables, execute them, and
+    generate an answer (for questions) or return document IDs (for searches). Streams classification,
+    keywords, generated queries, results, and answer as SSE events.
 
     Args:
-        table_name (str):
-        body (TableSchema): Schema definition for a table with multiple document types
+        body (AnswerAgentRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, Table]]
+        Response[Union[Error, str]]
     """
 
     kwargs = _get_kwargs(
-        table_name=table_name,
         body=body,
     )
 
@@ -104,54 +97,56 @@ def sync_detailed(
 
 
 def sync(
-    table_name: str,
     *,
     client: AuthenticatedClient,
-    body: TableSchema,
-) -> Optional[Union[Error, Table]]:
-    """Update a table's schema
+    body: AnswerAgentRequest,
+) -> Optional[Union[Error, str]]:
+    """Answer Agent - Intelligent query routing with automatic query generation
+
+     Uses LLM to classify the query, generate optimal search queries across tables, execute them, and
+    generate an answer (for questions) or return document IDs (for searches). Streams classification,
+    keywords, generated queries, results, and answer as SSE events.
 
     Args:
-        table_name (str):
-        body (TableSchema): Schema definition for a table with multiple document types
+        body (AnswerAgentRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Error, Table]
+        Union[Error, str]
     """
 
     return sync_detailed(
-        table_name=table_name,
         client=client,
         body=body,
     ).parsed
 
 
 async def asyncio_detailed(
-    table_name: str,
     *,
     client: AuthenticatedClient,
-    body: TableSchema,
-) -> Response[Union[Error, Table]]:
-    """Update a table's schema
+    body: AnswerAgentRequest,
+) -> Response[Union[Error, str]]:
+    """Answer Agent - Intelligent query routing with automatic query generation
+
+     Uses LLM to classify the query, generate optimal search queries across tables, execute them, and
+    generate an answer (for questions) or return document IDs (for searches). Streams classification,
+    keywords, generated queries, results, and answer as SSE events.
 
     Args:
-        table_name (str):
-        body (TableSchema): Schema definition for a table with multiple document types
+        body (AnswerAgentRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, Table]]
+        Response[Union[Error, str]]
     """
 
     kwargs = _get_kwargs(
-        table_name=table_name,
         body=body,
     )
 
@@ -161,28 +156,29 @@ async def asyncio_detailed(
 
 
 async def asyncio(
-    table_name: str,
     *,
     client: AuthenticatedClient,
-    body: TableSchema,
-) -> Optional[Union[Error, Table]]:
-    """Update a table's schema
+    body: AnswerAgentRequest,
+) -> Optional[Union[Error, str]]:
+    """Answer Agent - Intelligent query routing with automatic query generation
+
+     Uses LLM to classify the query, generate optimal search queries across tables, execute them, and
+    generate an answer (for questions) or return document IDs (for searches). Streams classification,
+    keywords, generated queries, results, and answer as SSE events.
 
     Args:
-        table_name (str):
-        body (TableSchema): Schema definition for a table with multiple document types
+        body (AnswerAgentRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Error, Table]
+        Union[Error, str]
     """
 
     return (
         await asyncio_detailed(
-            table_name=table_name,
             client=client,
             body=body,
         )

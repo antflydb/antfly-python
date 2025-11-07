@@ -6,30 +6,26 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="OpenAIConfig")
+T = TypeVar("T", bound="OllamaEmbedderConfig")
 
 
 @_attrs_define
-class OpenAIConfig:
-    """Configuration for the OpenAI embedding provider.
+class OllamaEmbedderConfig:
+    """Configuration for the Ollama embedding provider.
 
     Attributes:
-        model (str): The name of the OpenAI model to use.
-        url (Union[Unset, str]): The URL of the OpenAI API endpoint.
-        api_key (Union[Unset, str]): The OpenAI API key.
+        model (str): The name of the Ollama model to use.
+        url (Union[Unset, str]): The URL of the Ollama API endpoint.
     """
 
     model: str
     url: Union[Unset, str] = UNSET
-    api_key: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         model = self.model
 
         url = self.url
-
-        api_key = self.api_key
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -40,8 +36,6 @@ class OpenAIConfig:
         )
         if url is not UNSET:
             field_dict["url"] = url
-        if api_key is not UNSET:
-            field_dict["api_key"] = api_key
 
         return field_dict
 
@@ -52,16 +46,13 @@ class OpenAIConfig:
 
         url = d.pop("url", UNSET)
 
-        api_key = d.pop("api_key", UNSET)
-
-        open_ai_config = cls(
+        ollama_embedder_config = cls(
             model=model,
             url=url,
-            api_key=api_key,
         )
 
-        open_ai_config.additional_properties = d
-        return open_ai_config
+        ollama_embedder_config.additional_properties = d
+        return ollama_embedder_config
 
     @property
     def additional_keys(self) -> list[str]:

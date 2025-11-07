@@ -16,21 +16,26 @@ T = TypeVar("T", bound="RAGResult")
 
 @_attrs_define
 class RAGResult:
-    """RAG result combining query results with summary and citations
+    """RAG result with individual query results and summary
 
     Attributes:
-        query_result (Union[Unset, QueryResult]): Result of a query operation as an array of results and a count.
-        summary_result (Union[Unset, SummarizeResult]): Result of a summarization operation with optional citations.
+        query_results (Union[Unset, list['QueryResult']]): Results from each query. Check each result's status and error
+            fields for failures.
+        summary_result (Union[Unset, SummarizeResult]): Result of a summarization operation. The summary is formatted as
+            markdown with inline document references using [doc_id <id>] or [doc_id <id1>, <id2>] format.
     """
 
-    query_result: Union[Unset, "QueryResult"] = UNSET
+    query_results: Union[Unset, list["QueryResult"]] = UNSET
     summary_result: Union[Unset, "SummarizeResult"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        query_result: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.query_result, Unset):
-            query_result = self.query_result.to_dict()
+        query_results: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.query_results, Unset):
+            query_results = []
+            for query_results_item_data in self.query_results:
+                query_results_item = query_results_item_data.to_dict()
+                query_results.append(query_results_item)
 
         summary_result: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.summary_result, Unset):
@@ -39,8 +44,8 @@ class RAGResult:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
-        if query_result is not UNSET:
-            field_dict["query_result"] = query_result
+        if query_results is not UNSET:
+            field_dict["query_results"] = query_results
         if summary_result is not UNSET:
             field_dict["summary_result"] = summary_result
 
@@ -52,12 +57,12 @@ class RAGResult:
         from ..models.summarize_result import SummarizeResult
 
         d = dict(src_dict)
-        _query_result = d.pop("query_result", UNSET)
-        query_result: Union[Unset, QueryResult]
-        if isinstance(_query_result, Unset):
-            query_result = UNSET
-        else:
-            query_result = QueryResult.from_dict(_query_result)
+        query_results = []
+        _query_results = d.pop("query_results", UNSET)
+        for query_results_item_data in _query_results or []:
+            query_results_item = QueryResult.from_dict(query_results_item_data)
+
+            query_results.append(query_results_item)
 
         _summary_result = d.pop("summary_result", UNSET)
         summary_result: Union[Unset, SummarizeResult]
@@ -67,7 +72,7 @@ class RAGResult:
             summary_result = SummarizeResult.from_dict(_summary_result)
 
         rag_result = cls(
-            query_result=query_result,
+            query_results=query_results,
             summary_result=summary_result,
         )
 

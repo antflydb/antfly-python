@@ -26,6 +26,7 @@ class QueryResult:
         facets (Union[Unset, QueryResultFacets]):
         analyses (Union[Unset, QueryResultAnalyses]): Analysis results like PCA and t-SNE per index embeddings.
         error (Union[Unset, str]): Error message if the query failed.
+        table (Union[Unset, str]): Which table this result came from
     """
 
     took: int
@@ -34,6 +35,7 @@ class QueryResult:
     facets: Union[Unset, "QueryResultFacets"] = UNSET
     analyses: Union[Unset, "QueryResultAnalyses"] = UNSET
     error: Union[Unset, str] = UNSET
+    table: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -55,6 +57,8 @@ class QueryResult:
 
         error = self.error
 
+        table = self.table
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -71,6 +75,8 @@ class QueryResult:
             field_dict["analyses"] = analyses
         if error is not UNSET:
             field_dict["error"] = error
+        if table is not UNSET:
+            field_dict["table"] = table
 
         return field_dict
 
@@ -108,6 +114,8 @@ class QueryResult:
 
         error = d.pop("error", UNSET)
 
+        table = d.pop("table", UNSET)
+
         query_result = cls(
             took=took,
             status=status,
@@ -115,6 +123,7 @@ class QueryResult:
             facets=facets,
             analyses=analyses,
             error=error,
+            table=table,
         )
 
         query_result.additional_properties = d

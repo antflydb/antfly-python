@@ -2,8 +2,8 @@ from enum import Enum
 
 
 class IndexType(str, Enum):
-    BLEVE_V2 = "bleve_v2"
-    VECTOR_V2 = "vector_v2"
+    AKNN_V0 = "aknn_v0"
+    FULL_TEXT_V0 = "full_text_v0"
 
     def __str__(self) -> str:
         return str(self.value)

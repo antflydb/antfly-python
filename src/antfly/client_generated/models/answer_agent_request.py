@@ -1,5 +1,5 @@
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -8,43 +8,48 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.generator_config import GeneratorConfig
-    from ..models.query_request import QueryRequest
 
 
-T = TypeVar("T", bound="RAGRequest")
+T = TypeVar("T", bound="AnswerAgentRequest")
 
 
 @_attrs_define
-class RAGRequest:
+class AnswerAgentRequest:
     """
     Attributes:
-        queries (list['QueryRequest']): Array of retrieval queries to execute. Each query must specify a table and can
-            specify its own limit and document_renderer.
-            Results from all queries are concatenated together (respecting each query's limit).
-            For single table: [{"table": "papers", "semantic_search": "...", "limit": 10}]
-            For broadcast: [{"table": "images", "limit": 5, ...}, {"table": "products", "limit": 5, ...}]
-            For mixed: [{"table": "papers", "semantic_search": "...", "limit": 10}, {"table": "books", "full_text_search":
-            {...}, "limit": 5}]
+        query (str): User's natural language query Example: What are the best gaming laptops under $2000?.
         summarizer (GeneratorConfig): A unified configuration for a generative AI provider. Example: {'provider':
             'openai', 'model': 'gpt-4o', 'temperature': 0.7, 'max_tokens': 2048}.
-        system_prompt (Union[Unset, str]): Optional system prompt to guide the summarization Example: You are a helpful
-            AI assistant. Summarize the following search results concisely..
-        with_streaming (Union[Unset, bool]): Enable SSE streaming of results instead of JSON response
+        tables (Union[Unset, list[str]]): Optional list of tables to search. If empty, searches all tables. Example:
+            ['products', 'reviews'].
+        indexes (Union[Unset, list[str]]): Optional list of indexes to use for each table. If empty, uses all available
+            indexes. Example: ['embedding_idx', 'search_idx'].
+        system_prompt (Union[Unset, str]): Optional system prompt to guide classification and answer generation Example:
+            You are a helpful shopping assistant..
+        with_streaming (Union[Unset, bool]): Enable SSE streaming of results (classification, keywords, queries,
+            results, answer) instead of JSON response Default: True.
     """
 
-    queries: list["QueryRequest"]
+    query: str
     summarizer: "GeneratorConfig"
+    tables: Union[Unset, list[str]] = UNSET
+    indexes: Union[Unset, list[str]] = UNSET
     system_prompt: Union[Unset, str] = UNSET
-    with_streaming: Union[Unset, bool] = UNSET
+    with_streaming: Union[Unset, bool] = True
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        queries = []
-        for queries_item_data in self.queries:
-            queries_item = queries_item_data.to_dict()
-            queries.append(queries_item)
+        query = self.query
 
         summarizer = self.summarizer.to_dict()
+
+        tables: Union[Unset, list[str]] = UNSET
+        if not isinstance(self.tables, Unset):
+            tables = self.tables
+
+        indexes: Union[Unset, list[str]] = UNSET
+        if not isinstance(self.indexes, Unset):
+            indexes = self.indexes
 
         system_prompt = self.system_prompt
 
@@ -54,10 +59,14 @@ class RAGRequest:
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "queries": queries,
+                "query": query,
                 "summarizer": summarizer,
             }
         )
+        if tables is not UNSET:
+            field_dict["tables"] = tables
+        if indexes is not UNSET:
+            field_dict["indexes"] = indexes
         if system_prompt is not UNSET:
             field_dict["system_prompt"] = system_prompt
         if with_streaming is not UNSET:
@@ -68,31 +77,31 @@ class RAGRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.generator_config import GeneratorConfig
-        from ..models.query_request import QueryRequest
 
         d = dict(src_dict)
-        queries = []
-        _queries = d.pop("queries")
-        for queries_item_data in _queries:
-            queries_item = QueryRequest.from_dict(queries_item_data)
-
-            queries.append(queries_item)
+        query = d.pop("query")
 
         summarizer = GeneratorConfig.from_dict(d.pop("summarizer"))
+
+        tables = cast(list[str], d.pop("tables", UNSET))
+
+        indexes = cast(list[str], d.pop("indexes", UNSET))
 
         system_prompt = d.pop("system_prompt", UNSET)
 
         with_streaming = d.pop("with_streaming", UNSET)
 
-        rag_request = cls(
-            queries=queries,
+        answer_agent_request = cls(
+            query=query,
             summarizer=summarizer,
+            tables=tables,
+            indexes=indexes,
             system_prompt=system_prompt,
             with_streaming=with_streaming,
         )
 
-        rag_request.additional_properties = d
-        return rag_request
+        answer_agent_request.additional_properties = d
+        return answer_agent_request
 
     @property
     def additional_keys(self) -> list[str]:

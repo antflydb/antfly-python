@@ -4,23 +4,23 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.provider import Provider
+from ..models.generator_provider import GeneratorProvider
 
-T = TypeVar("T", bound="ModelConfig")
+T = TypeVar("T", bound="GeneratorConfig")
 
 
 @_attrs_define
-class ModelConfig:
-    """A unified configuration for an embedding provider.
+class GeneratorConfig:
+    """A unified configuration for a generative AI provider.
 
     Example:
-        {'provider': 'openai', 'model': 'text-embedding-004'}
+        {'provider': 'openai', 'model': 'gpt-4o', 'temperature': 0.7, 'max_tokens': 2048}
 
     Attributes:
-        provider (Provider): The embedding provider to use.
+        provider (GeneratorProvider): The generative AI provider to use.
     """
 
-    provider: Provider
+    provider: GeneratorProvider
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -39,14 +39,14 @@ class ModelConfig:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        provider = Provider(d.pop("provider"))
+        provider = GeneratorProvider(d.pop("provider"))
 
-        model_config = cls(
+        generator_config = cls(
             provider=provider,
         )
 
-        model_config.additional_properties = d
-        return model_config
+        generator_config.additional_properties = d
+        return generator_config
 
     @property
     def additional_keys(self) -> list[str]:

@@ -1,55 +1,52 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
+from ..models.embedder_provider import EmbedderProvider
 
-T = TypeVar("T", bound="InsertDocumentsResponse201FailedItem")
+T = TypeVar("T", bound="EmbedderConfig")
 
 
 @_attrs_define
-class InsertDocumentsResponse201FailedItem:
-    """
+class EmbedderConfig:
+    """A unified configuration for an embedding provider.
+
+    Example:
+        {'provider': 'openai', 'model': 'text-embedding-004'}
+
     Attributes:
-        id (Union[Unset, str]): The document ID that failed
-        error (Union[Unset, str]): Error message for this failure
+        provider (EmbedderProvider): The embedding provider to use.
     """
 
-    id: Union[Unset, str] = UNSET
-    error: Union[Unset, str] = UNSET
+    provider: EmbedderProvider
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        id = self.id
-
-        error = self.error
+        provider = self.provider.value
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if error is not UNSET:
-            field_dict["error"] = error
+        field_dict.update(
+            {
+                "provider": provider,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        provider = EmbedderProvider(d.pop("provider"))
 
-        error = d.pop("error", UNSET)
-
-        insert_documents_response_201_failed_item = cls(
-            id=id,
-            error=error,
+        embedder_config = cls(
+            provider=provider,
         )
 
-        insert_documents_response_201_failed_item.additional_properties = d
-        return insert_documents_response_201_failed_item
+        embedder_config.additional_properties = d
+        return embedder_config
 
     @property
     def additional_keys(self) -> list[str]:

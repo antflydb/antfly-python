@@ -6,21 +6,21 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error import Error
-from ...models.insert_documents_json_body import InsertDocumentsJsonBody
-from ...models.insert_documents_response_201 import InsertDocumentsResponse201
+from ...models.linear_merge_request import LinearMergeRequest
+from ...models.linear_merge_result import LinearMergeResult
 from ...types import Response
 
 
 def _get_kwargs(
     table_name: str,
     *,
-    body: InsertDocumentsJsonBody,
+    body: LinearMergeRequest,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": f"/table/{table_name}/insert",
+        "url": f"/table/{table_name}/merge",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -33,11 +33,11 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Error, InsertDocumentsResponse201]]:
-    if response.status_code == 201:
-        response_201 = InsertDocumentsResponse201.from_dict(response.json())
+) -> Optional[Union[Error, LinearMergeResult]]:
+    if response.status_code == 200:
+        response_200 = LinearMergeResult.from_dict(response.json())
 
-        return response_201
+        return response_200
 
     if response.status_code == 400:
         response_400 = Error.from_dict(response.json())
@@ -62,7 +62,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Error, InsertDocumentsResponse201]]:
+) -> Response[Union[Error, LinearMergeResult]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -75,23 +75,27 @@ def sync_detailed(
     table_name: str,
     *,
     client: AuthenticatedClient,
-    body: InsertDocumentsJsonBody,
-) -> Response[Union[Error, InsertDocumentsResponse201]]:
-    """Insert one or more documents into a table
+    body: LinearMergeRequest,
+) -> Response[Union[Error, LinearMergeResult]]:
+    """Linear merge sorted records from external source
 
-     Inserts a single document or multiple documents in bulk. A default document key must be defined for
-    the table to use this endpoint.
+     Performs a stateless linear merge of sorted records from an external source.
+    Records are upserted, and any Antfly records in the key range that are absent
+    from the input are deleted. Supports progressive pagination for large datasets.
+
+    WARNING: Not safe for concurrent merge operations with overlapping ranges.
+    Designed as a sync/import API for single-client use.
 
     Args:
         table_name (str):
-        body (InsertDocumentsJsonBody):
+        body (LinearMergeRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, InsertDocumentsResponse201]]
+        Response[Union[Error, LinearMergeResult]]
     """
 
     kwargs = _get_kwargs(
@@ -110,23 +114,27 @@ def sync(
     table_name: str,
     *,
     client: AuthenticatedClient,
-    body: InsertDocumentsJsonBody,
-) -> Optional[Union[Error, InsertDocumentsResponse201]]:
-    """Insert one or more documents into a table
+    body: LinearMergeRequest,
+) -> Optional[Union[Error, LinearMergeResult]]:
+    """Linear merge sorted records from external source
 
-     Inserts a single document or multiple documents in bulk. A default document key must be defined for
-    the table to use this endpoint.
+     Performs a stateless linear merge of sorted records from an external source.
+    Records are upserted, and any Antfly records in the key range that are absent
+    from the input are deleted. Supports progressive pagination for large datasets.
+
+    WARNING: Not safe for concurrent merge operations with overlapping ranges.
+    Designed as a sync/import API for single-client use.
 
     Args:
         table_name (str):
-        body (InsertDocumentsJsonBody):
+        body (LinearMergeRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Error, InsertDocumentsResponse201]
+        Union[Error, LinearMergeResult]
     """
 
     return sync_detailed(
@@ -140,23 +148,27 @@ async def asyncio_detailed(
     table_name: str,
     *,
     client: AuthenticatedClient,
-    body: InsertDocumentsJsonBody,
-) -> Response[Union[Error, InsertDocumentsResponse201]]:
-    """Insert one or more documents into a table
+    body: LinearMergeRequest,
+) -> Response[Union[Error, LinearMergeResult]]:
+    """Linear merge sorted records from external source
 
-     Inserts a single document or multiple documents in bulk. A default document key must be defined for
-    the table to use this endpoint.
+     Performs a stateless linear merge of sorted records from an external source.
+    Records are upserted, and any Antfly records in the key range that are absent
+    from the input are deleted. Supports progressive pagination for large datasets.
+
+    WARNING: Not safe for concurrent merge operations with overlapping ranges.
+    Designed as a sync/import API for single-client use.
 
     Args:
         table_name (str):
-        body (InsertDocumentsJsonBody):
+        body (LinearMergeRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, InsertDocumentsResponse201]]
+        Response[Union[Error, LinearMergeResult]]
     """
 
     kwargs = _get_kwargs(
@@ -173,23 +185,27 @@ async def asyncio(
     table_name: str,
     *,
     client: AuthenticatedClient,
-    body: InsertDocumentsJsonBody,
-) -> Optional[Union[Error, InsertDocumentsResponse201]]:
-    """Insert one or more documents into a table
+    body: LinearMergeRequest,
+) -> Optional[Union[Error, LinearMergeResult]]:
+    """Linear merge sorted records from external source
 
-     Inserts a single document or multiple documents in bulk. A default document key must be defined for
-    the table to use this endpoint.
+     Performs a stateless linear merge of sorted records from an external source.
+    Records are upserted, and any Antfly records in the key range that are absent
+    from the input are deleted. Supports progressive pagination for large datasets.
+
+    WARNING: Not safe for concurrent merge operations with overlapping ranges.
+    Designed as a sync/import API for single-client use.
 
     Args:
         table_name (str):
-        body (InsertDocumentsJsonBody):
+        body (LinearMergeRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Error, InsertDocumentsResponse201]
+        Union[Error, LinearMergeResult]
     """
 
     return (

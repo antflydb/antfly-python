@@ -21,7 +21,7 @@ class CreateTableRequest:
         num_shards (Union[Unset, int]):
         description (Union[Unset, str]): Optional description of the table. Example: Table for user data.
         indexes (Union[Unset, CreateTableRequestIndexes]):
-        schema (Union[Unset, TableSchema]):
+        schema (Union[Unset, TableSchema]): Schema definition for a table with multiple document types
     """
 
     num_shards: Union[Unset, int] = UNSET

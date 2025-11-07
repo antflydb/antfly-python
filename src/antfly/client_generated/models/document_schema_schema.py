@@ -10,7 +10,7 @@ T = TypeVar("T", bound="DocumentSchemaSchema")
 @_attrs_define
 class DocumentSchemaSchema:
     """A valid JSON Schema defining the document's structure.
-    This is used to infer indexing rules.
+    This is used to infer indexing rules and field types.
 
     """
 

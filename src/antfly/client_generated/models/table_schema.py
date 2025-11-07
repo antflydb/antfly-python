@@ -15,69 +15,60 @@ T = TypeVar("T", bound="TableSchema")
 
 @_attrs_define
 class TableSchema:
-    """
+    """Schema definition for a table with multiple document types
+
     Attributes:
         version (Union[Unset, int]): Version of the schema. Used for migrations.
-        key (Union[Unset, str]): The default field to use as the document ID (optional).
-            Useful if no type-specific key is defined or if all types share the same key field.
-             Example: _id.
+        default_type (Union[Unset, str]): Default type to use from the document_types.
         enforce_types (Union[Unset, bool]): Whether to enforce that documents must match one of the provided document
             types.
             If false, documents not matching any type will be accepted but not indexed.
-        default_type (Union[Unset, str]): Default type to use from the document_types.
+        document_schemas (Union[Unset, TableSchemaDocumentSchemas]): A map of type names to their document json schemas.
         ttl_field (Union[Unset, str]): The field containing the timestamp for TTL expiration (optional).
             Defaults to "_timestamp" if ttl_duration is specified but ttl_field is not.
-             Example: created_at.
         ttl_duration (Union[Unset, str]): The duration after which documents should expire, based on the ttl_field
             timestamp (optional).
             Uses Go duration format (e.g., '24h', '7d', '168h').
-             Example: 24h.
-        document_schemas (Union[Unset, TableSchemaDocumentSchemas]): A map of type names to their document json schemas.
     """
 
     version: Union[Unset, int] = UNSET
-    key: Union[Unset, str] = UNSET
-    enforce_types: Union[Unset, bool] = UNSET
     default_type: Union[Unset, str] = UNSET
+    enforce_types: Union[Unset, bool] = UNSET
+    document_schemas: Union[Unset, "TableSchemaDocumentSchemas"] = UNSET
     ttl_field: Union[Unset, str] = UNSET
     ttl_duration: Union[Unset, str] = UNSET
-    document_schemas: Union[Unset, "TableSchemaDocumentSchemas"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         version = self.version
 
-        key = self.key
-
-        enforce_types = self.enforce_types
-
         default_type = self.default_type
 
-        ttl_field = self.ttl_field
-
-        ttl_duration = self.ttl_duration
+        enforce_types = self.enforce_types
 
         document_schemas: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.document_schemas, Unset):
             document_schemas = self.document_schemas.to_dict()
+
+        ttl_field = self.ttl_field
+
+        ttl_duration = self.ttl_duration
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if version is not UNSET:
             field_dict["version"] = version
-        if key is not UNSET:
-            field_dict["key"] = key
-        if enforce_types is not UNSET:
-            field_dict["enforce_types"] = enforce_types
         if default_type is not UNSET:
             field_dict["default_type"] = default_type
+        if enforce_types is not UNSET:
+            field_dict["enforce_types"] = enforce_types
+        if document_schemas is not UNSET:
+            field_dict["document_schemas"] = document_schemas
         if ttl_field is not UNSET:
             field_dict["ttl_field"] = ttl_field
         if ttl_duration is not UNSET:
             field_dict["ttl_duration"] = ttl_duration
-        if document_schemas is not UNSET:
-            field_dict["document_schemas"] = document_schemas
 
         return field_dict
 
@@ -88,15 +79,9 @@ class TableSchema:
         d = dict(src_dict)
         version = d.pop("version", UNSET)
 
-        key = d.pop("key", UNSET)
-
-        enforce_types = d.pop("enforce_types", UNSET)
-
         default_type = d.pop("default_type", UNSET)
 
-        ttl_field = d.pop("ttl_field", UNSET)
-
-        ttl_duration = d.pop("ttl_duration", UNSET)
+        enforce_types = d.pop("enforce_types", UNSET)
 
         _document_schemas = d.pop("document_schemas", UNSET)
         document_schemas: Union[Unset, TableSchemaDocumentSchemas]
@@ -105,14 +90,17 @@ class TableSchema:
         else:
             document_schemas = TableSchemaDocumentSchemas.from_dict(_document_schemas)
 
+        ttl_field = d.pop("ttl_field", UNSET)
+
+        ttl_duration = d.pop("ttl_duration", UNSET)
+
         table_schema = cls(
             version=version,
-            key=key,
-            enforce_types=enforce_types,
             default_type=default_type,
+            enforce_types=enforce_types,
+            document_schemas=document_schemas,
             ttl_field=ttl_field,
             ttl_duration=ttl_duration,
-            document_schemas=document_schemas,
         )
 
         table_schema.additional_properties = d

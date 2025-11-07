@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class Provider(str, Enum):
+class EmbedderProvider(str, Enum):
     BEDROCK = "bedrock"
     GEMINI = "gemini"
     MOCK = "mock"

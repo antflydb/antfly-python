@@ -8,6 +8,7 @@ class AntflyType(str, Enum):
     EMBEDDING = "embedding"
     GEOPOINT = "geopoint"
     GEOSHAPE = "geoshape"
+    HTML = "html"
     KEYWORD = "keyword"
     LINK = "link"
     NUMERIC = "numeric"

@@ -50,6 +50,9 @@ class QueryRequest:
         reranker (Union[Unset, RerankerConfig]): A unified configuration for an embedding provider. Example:
             {'provider': 'openai', 'model': 'text-embedding-004', 'field': 'content'}.
         analyses (Union[Unset, Analyses]):
+        document_renderer (Union[Unset, str]): Optional Handlebars template string for rendering document content.
+            Template has access to document fields via {{this.fields.fieldName}} Example: Title: {{this.fields.title}}
+            Body: {{this.fields.body}}.
     """
 
     table: Union[Unset, str] = UNSET
@@ -71,6 +74,7 @@ class QueryRequest:
     count: Union[Unset, bool] = UNSET
     reranker: Union[Unset, "RerankerConfig"] = UNSET
     analyses: Union[Unset, "Analyses"] = UNSET
+    document_renderer: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -134,6 +138,8 @@ class QueryRequest:
         if not isinstance(self.analyses, Unset):
             analyses = self.analyses.to_dict()
 
+        document_renderer = self.document_renderer
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -175,6 +181,8 @@ class QueryRequest:
             field_dict["reranker"] = reranker
         if analyses is not UNSET:
             field_dict["analyses"] = analyses
+        if document_renderer is not UNSET:
+            field_dict["document_renderer"] = document_renderer
 
         return field_dict
 
@@ -273,6 +281,8 @@ class QueryRequest:
         else:
             analyses = Analyses.from_dict(_analyses)
 
+        document_renderer = d.pop("document_renderer", UNSET)
+
         query_request = cls(
             table=table,
             full_text_search=full_text_search,
@@ -293,6 +303,7 @@ class QueryRequest:
             count=count,
             reranker=reranker,
             analyses=analyses,
+            document_renderer=document_renderer,
         )
 
         query_request.additional_properties = d

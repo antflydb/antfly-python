@@ -1,31 +1,56 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="InsertDocumentsJsonBody")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="KeyRange")
 
 
 @_attrs_define
-class InsertDocumentsJsonBody:
-    """ """
+class KeyRange:
+    """Key range processed in this request
 
+    Attributes:
+        from_ (Union[Unset, str]):
+        to (Union[Unset, str]):
+    """
+
+    from_: Union[Unset, str] = UNSET
+    to: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from_ = self.from_
+
+        to = self.to
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if from_ is not UNSET:
+            field_dict["from"] = from_
+        if to is not UNSET:
+            field_dict["to"] = to
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        insert_documents_json_body = cls()
+        from_ = d.pop("from", UNSET)
 
-        insert_documents_json_body.additional_properties = d
-        return insert_documents_json_body
+        to = d.pop("to", UNSET)
+
+        key_range = cls(
+            from_=from_,
+            to=to,
+        )
+
+        key_range.additional_properties = d
+        return key_range
 
     @property
     def additional_keys(self) -> list[str]:
