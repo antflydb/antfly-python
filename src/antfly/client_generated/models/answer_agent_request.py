@@ -1,5 +1,5 @@
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -8,6 +8,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.generator_config import GeneratorConfig
+    from ..models.query_request import QueryRequest
 
 
 T = TypeVar("T", bound="AnswerAgentRequest")
@@ -17,25 +18,31 @@ T = TypeVar("T", bound="AnswerAgentRequest")
 class AnswerAgentRequest:
     """
     Attributes:
-        query (str): User's natural language query Example: What are the best gaming laptops under $2000?.
+        query (str): User's natural language query to be classified and improved Example: What are the best gaming
+            laptops under $2000?.
         summarizer (GeneratorConfig): A unified configuration for a generative AI provider. Example: {'provider':
             'openai', 'model': 'gpt-4o', 'temperature': 0.7, 'max_tokens': 2048}.
-        tables (Union[Unset, list[str]]): Optional list of tables to search. If empty, searches all tables. Example:
-            ['products', 'reviews'].
-        indexes (Union[Unset, list[str]]): Optional list of indexes to use for each table. If empty, uses all available
-            indexes. Example: ['embedding_idx', 'search_idx'].
+        queries (list['QueryRequest']): Array of query requests to execute. The query text will be transformed for
+            semantic search
+            and populated into the semantic_search field of each query. Example: [{'table': 'products', 'indexes':
+            ['embedding_idx'], 'limit': 10}, {'table': 'reviews', 'indexes': ['embedding_idx'], 'limit': 5}].
         system_prompt (Union[Unset, str]): Optional system prompt to guide classification and answer generation Example:
             You are a helpful shopping assistant..
-        with_streaming (Union[Unset, bool]): Enable SSE streaming of results (classification, keywords, queries,
-            results, answer) instead of JSON response Default: True.
+        with_streaming (Union[Unset, bool]): Enable SSE streaming of results (classification, queries, results, answer)
+            instead of JSON response Default: True.
+        with_reasoning (Union[Unset, bool]): Include the LLM's reasoning process as separate events before the answer
+            Default: False.
+        with_followup (Union[Unset, bool]): Include suggested follow-up questions as separate events after the answer
+            Default: False.
     """
 
     query: str
     summarizer: "GeneratorConfig"
-    tables: Union[Unset, list[str]] = UNSET
-    indexes: Union[Unset, list[str]] = UNSET
+    queries: list["QueryRequest"]
     system_prompt: Union[Unset, str] = UNSET
     with_streaming: Union[Unset, bool] = True
+    with_reasoning: Union[Unset, bool] = False
+    with_followup: Union[Unset, bool] = False
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -43,17 +50,18 @@ class AnswerAgentRequest:
 
         summarizer = self.summarizer.to_dict()
 
-        tables: Union[Unset, list[str]] = UNSET
-        if not isinstance(self.tables, Unset):
-            tables = self.tables
-
-        indexes: Union[Unset, list[str]] = UNSET
-        if not isinstance(self.indexes, Unset):
-            indexes = self.indexes
+        queries = []
+        for queries_item_data in self.queries:
+            queries_item = queries_item_data.to_dict()
+            queries.append(queries_item)
 
         system_prompt = self.system_prompt
 
         with_streaming = self.with_streaming
+
+        with_reasoning = self.with_reasoning
+
+        with_followup = self.with_followup
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -61,43 +69,53 @@ class AnswerAgentRequest:
             {
                 "query": query,
                 "summarizer": summarizer,
+                "queries": queries,
             }
         )
-        if tables is not UNSET:
-            field_dict["tables"] = tables
-        if indexes is not UNSET:
-            field_dict["indexes"] = indexes
         if system_prompt is not UNSET:
             field_dict["system_prompt"] = system_prompt
         if with_streaming is not UNSET:
             field_dict["with_streaming"] = with_streaming
+        if with_reasoning is not UNSET:
+            field_dict["with_reasoning"] = with_reasoning
+        if with_followup is not UNSET:
+            field_dict["with_followup"] = with_followup
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.generator_config import GeneratorConfig
+        from ..models.query_request import QueryRequest
 
         d = dict(src_dict)
         query = d.pop("query")
 
         summarizer = GeneratorConfig.from_dict(d.pop("summarizer"))
 
-        tables = cast(list[str], d.pop("tables", UNSET))
+        queries = []
+        _queries = d.pop("queries")
+        for queries_item_data in _queries:
+            queries_item = QueryRequest.from_dict(queries_item_data)
 
-        indexes = cast(list[str], d.pop("indexes", UNSET))
+            queries.append(queries_item)
 
         system_prompt = d.pop("system_prompt", UNSET)
 
         with_streaming = d.pop("with_streaming", UNSET)
 
+        with_reasoning = d.pop("with_reasoning", UNSET)
+
+        with_followup = d.pop("with_followup", UNSET)
+
         answer_agent_request = cls(
             query=query,
             summarizer=summarizer,
-            tables=tables,
-            indexes=indexes,
+            queries=queries,
             system_prompt=system_prompt,
             with_streaming=with_streaming,
+            with_reasoning=with_reasoning,
+            with_followup=with_followup,
         )
 
         answer_agent_request.additional_properties = d

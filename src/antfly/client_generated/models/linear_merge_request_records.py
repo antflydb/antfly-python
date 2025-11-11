@@ -10,8 +10,17 @@ T = TypeVar("T", bound="LinearMergeRequestRecords")
 @_attrs_define
 class LinearMergeRequestRecords:
     """Map of document ID to document object: {"doc_id_1": {...}, "doc_id_2": {...}}
-    Server will sort keys lexicographically before processing.
-    This format avoids duplicate IDs (matches Antfly's batch write interface).
+
+    Requirements:
+    - Keys must be sorted lexicographically by your client
+    - Server will process keys in sorted order
+    - Use consistent key naming (e.g., all start with same prefix)
+
+    This format avoids duplicate IDs and matches Antfly's batch write interface.
+
+        Example:
+            {'product:001': {'name': 'Laptop', 'price': 999.99}, 'product:002': {'name': 'Mouse', 'price': 29.99},
+                'product:003': {'name': 'Keyboard', 'price': 79.99}}
 
     """
 

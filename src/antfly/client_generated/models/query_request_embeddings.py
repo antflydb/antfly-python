@@ -9,7 +9,12 @@ T = TypeVar("T", bound="QueryRequestEmbeddings")
 
 @_attrs_define
 class QueryRequestEmbeddings:
-    """Raw embeddings to use for semantic searches (the keys are the indexes to use for the queries)."""
+    """Pre-computed embeddings to use for semantic searches instead of embedding the semantic_search string.
+    The keys are the index names, and values are the embedding vectors.
+
+    Use when you've already generated embeddings on the client side to avoid redundant embedding calls.
+
+    """
 
     additional_properties: dict[str, list[float]] = _attrs_field(init=False, factory=dict)
 

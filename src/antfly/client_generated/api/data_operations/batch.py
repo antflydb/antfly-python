@@ -81,10 +81,19 @@ def sync_detailed(
 
     Args:
         table_name (str):
-        body (BatchRequest):  Example: {'inserts': {'user:123': {'name': 'John Doe', 'email':
-            'john@example.com', 'age': 30, 'tags': ['customer', 'premium']}, 'user:456': {'name':
-            'Jane Smith', 'email': 'jane@example.com', 'age': 25, 'tags': ['customer']}}, 'deletes':
-            ['user:789', 'user:old_account']}.
+        body (BatchRequest): Batch insert and delete operations in a single request. All
+            operations are processed atomically within each shard.
+
+            Benefits:
+            - Reduces network overhead compared to individual requests
+            - More efficient indexing (updates are batched)
+            - Atomic within shard boundaries
+
+            The inserts are upserts - existing keys are overwritten, new keys are created.
+             Example: {'inserts': {'user:123': {'name': 'John Doe', 'email': 'john@example.com',
+            'age': 30, 'tags': ['customer', 'premium']}, 'user:456': {'name': 'Jane Smith', 'email':
+            'jane@example.com', 'age': 25, 'tags': ['customer']}}, 'deletes': ['user:789',
+            'user:old_account']}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -116,10 +125,19 @@ def sync(
 
     Args:
         table_name (str):
-        body (BatchRequest):  Example: {'inserts': {'user:123': {'name': 'John Doe', 'email':
-            'john@example.com', 'age': 30, 'tags': ['customer', 'premium']}, 'user:456': {'name':
-            'Jane Smith', 'email': 'jane@example.com', 'age': 25, 'tags': ['customer']}}, 'deletes':
-            ['user:789', 'user:old_account']}.
+        body (BatchRequest): Batch insert and delete operations in a single request. All
+            operations are processed atomically within each shard.
+
+            Benefits:
+            - Reduces network overhead compared to individual requests
+            - More efficient indexing (updates are batched)
+            - Atomic within shard boundaries
+
+            The inserts are upserts - existing keys are overwritten, new keys are created.
+             Example: {'inserts': {'user:123': {'name': 'John Doe', 'email': 'john@example.com',
+            'age': 30, 'tags': ['customer', 'premium']}, 'user:456': {'name': 'Jane Smith', 'email':
+            'jane@example.com', 'age': 25, 'tags': ['customer']}}, 'deletes': ['user:789',
+            'user:old_account']}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -146,10 +164,19 @@ async def asyncio_detailed(
 
     Args:
         table_name (str):
-        body (BatchRequest):  Example: {'inserts': {'user:123': {'name': 'John Doe', 'email':
-            'john@example.com', 'age': 30, 'tags': ['customer', 'premium']}, 'user:456': {'name':
-            'Jane Smith', 'email': 'jane@example.com', 'age': 25, 'tags': ['customer']}}, 'deletes':
-            ['user:789', 'user:old_account']}.
+        body (BatchRequest): Batch insert and delete operations in a single request. All
+            operations are processed atomically within each shard.
+
+            Benefits:
+            - Reduces network overhead compared to individual requests
+            - More efficient indexing (updates are batched)
+            - Atomic within shard boundaries
+
+            The inserts are upserts - existing keys are overwritten, new keys are created.
+             Example: {'inserts': {'user:123': {'name': 'John Doe', 'email': 'john@example.com',
+            'age': 30, 'tags': ['customer', 'premium']}, 'user:456': {'name': 'Jane Smith', 'email':
+            'jane@example.com', 'age': 25, 'tags': ['customer']}}, 'deletes': ['user:789',
+            'user:old_account']}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -179,10 +206,19 @@ async def asyncio(
 
     Args:
         table_name (str):
-        body (BatchRequest):  Example: {'inserts': {'user:123': {'name': 'John Doe', 'email':
-            'john@example.com', 'age': 30, 'tags': ['customer', 'premium']}, 'user:456': {'name':
-            'Jane Smith', 'email': 'jane@example.com', 'age': 25, 'tags': ['customer']}}, 'deletes':
-            ['user:789', 'user:old_account']}.
+        body (BatchRequest): Batch insert and delete operations in a single request. All
+            operations are processed atomically within each shard.
+
+            Benefits:
+            - Reduces network overhead compared to individual requests
+            - More efficient indexing (updates are batched)
+            - Atomic within shard boundaries
+
+            The inserts are upserts - existing keys are overwritten, new keys are created.
+             Example: {'inserts': {'user:123': {'name': 'John Doe', 'email': 'john@example.com',
+            'age': 30, 'tags': ['customer', 'premium']}, 'user:456': {'name': 'Jane Smith', 'email':
+            'jane@example.com', 'age': 25, 'tags': ['customer']}}, 'deletes': ['user:789',
+            'user:old_account']}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

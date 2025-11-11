@@ -11,8 +11,15 @@ T = TypeVar("T", bound="BackupRequest")
 class BackupRequest:
     """
     Attributes:
-        backup_id (str):
-        location (str): Location for the backup (e.g., file:///path/to/backup, s3://bucket/path)
+        backup_id (str): Unique identifier for this backup. Used to reference the backup for restore operations.
+            Choose a meaningful name that includes date/version information.
+             Example: backup-2025-01-15-v2.
+        location (str): Storage location for the backup. Supports multiple backends:
+            - Local filesystem: `file:///path/to/backup`
+            - Amazon S3: `s3://bucket-name/path/to/backup`
+
+            The backup includes all table data, indexes, and metadata for the specified table.
+             Example: s3://mybucket/antfly-backups/users-table/2025-01-15.
     """
 
     backup_id: str

@@ -11,11 +11,11 @@ T = TypeVar("T", bound="GoogleGeneratorConfig")
 
 @_attrs_define
 class GoogleGeneratorConfig:
-    """Configuration for the Google generative AI provider (Gemini).
+    """Configuration for the Google generative AI provider (Gemini). Defaults to gemini-2.5-flash if no model is specified.
 
     Attributes:
-        model (str): The name of the generative model to use (e.g., 'gemini-2.0-flash-exp', 'gemini-1.5-pro'). Default:
-            'gemini-2.0-flash-exp'.
+        model (str): The name of the generative model to use (e.g., 'gemini-2.5-flash', 'gemini-1.5-pro'). Default:
+            'gemini-2.5-flash'.
         project_id (Union[Unset, str]): The Google Cloud project ID.
         location (Union[Unset, str]): The Google Cloud location (e.g., 'us-central1').
         temperature (Union[Unset, float]): Controls randomness in generation (0.0-2.0).
@@ -26,7 +26,7 @@ class GoogleGeneratorConfig:
         url (Union[Unset, str]): The URL of the Google API endpoint.
     """
 
-    model: str = "gemini-2.0-flash-exp"
+    model: str = "gemini-2.5-flash"
     project_id: Union[Unset, str] = UNSET
     location: Union[Unset, str] = UNSET
     temperature: Union[Unset, float] = UNSET

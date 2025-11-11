@@ -9,7 +9,18 @@ T = TypeVar("T", bound="QueryRequestFilterQuery")
 
 @_attrs_define
 class QueryRequestFilterQuery:
-    """Full JSON Bleve search queries"""
+    """Bleve query applied as an AND condition. Documents must match both the main query
+    and this filter. Applied before scoring for better performance.
+
+    Use for:
+    - Status filtering: `"status:published"`
+    - Date ranges: `"created_at:>2023-01-01"`
+    - Category filtering: `"category:technology AND language:en"`
+
+        Example:
+            {'query': 'category:technology AND year:>2020'}
+
+    """
 
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 

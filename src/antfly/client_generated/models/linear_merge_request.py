@@ -15,18 +15,45 @@ T = TypeVar("T", bound="LinearMergeRequest")
 
 @_attrs_define
 class LinearMergeRequest:
-    """
-    Attributes:
-        records (LinearMergeRequestRecords): Map of document ID to document object: {"doc_id_1": {...}, "doc_id_2":
-            {...}}
-            Server will sort keys lexicographically before processing.
-            This format avoids duplicate IDs (matches Antfly's batch write interface).
-        last_merged_id (Union[Unset, str]): ID of last record from previous merge request.
-            Empty string "" for first request.
-            Defines lower bound of key range to process.
-        dry_run (Union[Unset, bool]): If true, return what would be deleted without making changes.
-            Useful for validating sync behavior before committing.
-             Default: False.
+    """Linear merge operation for syncing sorted records from external sources.
+    Use this to keep Antfly in sync with an external database or data source.
+
+    **How it works:**
+    1. Send sorted records from your external source
+    2. Server upserts records that exist in your batch
+    3. Server deletes Antfly records in the key range that are absent from your batch
+    4. If stopped at shard boundary, use next_cursor for next request
+
+    **WARNING:** Not safe for concurrent operations with overlapping key ranges.
+
+        Attributes:
+            records (LinearMergeRequestRecords): Map of document ID to document object: {"doc_id_1": {...}, "doc_id_2":
+                {...}}
+
+                Requirements:
+                - Keys must be sorted lexicographically by your client
+                - Server will process keys in sorted order
+                - Use consistent key naming (e.g., all start with same prefix)
+
+                This format avoids duplicate IDs and matches Antfly's batch write interface.
+                 Example: {'product:001': {'name': 'Laptop', 'price': 999.99}, 'product:002': {'name': 'Mouse', 'price': 29.99},
+                'product:003': {'name': 'Keyboard', 'price': 79.99}}.
+            last_merged_id (Union[Unset, str]): ID of last record from previous merge request.
+                - First request: Use empty string ""
+                - Subsequent requests: Use next_cursor from previous response
+                - Defines lower bound of key range to process
+
+                This enables pagination for large datasets.
+                 Example: product:003.
+            dry_run (Union[Unset, bool]): If true, returns what would be deleted without making changes.
+
+                Use cases:
+                - Validate sync behavior before committing
+                - Check which records will be removed
+                - Test key range boundaries
+
+                Response includes deleted_ids array when dry_run=true.
+                 Default: False.
     """
 
     records: "LinearMergeRequestRecords"

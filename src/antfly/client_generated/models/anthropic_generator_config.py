@@ -11,19 +11,38 @@ T = TypeVar("T", bound="AnthropicGeneratorConfig")
 
 @_attrs_define
 class AnthropicGeneratorConfig:
-    """Configuration for the Anthropic generative AI provider.
+    """Configuration for the Anthropic generative AI provider (Claude models).
+    Uses the firebase/genkit compat_oai/anthropic plugin with OpenAI-compatible API.
 
-    Attributes:
-        model (str): The name of the Anthropic model to use (e.g., 'claude-3-5-sonnet-20241022').
-        api_key (Union[Unset, str]): The Anthropic API key.
-        url (Union[Unset, str]): The URL of the Anthropic API endpoint.
-        temperature (Union[Unset, float]): Controls randomness in generation (0.0-1.0).
-        max_tokens (Union[Unset, int]): Maximum number of tokens to generate.
-        top_p (Union[Unset, float]): Nucleus sampling parameter.
-        top_k (Union[Unset, int]): Top-k sampling parameter.
+    Defaults to claude-3-7-sonnet-20250219 if no model is specified.
+
+    API key can be provided via the 'api_key' field or the ANTHROPIC_API_KEY environment variable.
+
+    Supported models:
+    - claude-3-7-sonnet-20250219 (latest, most capable)
+    - claude-3-5-haiku-20241022 (fast and efficient)
+    - claude-3-5-sonnet-20240620 (balanced performance)
+    - claude-3-opus-20240229 (highly capable)
+    - claude-3-haiku-20240307 (fastest)
+
+        Example:
+            {'provider': 'anthropic', 'model': 'claude-3-7-sonnet-20250219', 'temperature': 0.7, 'max_tokens': 4096}
+
+        Attributes:
+            model (str): The full model ID of the Anthropic model to use (e.g., 'claude-3-7-sonnet-20250219',
+                'claude-3-5-haiku-20241022'). Default: 'claude-3-7-sonnet-20250219'. Example: claude-3-7-sonnet-20250219.
+            api_key (Union[Unset, str]): The Anthropic API key. If not provided, falls back to ANTHROPIC_API_KEY environment
+                variable.
+            url (Union[Unset, str]): The URL of the Anthropic API endpoint (optional, uses default if not specified).
+            temperature (Union[Unset, float]): Controls randomness in generation (0.0-1.0). Higher values make output more
+                random.
+            max_tokens (Union[Unset, int]): Maximum number of tokens to generate in the response.
+            top_p (Union[Unset, float]): Nucleus sampling parameter (0.0-1.0). Alternative to temperature.
+            top_k (Union[Unset, int]): Top-k sampling parameter. Only sample from the top K options for each subsequent
+                token.
     """
 
-    model: str
+    model: str = "claude-3-7-sonnet-20250219"
     api_key: Union[Unset, str] = UNSET
     url: Union[Unset, str] = UNSET
     temperature: Union[Unset, float] = UNSET

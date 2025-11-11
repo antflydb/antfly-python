@@ -5,21 +5,20 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.answer_agent_request import AnswerAgentRequest
 from ...models.error import Error
-from ...models.query_request import QueryRequest
-from ...models.query_responses import QueryResponses
 from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: QueryRequest,
+    body: AnswerAgentRequest,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/query",
+        "url": "/agents/answer",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -32,10 +31,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Error, QueryResponses]]:
+) -> Optional[Union[Error, str]]:
     if response.status_code == 200:
-        response_200 = QueryResponses.from_dict(response.json())
-
+        response_200 = response.text
         return response_200
 
     if response.status_code == 400:
@@ -56,7 +54,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Error, QueryResponses]]:
+) -> Response[Union[Error, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -68,24 +66,23 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-    body: QueryRequest,
-) -> Response[Union[Error, QueryResponses]]:
-    r"""Perform a global query
+    body: AnswerAgentRequest,
+) -> Response[Union[Error, str]]:
+    """Answer Agent - Intelligent query routing with automatic query generation
 
-     Executes a query across all relevant tables and shards based on the query content.
-    IMPORTANT: The final line of data must end with a newline character \n. Each newline character may
-    be preceded by a carriage return \r. When sending requests to this endpoint the Content-Type header
-    should be set to application/x-ndjson.
+     Uses LLM to classify and improve the query, transform it for optimal semantic search, execute the
+    provided queries with the transformed text, and generate an answer. Streams classification, query
+    execution, results, and answer as SSE events.
 
     Args:
-        body (QueryRequest):
+        body (AnswerAgentRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, QueryResponses]]
+        Response[Union[Error, str]]
     """
 
     kwargs = _get_kwargs(
@@ -102,24 +99,23 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-    body: QueryRequest,
-) -> Optional[Union[Error, QueryResponses]]:
-    r"""Perform a global query
+    body: AnswerAgentRequest,
+) -> Optional[Union[Error, str]]:
+    """Answer Agent - Intelligent query routing with automatic query generation
 
-     Executes a query across all relevant tables and shards based on the query content.
-    IMPORTANT: The final line of data must end with a newline character \n. Each newline character may
-    be preceded by a carriage return \r. When sending requests to this endpoint the Content-Type header
-    should be set to application/x-ndjson.
+     Uses LLM to classify and improve the query, transform it for optimal semantic search, execute the
+    provided queries with the transformed text, and generate an answer. Streams classification, query
+    execution, results, and answer as SSE events.
 
     Args:
-        body (QueryRequest):
+        body (AnswerAgentRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Error, QueryResponses]
+        Union[Error, str]
     """
 
     return sync_detailed(
@@ -131,24 +127,23 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-    body: QueryRequest,
-) -> Response[Union[Error, QueryResponses]]:
-    r"""Perform a global query
+    body: AnswerAgentRequest,
+) -> Response[Union[Error, str]]:
+    """Answer Agent - Intelligent query routing with automatic query generation
 
-     Executes a query across all relevant tables and shards based on the query content.
-    IMPORTANT: The final line of data must end with a newline character \n. Each newline character may
-    be preceded by a carriage return \r. When sending requests to this endpoint the Content-Type header
-    should be set to application/x-ndjson.
+     Uses LLM to classify and improve the query, transform it for optimal semantic search, execute the
+    provided queries with the transformed text, and generate an answer. Streams classification, query
+    execution, results, and answer as SSE events.
 
     Args:
-        body (QueryRequest):
+        body (AnswerAgentRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, QueryResponses]]
+        Response[Union[Error, str]]
     """
 
     kwargs = _get_kwargs(
@@ -163,24 +158,23 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-    body: QueryRequest,
-) -> Optional[Union[Error, QueryResponses]]:
-    r"""Perform a global query
+    body: AnswerAgentRequest,
+) -> Optional[Union[Error, str]]:
+    """Answer Agent - Intelligent query routing with automatic query generation
 
-     Executes a query across all relevant tables and shards based on the query content.
-    IMPORTANT: The final line of data must end with a newline character \n. Each newline character may
-    be preceded by a carriage return \r. When sending requests to this endpoint the Content-Type header
-    should be set to application/x-ndjson.
+     Uses LLM to classify and improve the query, transform it for optimal semantic search, execute the
+    provided queries with the transformed text, and generate an answer. Streams classification, query
+    execution, results, and answer as SSE events.
 
     Args:
-        body (QueryRequest):
+        body (AnswerAgentRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Error, QueryResponses]
+        Union[Error, str]
     """
 
     return (

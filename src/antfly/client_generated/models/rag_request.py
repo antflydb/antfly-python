@@ -29,12 +29,28 @@ class RAGRequest:
             'openai', 'model': 'gpt-4o', 'temperature': 0.7, 'max_tokens': 2048}.
         system_prompt (Union[Unset, str]): Optional system prompt to guide the summarization Example: You are a helpful
             AI assistant. Summarize the following search results concisely..
+        prompt (Union[Unset, str]): Optional custom user prompt template for the LLM. If not provided, a default prompt
+            is used.
+            The prompt can reference the following variables:
+            - {{documents}}: Array of retrieved documents with id and fields
+            - {{semantic_search}}: The user's semantic search query (if provided)
+            You can use Handlebars template syntax to customize the prompt, including loops and conditionals.
+            To generate a comma-separated list of document IDs, use: {{#each documents}}{{this.id}}{{#unless @last}},
+            {{/unless}}{{/each}}
+             Example: Based on these documents, provide a detailed analysis:
+
+            {{#each documents}}
+            Doc {{this.id}}: {{this.fields}}
+            {{/each}}
+
+            Valid IDs: {{#each documents}}{{this.id}}{{#unless @last}}, {{/unless}}{{/each}}.
         with_streaming (Union[Unset, bool]): Enable SSE streaming of results instead of JSON response
     """
 
     queries: list["QueryRequest"]
     summarizer: "GeneratorConfig"
     system_prompt: Union[Unset, str] = UNSET
+    prompt: Union[Unset, str] = UNSET
     with_streaming: Union[Unset, bool] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -48,6 +64,8 @@ class RAGRequest:
 
         system_prompt = self.system_prompt
 
+        prompt = self.prompt
+
         with_streaming = self.with_streaming
 
         field_dict: dict[str, Any] = {}
@@ -60,6 +78,8 @@ class RAGRequest:
         )
         if system_prompt is not UNSET:
             field_dict["system_prompt"] = system_prompt
+        if prompt is not UNSET:
+            field_dict["prompt"] = prompt
         if with_streaming is not UNSET:
             field_dict["with_streaming"] = with_streaming
 
@@ -82,12 +102,15 @@ class RAGRequest:
 
         system_prompt = d.pop("system_prompt", UNSET)
 
+        prompt = d.pop("prompt", UNSET)
+
         with_streaming = d.pop("with_streaming", UNSET)
 
         rag_request = cls(
             queries=queries,
             summarizer=summarizer,
             system_prompt=system_prompt,
+            prompt=prompt,
             with_streaming=with_streaming,
         )
 

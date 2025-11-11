@@ -18,9 +18,29 @@ T = TypeVar("T", bound="CreateTableRequest")
 class CreateTableRequest:
     """
     Attributes:
-        num_shards (Union[Unset, int]):
-        description (Union[Unset, str]): Optional description of the table. Example: Table for user data.
-        indexes (Union[Unset, CreateTableRequestIndexes]):
+        num_shards (Union[Unset, int]): Number of shards to create for the table. Data is partitioned across shards
+            based on key ranges.
+
+            Guidelines:
+            - Small datasets (<100K docs): 1-3 shards
+            - Medium datasets (100K-1M docs): 3-10 shards
+            - Large datasets (>1M docs): 10+ shards
+
+            More shards enable better parallelism but increase overhead. Choose based on expected data size and query
+            patterns.
+             Example: 3.
+        description (Union[Unset, str]): Optional human-readable description of the table and its purpose.
+            Useful for documentation and team collaboration.
+             Example: User profiles with embeddings for semantic search.
+        indexes (Union[Unset, CreateTableRequestIndexes]): Map of index name to index configuration. Indexes enable
+            different query capabilities:
+            - Full-text indexes for BM25 search
+            - Vector indexes for semantic similarity
+            - Multimodal indexes for images/audio/video
+
+            You can add multiple indexes to support different query patterns.
+             Example: {'search_index': {'type': 'full_text_v0'}, 'embedding_index': {'type': 'aknn_v0', 'dimension': 384,
+            'embedder': {'provider': 'ollama', 'model': 'all-minilm'}}}.
         schema (Union[Unset, TableSchema]): Schema definition for a table with multiple document types
     """
 

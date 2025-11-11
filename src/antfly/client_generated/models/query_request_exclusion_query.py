@@ -9,7 +9,18 @@ T = TypeVar("T", bound="QueryRequestExclusionQuery")
 
 @_attrs_define
 class QueryRequestExclusionQuery:
-    """Full JSON Bleve search queries"""
+    """Bleve query applied as a NOT condition. Documents matching this query are excluded
+    from results. Applied before scoring.
+
+    Use for:
+    - Excluding drafts: `"status:draft"`
+    - Removing deprecated content: `"deprecated:true"`
+    - Filtering out archived items: `"status:archived"`
+
+        Example:
+            {'query': 'category:deprecated OR status:archived'}
+
+    """
 
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 

@@ -9,7 +9,19 @@ T = TypeVar("T", bound="QueryRequestFullTextSearch")
 
 @_attrs_define
 class QueryRequestFullTextSearch:
-    """Full JSON Bleve search queries"""
+    r"""Bleve query for full-text search. Supports field-specific queries, boolean operators, and complex expressions.
+
+    Examples:
+    - Simple: `{"query": "computer"}`
+    - Field-specific: `{"query": "body:computer"}`
+    - Boolean: `{"query": "artificial AND intelligence"}`
+    - Range: `{"query": "year:>2020"}`
+    - Phrase: `{"query": "\"exact phrase\""}`
+
+        Example:
+            {'query': 'body:computer AND category:technology'}
+
+    """
 
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 

@@ -13,7 +13,10 @@ T = TypeVar("T", bound="QueryRequestFacets")
 
 @_attrs_define
 class QueryRequestFacets:
-    """ """
+    """Faceting configuration for aggregating results by field values.
+    Useful for building faceted navigation and filters.
+
+    """
 
     additional_properties: dict[str, "FacetOption"] = _attrs_field(init=False, factory=dict)
 

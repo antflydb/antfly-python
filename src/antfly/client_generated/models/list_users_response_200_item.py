@@ -1,31 +1,46 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="BatchRequestInsertsAdditionalProperty")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="ListUsersResponse200Item")
 
 
 @_attrs_define
-class BatchRequestInsertsAdditionalProperty:
-    """Document object with arbitrary fields matching your table schema."""
+class ListUsersResponse200Item:
+    """
+    Attributes:
+        username (Union[Unset, str]):  Example: johndoe.
+    """
 
+    username: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        username = self.username
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if username is not UNSET:
+            field_dict["username"] = username
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        batch_request_inserts_additional_property = cls()
+        username = d.pop("username", UNSET)
 
-        batch_request_inserts_additional_property.additional_properties = d
-        return batch_request_inserts_additional_property
+        list_users_response_200_item = cls(
+            username=username,
+        )
+
+        list_users_response_200_item.additional_properties = d
+        return list_users_response_200_item
 
     @property
     def additional_keys(self) -> list[str]:

@@ -9,7 +9,13 @@ T = TypeVar("T", bound="QueryRequestOrderBy")
 
 @_attrs_define
 class QueryRequestOrderBy:
-    """ """
+    """Sort order for results. Map of field names to boolean (true = descending, false = ascending).
+    Only applicable for full_text_search queries. Semantic searches are always sorted by similarity score.
+
+        Example:
+            {'created_at': True, 'score': True}
+
+    """
 
     additional_properties: dict[str, bool] = _attrs_field(init=False, factory=dict)
 

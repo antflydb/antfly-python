@@ -88,7 +88,17 @@ def sync_detailed(
 
     Args:
         table_name (str):
-        body (LinearMergeRequest):
+        body (LinearMergeRequest): Linear merge operation for syncing sorted records from external
+            sources.
+            Use this to keep Antfly in sync with an external database or data source.
+
+            **How it works:**
+            1. Send sorted records from your external source
+            2. Server upserts records that exist in your batch
+            3. Server deletes Antfly records in the key range that are absent from your batch
+            4. If stopped at shard boundary, use next_cursor for next request
+
+            **WARNING:** Not safe for concurrent operations with overlapping key ranges.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -127,7 +137,17 @@ def sync(
 
     Args:
         table_name (str):
-        body (LinearMergeRequest):
+        body (LinearMergeRequest): Linear merge operation for syncing sorted records from external
+            sources.
+            Use this to keep Antfly in sync with an external database or data source.
+
+            **How it works:**
+            1. Send sorted records from your external source
+            2. Server upserts records that exist in your batch
+            3. Server deletes Antfly records in the key range that are absent from your batch
+            4. If stopped at shard boundary, use next_cursor for next request
+
+            **WARNING:** Not safe for concurrent operations with overlapping key ranges.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -161,7 +181,17 @@ async def asyncio_detailed(
 
     Args:
         table_name (str):
-        body (LinearMergeRequest):
+        body (LinearMergeRequest): Linear merge operation for syncing sorted records from external
+            sources.
+            Use this to keep Antfly in sync with an external database or data source.
+
+            **How it works:**
+            1. Send sorted records from your external source
+            2. Server upserts records that exist in your batch
+            3. Server deletes Antfly records in the key range that are absent from your batch
+            4. If stopped at shard boundary, use next_cursor for next request
+
+            **WARNING:** Not safe for concurrent operations with overlapping key ranges.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -198,7 +228,17 @@ async def asyncio(
 
     Args:
         table_name (str):
-        body (LinearMergeRequest):
+        body (LinearMergeRequest): Linear merge operation for syncing sorted records from external
+            sources.
+            Use this to keep Antfly in sync with an external database or data source.
+
+            **How it works:**
+            1. Send sorted records from your external source
+            2. Server upserts records that exist in your batch
+            3. Server deletes Antfly records in the key range that are absent from your batch
+            4. If stopped at shard boundary, use next_cursor for next request
+
+            **WARNING:** Not safe for concurrent operations with overlapping key ranges.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

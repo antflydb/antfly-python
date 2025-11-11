@@ -16,16 +16,20 @@ class ClusterStatus:
     Attributes:
         health (ClusterHealth): Overall health status of the cluster
         message (Union[Unset, str]): Optional message providing details about the health status
+        auth_enabled (Union[Unset, bool]): Indicates whether authentication is enabled for the cluster
     """
 
     health: ClusterHealth
     message: Union[Unset, str] = UNSET
+    auth_enabled: Union[Unset, bool] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         health = self.health.value
 
         message = self.message
+
+        auth_enabled = self.auth_enabled
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -36,6 +40,8 @@ class ClusterStatus:
         )
         if message is not UNSET:
             field_dict["message"] = message
+        if auth_enabled is not UNSET:
+            field_dict["auth_enabled"] = auth_enabled
 
         return field_dict
 
@@ -46,9 +52,12 @@ class ClusterStatus:
 
         message = d.pop("message", UNSET)
 
+        auth_enabled = d.pop("auth_enabled", UNSET)
+
         cluster_status = cls(
             health=health,
             message=message,
+            auth_enabled=auth_enabled,
         )
 
         cluster_status.additional_properties = d

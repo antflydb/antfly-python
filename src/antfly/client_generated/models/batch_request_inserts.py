@@ -13,7 +13,18 @@ T = TypeVar("T", bound="BatchRequestInserts")
 
 @_attrs_define
 class BatchRequestInserts:
-    """ """
+    """Map of document IDs to document objects. Each key is the unique identifier for the document.
+
+    Best practices:
+    - Use consistent key naming schemes (e.g., "user:123", "article:456")
+    - Key length affects storage and performance - keep them reasonably short
+    - Keys are sorted lexicographically, so choose prefixes that support range scans
+
+        Example:
+            {'user:123': {'name': 'John Doe', 'email': 'john@example.com', 'age': 30, 'tags': ['customer', 'premium']},
+                'user:456': {'name': 'Jane Smith', 'email': 'jane@example.com', 'age': 25, 'tags': ['customer']}}
+
+    """
 
     additional_properties: dict[str, "BatchRequestInsertsAdditionalProperty"] = _attrs_field(init=False, factory=dict)
 

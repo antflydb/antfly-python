@@ -14,7 +14,18 @@ T = TypeVar("T", bound="CreateTableRequestIndexes")
 
 @_attrs_define
 class CreateTableRequestIndexes:
-    """ """
+    """Map of index name to index configuration. Indexes enable different query capabilities:
+    - Full-text indexes for BM25 search
+    - Vector indexes for semantic similarity
+    - Multimodal indexes for images/audio/video
+
+    You can add multiple indexes to support different query patterns.
+
+        Example:
+            {'search_index': {'type': 'full_text_v0'}, 'embedding_index': {'type': 'aknn_v0', 'dimension': 384, 'embedder':
+                {'provider': 'ollama', 'model': 'all-minilm'}}}
+
+    """
 
     additional_properties: dict[str, Union["BleveIndexV2Config", "EmbeddingIndexConfig"]] = _attrs_field(
         init=False, factory=dict

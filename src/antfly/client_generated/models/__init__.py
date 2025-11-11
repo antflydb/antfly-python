@@ -4,7 +4,6 @@ from .analyses import Analyses
 from .analyses_result import AnalysesResult
 from .answer_agent_request import AnswerAgentRequest
 from .answer_agent_result import AnswerAgentResult
-from .answer_agent_result_classification import AnswerAgentResultClassification
 from .antfly_type import AntflyType
 from .anthropic_generator_config import AnthropicGeneratorConfig
 from .backup_request import BackupRequest
@@ -12,12 +11,14 @@ from .backup_table_response_201 import BackupTableResponse201
 from .batch_request import BatchRequest
 from .batch_request_inserts import BatchRequestInserts
 from .batch_request_inserts_additional_property import BatchRequestInsertsAdditionalProperty
+from .batch_request_sync_level import BatchRequestSyncLevel
 from .batch_response_201 import BatchResponse201
 from .batch_response_201_failed_item import BatchResponse201FailedItem
 from .bedrock_embedder_config import BedrockEmbedderConfig
 from .bedrock_generator_config import BedrockGeneratorConfig
 from .bleve_index_v2_config import BleveIndexV2Config
 from .bleve_index_v2_stats import BleveIndexV2Stats
+from .classification_transformation_result import ClassificationTransformationResult
 from .cluster_health import ClusterHealth
 from .cluster_status import ClusterStatus
 from .create_table_request import CreateTableRequest
@@ -38,6 +39,7 @@ from .failed_operation import FailedOperation
 from .failed_operation_operation import FailedOperationOperation
 from .generator_config import GeneratorConfig
 from .generator_provider import GeneratorProvider
+from .get_current_user_response_200 import GetCurrentUserResponse200
 from .google_embedder_config import GoogleEmbedderConfig
 from .google_generator_config import GoogleGeneratorConfig
 from .index_status import IndexStatus
@@ -48,6 +50,7 @@ from .linear_merge_page_status import LinearMergePageStatus
 from .linear_merge_request import LinearMergeRequest
 from .linear_merge_request_records import LinearMergeRequestRecords
 from .linear_merge_result import LinearMergeResult
+from .list_users_response_200_item import ListUsersResponse200Item
 from .lookup_key_response_200 import LookupKeyResponse200
 from .merge_strategy import MergeStrategy
 from .numeric_range import NumericRange
@@ -78,6 +81,7 @@ from .rag_result import RAGResult
 from .reranker_config import RerankerConfig
 from .resource_type import ResourceType
 from .restore_table_response_202 import RestoreTableResponse202
+from .route_type import RouteType
 from .shard_config import ShardConfig
 from .storage_status import StorageStatus
 from .success_message import SuccessMessage
@@ -91,13 +95,14 @@ from .table_status import TableStatus
 from .term_facet_result import TermFacetResult
 from .update_password_request import UpdatePasswordRequest
 from .user import User
+from .vertex_embedder_config import VertexEmbedderConfig
+from .vertex_generator_config import VertexGeneratorConfig
 
 __all__ = (
     "Analyses",
     "AnalysesResult",
     "AnswerAgentRequest",
     "AnswerAgentResult",
-    "AnswerAgentResultClassification",
     "AntflyType",
     "AnthropicGeneratorConfig",
     "BackupRequest",
@@ -105,12 +110,14 @@ __all__ = (
     "BatchRequest",
     "BatchRequestInserts",
     "BatchRequestInsertsAdditionalProperty",
+    "BatchRequestSyncLevel",
     "BatchResponse201",
     "BatchResponse201FailedItem",
     "BedrockEmbedderConfig",
     "BedrockGeneratorConfig",
     "BleveIndexV2Config",
     "BleveIndexV2Stats",
+    "ClassificationTransformationResult",
     "ClusterHealth",
     "ClusterStatus",
     "CreateTableRequest",
@@ -131,6 +138,7 @@ __all__ = (
     "FailedOperationOperation",
     "GeneratorConfig",
     "GeneratorProvider",
+    "GetCurrentUserResponse200",
     "GoogleEmbedderConfig",
     "GoogleGeneratorConfig",
     "IndexStatus",
@@ -141,6 +149,7 @@ __all__ = (
     "LinearMergeRequest",
     "LinearMergeRequestRecords",
     "LinearMergeResult",
+    "ListUsersResponse200Item",
     "LookupKeyResponse200",
     "MergeStrategy",
     "NumericRange",
@@ -171,6 +180,7 @@ __all__ = (
     "RerankerConfig",
     "ResourceType",
     "RestoreTableResponse202",
+    "RouteType",
     "ShardConfig",
     "StorageStatus",
     "SuccessMessage",
@@ -184,4 +194,6 @@ __all__ = (
     "TermFacetResult",
     "UpdatePasswordRequest",
     "User",
+    "VertexEmbedderConfig",
+    "VertexGeneratorConfig",
 )

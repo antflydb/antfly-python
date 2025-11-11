@@ -5,44 +5,37 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.create_table_request import CreateTableRequest
 from ...models.error import Error
-from ...models.table import Table
+from ...models.get_current_user_response_200 import GetCurrentUserResponse200
 from ...types import Response
 
 
-def _get_kwargs(
-    table_name: str,
-    *,
-    body: CreateTableRequest,
-) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
-
+def _get_kwargs() -> dict[str, Any]:
     _kwargs: dict[str, Any] = {
-        "method": "post",
-        "url": f"/table/{table_name}",
+        "method": "get",
+        "url": "/user/me",
     }
 
-    _kwargs["json"] = body.to_dict()
-
-    headers["Content-Type"] = "application/json"
-
-    _kwargs["headers"] = headers
     return _kwargs
 
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Error, Table]]:
+) -> Optional[Union[Error, GetCurrentUserResponse200]]:
     if response.status_code == 200:
-        response_200 = Table.from_dict(response.json())
+        response_200 = GetCurrentUserResponse200.from_dict(response.json())
 
         return response_200
 
-    if response.status_code == 400:
-        response_400 = Error.from_dict(response.json())
+    if response.status_code == 401:
+        response_401 = Error.from_dict(response.json())
 
-        return response_400
+        return response_401
+
+    if response.status_code == 500:
+        response_500 = Error.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -52,7 +45,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Error, Table]]:
+) -> Response[Union[Error, GetCurrentUserResponse200]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -62,29 +55,22 @@ def _build_response(
 
 
 def sync_detailed(
-    table_name: str,
     *,
     client: AuthenticatedClient,
-    body: CreateTableRequest,
-) -> Response[Union[Error, Table]]:
-    """Create a new table
+) -> Response[Union[Error, GetCurrentUserResponse200]]:
+    """Get current authenticated user
 
-    Args:
-        table_name (str):
-        body (CreateTableRequest):
+     Retrieves details for the currently authenticated user.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, Table]]
+        Response[Union[Error, GetCurrentUserResponse200]]
     """
 
-    kwargs = _get_kwargs(
-        table_name=table_name,
-        body=body,
-    )
+    kwargs = _get_kwargs()
 
     response = client.get_httpx_client().request(
         **kwargs,
@@ -94,56 +80,43 @@ def sync_detailed(
 
 
 def sync(
-    table_name: str,
     *,
     client: AuthenticatedClient,
-    body: CreateTableRequest,
-) -> Optional[Union[Error, Table]]:
-    """Create a new table
+) -> Optional[Union[Error, GetCurrentUserResponse200]]:
+    """Get current authenticated user
 
-    Args:
-        table_name (str):
-        body (CreateTableRequest):
+     Retrieves details for the currently authenticated user.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Error, Table]
+        Union[Error, GetCurrentUserResponse200]
     """
 
     return sync_detailed(
-        table_name=table_name,
         client=client,
-        body=body,
     ).parsed
 
 
 async def asyncio_detailed(
-    table_name: str,
     *,
     client: AuthenticatedClient,
-    body: CreateTableRequest,
-) -> Response[Union[Error, Table]]:
-    """Create a new table
+) -> Response[Union[Error, GetCurrentUserResponse200]]:
+    """Get current authenticated user
 
-    Args:
-        table_name (str):
-        body (CreateTableRequest):
+     Retrieves details for the currently authenticated user.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, Table]]
+        Response[Union[Error, GetCurrentUserResponse200]]
     """
 
-    kwargs = _get_kwargs(
-        table_name=table_name,
-        body=body,
-    )
+    kwargs = _get_kwargs()
 
     response = await client.get_async_httpx_client().request(**kwargs)
 
@@ -151,29 +124,23 @@ async def asyncio_detailed(
 
 
 async def asyncio(
-    table_name: str,
     *,
     client: AuthenticatedClient,
-    body: CreateTableRequest,
-) -> Optional[Union[Error, Table]]:
-    """Create a new table
+) -> Optional[Union[Error, GetCurrentUserResponse200]]:
+    """Get current authenticated user
 
-    Args:
-        table_name (str):
-        body (CreateTableRequest):
+     Retrieves details for the currently authenticated user.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Error, Table]
+        Union[Error, GetCurrentUserResponse200]
     """
 
     return (
         await asyncio_detailed(
-            table_name=table_name,
             client=client,
-            body=body,
         )
     ).parsed

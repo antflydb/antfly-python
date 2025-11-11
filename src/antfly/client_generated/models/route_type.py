@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class AnswerAgentResultClassification(str, Enum):
+class RouteType(str, Enum):
     QUESTION = "question"
     SEARCH = "search"
 
