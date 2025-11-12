@@ -9,12 +9,12 @@ T = TypeVar("T", bound="SummarizeResult")
 
 @_attrs_define
 class SummarizeResult:
-    """Result of a summarization operation. The summary is formatted as markdown with inline document references using
-    [doc_id <id>] or [doc_id <id1>, <id2>] format.
+    """Result of a summarization operation. The summary is formatted as markdown with inline resource references using
+    [resource_id <id>] or [resource_id <id1>, <id2>] format.
 
         Attributes:
-            summary (str): The generated summary text in markdown format with inline document references like [doc_id doc1]
-                or [doc_id doc1, doc2]
+            summary (str): The generated summary text in markdown format with inline resource references like [resource_id
+                res1] or [resource_id res1, res2]
     """
 
     summary: str

@@ -9,7 +9,7 @@ T = TypeVar("T", bound="LinearMergeRequestRecords")
 
 @_attrs_define
 class LinearMergeRequestRecords:
-    """Map of document ID to document object: {"doc_id_1": {...}, "doc_id_2": {...}}
+    """Map of resource ID to resource object: {"resource_id_1": {...}, "resource_id_2": {...}}
 
     Requirements:
     - Keys must be sorted lexicographically by your client

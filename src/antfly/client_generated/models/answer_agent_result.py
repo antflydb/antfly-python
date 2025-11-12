@@ -16,14 +16,14 @@ T = TypeVar("T", bound="AnswerAgentResult")
 
 @_attrs_define
 class AnswerAgentResult:
-    """Answer agent result with classification and generated answer with inline document references
+    """Answer agent result with classification and generated answer with inline resource references
 
     Attributes:
         classification_transformation (Union[Unset, ClassificationTransformationResult]): Query classification and
             transformation result combining all query enhancements
         query_results (Union[Unset, list['QueryResult']]): Results from each executed query
         reasoning (Union[Unset, str]): LLM's reasoning process (if with_reasoning was enabled)
-        answer (Union[Unset, str]): Generated answer (markdown format with inline document references)
+        answer (Union[Unset, str]): Generated answer (markdown format with inline resource references)
         followup_questions (Union[Unset, list[str]]): Suggested follow-up questions (if with_followup was enabled)
     """
 

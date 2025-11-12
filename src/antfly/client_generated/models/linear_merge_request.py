@@ -27,8 +27,8 @@ class LinearMergeRequest:
     **WARNING:** Not safe for concurrent operations with overlapping key ranges.
 
         Attributes:
-            records (LinearMergeRequestRecords): Map of document ID to document object: {"doc_id_1": {...}, "doc_id_2":
-                {...}}
+            records (LinearMergeRequestRecords): Map of resource ID to resource object: {"resource_id_1": {...},
+                "resource_id_2": {...}}
 
                 Requirements:
                 - Keys must be sorted lexicographically by your client

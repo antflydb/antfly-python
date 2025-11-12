@@ -22,7 +22,7 @@ class RAGResult:
         query_results (Union[Unset, list['QueryResult']]): Results from each query. Check each result's status and error
             fields for failures.
         summary_result (Union[Unset, SummarizeResult]): Result of a summarization operation. The summary is formatted as
-            markdown with inline document references using [doc_id <id>] or [doc_id <id1>, <id2>] format.
+            markdown with inline resource references using [resource_id <id>] or [resource_id <id1>, <id2>] format.
     """
 
     query_results: Union[Unset, list["QueryResult"]] = UNSET
