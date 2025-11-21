@@ -5,20 +5,17 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.facet_option import FacetOption
+    from ..models.graph_query_result import GraphQueryResult
 
 
-T = TypeVar("T", bound="QueryRequestFacets")
+T = TypeVar("T", bound="QueryResultGraphResults")
 
 
 @_attrs_define
-class QueryRequestFacets:
-    """Faceting configuration for aggregating results by field values.
-    Useful for building faceted navigation and filters.
+class QueryResultGraphResults:
+    """Results from declarative graph queries."""
 
-    """
-
-    additional_properties: dict[str, "FacetOption"] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, "GraphQueryResult"] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         field_dict: dict[str, Any] = {}
@@ -29,28 +26,28 @@ class QueryRequestFacets:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.facet_option import FacetOption
+        from ..models.graph_query_result import GraphQueryResult
 
         d = dict(src_dict)
-        query_request_facets = cls()
+        query_result_graph_results = cls()
 
         additional_properties = {}
         for prop_name, prop_dict in d.items():
-            additional_property = FacetOption.from_dict(prop_dict)
+            additional_property = GraphQueryResult.from_dict(prop_dict)
 
             additional_properties[prop_name] = additional_property
 
-        query_request_facets.additional_properties = additional_properties
-        return query_request_facets
+        query_result_graph_results.additional_properties = additional_properties
+        return query_result_graph_results
 
     @property
     def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> "FacetOption":
+    def __getitem__(self, key: str) -> "GraphQueryResult":
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: "FacetOption") -> None:
+    def __setitem__(self, key: str, value: "GraphQueryResult") -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:

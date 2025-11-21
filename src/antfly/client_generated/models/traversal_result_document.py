@@ -4,20 +4,14 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="QueryRequestOrderBy")
+T = TypeVar("T", bound="TraversalResultDocument")
 
 
 @_attrs_define
-class QueryRequestOrderBy:
-    """Sort order for results. Map of field names to boolean (true = descending, false = ascending).
-    Only applicable for full_text_search queries. Semantic searches are always sorted by similarity score.
+class TraversalResultDocument:
+    """Document data (if loaded)"""
 
-        Example:
-            {'created_at': True, 'score': True}
-
-    """
-
-    additional_properties: dict[str, bool] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         field_dict: dict[str, Any] = {}
@@ -28,19 +22,19 @@ class QueryRequestOrderBy:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        query_request_order_by = cls()
+        traversal_result_document = cls()
 
-        query_request_order_by.additional_properties = d
-        return query_request_order_by
+        traversal_result_document.additional_properties = d
+        return traversal_result_document
 
     @property
     def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> bool:
+    def __getitem__(self, key: str) -> Any:
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: bool) -> None:
+    def __setitem__(self, key: str, value: Any) -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:

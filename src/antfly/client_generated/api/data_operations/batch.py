@@ -20,7 +20,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": f"/table/{table_name}/batch",
+        "url": f"/tables/{table_name}/batch",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -81,8 +81,8 @@ def sync_detailed(
 
     Args:
         table_name (str):
-        body (BatchRequest): Batch insert and delete operations in a single request. All
-            operations are processed atomically within each shard.
+        body (BatchRequest): Batch insert, delete, and transform operations in a single request.
+            All operations are processed atomically within each shard.
 
             Benefits:
             - Reduces network overhead compared to individual requests
@@ -125,8 +125,8 @@ def sync(
 
     Args:
         table_name (str):
-        body (BatchRequest): Batch insert and delete operations in a single request. All
-            operations are processed atomically within each shard.
+        body (BatchRequest): Batch insert, delete, and transform operations in a single request.
+            All operations are processed atomically within each shard.
 
             Benefits:
             - Reduces network overhead compared to individual requests
@@ -164,8 +164,8 @@ async def asyncio_detailed(
 
     Args:
         table_name (str):
-        body (BatchRequest): Batch insert and delete operations in a single request. All
-            operations are processed atomically within each shard.
+        body (BatchRequest): Batch insert, delete, and transform operations in a single request.
+            All operations are processed atomically within each shard.
 
             Benefits:
             - Reduces network overhead compared to individual requests
@@ -206,8 +206,8 @@ async def asyncio(
 
     Args:
         table_name (str):
-        body (BatchRequest): Batch insert and delete operations in a single request. All
-            operations are processed atomically within each shard.
+        body (BatchRequest): Batch insert, delete, and transform operations in a single request.
+            All operations are processed atomically within each shard.
 
             Benefits:
             - Reduces network overhead compared to individual requests

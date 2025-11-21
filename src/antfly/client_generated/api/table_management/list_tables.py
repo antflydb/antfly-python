@@ -7,13 +7,26 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error import Error
 from ...models.table_status import TableStatus
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
-def _get_kwargs() -> dict[str, Any]:
+def _get_kwargs(
+    *,
+    prefix: Union[Unset, str] = UNSET,
+    pattern: Union[Unset, str] = UNSET,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {}
+
+    params["prefix"] = prefix
+
+    params["pattern"] = pattern
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/table",
+        "url": "/tables",
+        "params": params,
     }
 
     return _kwargs
@@ -62,8 +75,14 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
+    prefix: Union[Unset, str] = UNSET,
+    pattern: Union[Unset, str] = UNSET,
 ) -> Response[Union[Error, list["TableStatus"]]]:
     """List all tables
+
+    Args:
+        prefix (Union[Unset, str]):
+        pattern (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -73,7 +92,10 @@ def sync_detailed(
         Response[Union[Error, list['TableStatus']]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        prefix=prefix,
+        pattern=pattern,
+    )
 
     response = client.get_httpx_client().request(
         **kwargs,
@@ -85,8 +107,14 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
+    prefix: Union[Unset, str] = UNSET,
+    pattern: Union[Unset, str] = UNSET,
 ) -> Optional[Union[Error, list["TableStatus"]]]:
     """List all tables
+
+    Args:
+        prefix (Union[Unset, str]):
+        pattern (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -98,14 +126,22 @@ def sync(
 
     return sync_detailed(
         client=client,
+        prefix=prefix,
+        pattern=pattern,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
+    prefix: Union[Unset, str] = UNSET,
+    pattern: Union[Unset, str] = UNSET,
 ) -> Response[Union[Error, list["TableStatus"]]]:
     """List all tables
+
+    Args:
+        prefix (Union[Unset, str]):
+        pattern (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -115,7 +151,10 @@ async def asyncio_detailed(
         Response[Union[Error, list['TableStatus']]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        prefix=prefix,
+        pattern=pattern,
+    )
 
     response = await client.get_async_httpx_client().request(**kwargs)
 
@@ -125,8 +164,14 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
+    prefix: Union[Unset, str] = UNSET,
+    pattern: Union[Unset, str] = UNSET,
 ) -> Optional[Union[Error, list["TableStatus"]]]:
     """List all tables
+
+    Args:
+        prefix (Union[Unset, str]):
+        pattern (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,5 +184,7 @@ async def asyncio(
     return (
         await asyncio_detailed(
             client=client,
+            prefix=prefix,
+            pattern=pattern,
         )
     ).parsed

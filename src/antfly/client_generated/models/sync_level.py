@@ -1,7 +1,8 @@
 from enum import Enum
 
 
-class BatchRequestSyncLevel(str, Enum):
+class SyncLevel(str, Enum):
+    AKNN = "aknn"
     FULL_TEXT = "full_text"
     PROPOSE = "propose"
     WRITE = "write"

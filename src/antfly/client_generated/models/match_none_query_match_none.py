@@ -4,23 +4,12 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="QueryRequestFilterQuery")
+T = TypeVar("T", bound="MatchNoneQueryMatchNone")
 
 
 @_attrs_define
-class QueryRequestFilterQuery:
-    """Bleve query applied as an AND condition. Documents must match both the main query
-    and this filter. Applied before scoring for better performance.
-
-    Use for:
-    - Status filtering: `"status:published"`
-    - Date ranges: `"created_at:>2023-01-01"`
-    - Category filtering: `"category:technology AND language:en"`
-
-        Example:
-            {'query': 'category:technology AND year:>2020'}
-
-    """
+class MatchNoneQueryMatchNone:
+    """ """
 
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -33,10 +22,10 @@ class QueryRequestFilterQuery:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        query_request_filter_query = cls()
+        match_none_query_match_none = cls()
 
-        query_request_filter_query.additional_properties = d
-        return query_request_filter_query
+        match_none_query_match_none.additional_properties = d
+        return match_none_query_match_none
 
     @property
     def additional_keys(self) -> list[str]:

@@ -4,11 +4,12 @@ from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.batch_request_sync_level import BatchRequestSyncLevel
+from ..models.sync_level import SyncLevel
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.batch_request_inserts import BatchRequestInserts
+    from ..models.transform import Transform
 
 
 T = TypeVar("T", bound="BatchRequest")
@@ -16,7 +17,8 @@ T = TypeVar("T", bound="BatchRequest")
 
 @_attrs_define
 class BatchRequest:
-    """Batch insert and delete operations in a single request. All operations are processed atomically within each shard.
+    """Batch insert, delete, and transform operations in a single request. All operations are processed atomically within
+    each shard.
 
     Benefits:
     - Reduces network overhead compared to individual requests
@@ -47,16 +49,33 @@ class BatchRequest:
                 - Deletions are processed before inserts in the same batch
                 - Keys are permanently removed from storage and indexes
                  Example: ['user:789', 'user:old_account'].
-            sync_level (Union[Unset, BatchRequestSyncLevel]): Synchronization level for the batch operation:
+            transforms (Union[Unset, list['Transform']]): Array of transform operations for in-place document updates using
+                MongoDB-style operators.
+
+                Transform operations allow you to modify documents without read-modify-write races:
+                - Operations are applied atomically on the server
+                - Multiple operations per document are applied in sequence
+                - Supports numeric operations ($inc, $mul), array operations ($push, $pull), and more
+
+                Common use cases:
+                - Increment counters (views, likes, votes)
+                - Update timestamps ($currentDate)
+                - Manage arrays (add/remove tags, items)
+                - Update nested fields without overwriting the entire document
+                 Example: [{'key': 'article:123', 'operations': [{'op': '$inc', 'path': '$.views', 'value': 1}, {'op':
+                '$currentDate', 'path': '$.lastViewed'}]}, {'key': 'user:456', 'operations': [{'op': '$push', 'path': '$.tags',
+                'value': 'vip'}]}].
+            sync_level (Union[Unset, SyncLevel]): Synchronization level for batch operations:
                 - "propose": Wait for Raft proposal acceptance (fastest, default)
                 - "write": Wait for Pebble KV write
                 - "full_text": Wait for full-text index WAL write (slowest, most durable)
-                 Default: BatchRequestSyncLevel.PROPOSE.
+                - "aknn": Wait for vector index write with best-effort synchronous embedding (falls back to async on timeout)
     """
 
     inserts: Union[Unset, "BatchRequestInserts"] = UNSET
     deletes: Union[Unset, list[str]] = UNSET
-    sync_level: Union[Unset, BatchRequestSyncLevel] = BatchRequestSyncLevel.PROPOSE
+    transforms: Union[Unset, list["Transform"]] = UNSET
+    sync_level: Union[Unset, SyncLevel] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -67,6 +86,13 @@ class BatchRequest:
         deletes: Union[Unset, list[str]] = UNSET
         if not isinstance(self.deletes, Unset):
             deletes = self.deletes
+
+        transforms: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.transforms, Unset):
+            transforms = []
+            for transforms_item_data in self.transforms:
+                transforms_item = transforms_item_data.to_dict()
+                transforms.append(transforms_item)
 
         sync_level: Union[Unset, str] = UNSET
         if not isinstance(self.sync_level, Unset):
@@ -79,6 +105,8 @@ class BatchRequest:
             field_dict["inserts"] = inserts
         if deletes is not UNSET:
             field_dict["deletes"] = deletes
+        if transforms is not UNSET:
+            field_dict["transforms"] = transforms
         if sync_level is not UNSET:
             field_dict["sync_level"] = sync_level
 
@@ -87,6 +115,7 @@ class BatchRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.batch_request_inserts import BatchRequestInserts
+        from ..models.transform import Transform
 
         d = dict(src_dict)
         _inserts = d.pop("inserts", UNSET)
@@ -98,16 +127,24 @@ class BatchRequest:
 
         deletes = cast(list[str], d.pop("deletes", UNSET))
 
+        transforms = []
+        _transforms = d.pop("transforms", UNSET)
+        for transforms_item_data in _transforms or []:
+            transforms_item = Transform.from_dict(transforms_item_data)
+
+            transforms.append(transforms_item)
+
         _sync_level = d.pop("sync_level", UNSET)
-        sync_level: Union[Unset, BatchRequestSyncLevel]
+        sync_level: Union[Unset, SyncLevel]
         if isinstance(_sync_level, Unset):
             sync_level = UNSET
         else:
-            sync_level = BatchRequestSyncLevel(_sync_level)
+            sync_level = SyncLevel(_sync_level)
 
         batch_request = cls(
             inserts=inserts,
             deletes=deletes,
+            transforms=transforms,
             sync_level=sync_level,
         )
 

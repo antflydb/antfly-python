@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any, TypeVar, Union
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.sync_level import SyncLevel
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -54,11 +55,17 @@ class LinearMergeRequest:
 
                 Response includes deleted_ids array when dry_run=true.
                  Default: False.
+            sync_level (Union[Unset, SyncLevel]): Synchronization level for batch operations:
+                - "propose": Wait for Raft proposal acceptance (fastest, default)
+                - "write": Wait for Pebble KV write
+                - "full_text": Wait for full-text index WAL write (slowest, most durable)
+                - "aknn": Wait for vector index write with best-effort synchronous embedding (falls back to async on timeout)
     """
 
     records: "LinearMergeRequestRecords"
     last_merged_id: Union[Unset, str] = UNSET
     dry_run: Union[Unset, bool] = False
+    sync_level: Union[Unset, SyncLevel] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -67,6 +74,10 @@ class LinearMergeRequest:
         last_merged_id = self.last_merged_id
 
         dry_run = self.dry_run
+
+        sync_level: Union[Unset, str] = UNSET
+        if not isinstance(self.sync_level, Unset):
+            sync_level = self.sync_level.value
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -79,6 +90,8 @@ class LinearMergeRequest:
             field_dict["last_merged_id"] = last_merged_id
         if dry_run is not UNSET:
             field_dict["dry_run"] = dry_run
+        if sync_level is not UNSET:
+            field_dict["sync_level"] = sync_level
 
         return field_dict
 
@@ -93,10 +106,18 @@ class LinearMergeRequest:
 
         dry_run = d.pop("dry_run", UNSET)
 
+        _sync_level = d.pop("sync_level", UNSET)
+        sync_level: Union[Unset, SyncLevel]
+        if isinstance(_sync_level, Unset):
+            sync_level = UNSET
+        else:
+            sync_level = SyncLevel(_sync_level)
+
         linear_merge_request = cls(
             records=records,
             last_merged_id=last_merged_id,
             dry_run=dry_run,
+            sync_level=sync_level,
         )
 
         linear_merge_request.additional_properties = d

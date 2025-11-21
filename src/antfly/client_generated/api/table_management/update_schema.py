@@ -20,7 +20,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": f"/table/{table_name}/schema",
+        "url": f"/tables/{table_name}/schema",
     }
 
     _kwargs["json"] = body.to_dict()

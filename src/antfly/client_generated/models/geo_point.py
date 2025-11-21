@@ -1,43 +1,55 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="QueryRequestFullTextSearch")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="GeoPoint")
 
 
 @_attrs_define
-class QueryRequestFullTextSearch:
-    r"""Bleve query for full-text search. Supports field-specific queries, boolean operators, and complex expressions.
-
-    Examples:
-    - Simple: `{"query": "computer"}`
-    - Field-specific: `{"query": "body:computer"}`
-    - Boolean: `{"query": "artificial AND intelligence"}`
-    - Range: `{"query": "year:>2020"}`
-    - Phrase: `{"query": "\"exact phrase\""}`
-
-        Example:
-            {'query': 'body:computer AND category:technology'}
-
+class GeoPoint:
+    """
+    Attributes:
+        lon (Union[Unset, float]):
+        lat (Union[Unset, float]):
     """
 
+    lon: Union[Unset, float] = UNSET
+    lat: Union[Unset, float] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        lon = self.lon
+
+        lat = self.lat
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if lon is not UNSET:
+            field_dict["lon"] = lon
+        if lat is not UNSET:
+            field_dict["lat"] = lat
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        query_request_full_text_search = cls()
+        lon = d.pop("lon", UNSET)
 
-        query_request_full_text_search.additional_properties = d
-        return query_request_full_text_search
+        lat = d.pop("lat", UNSET)
+
+        geo_point = cls(
+            lon=lon,
+            lat=lat,
+        )
+
+        geo_point.additional_properties = d
+        return geo_point
 
     @property
     def additional_keys(self) -> list[str]:

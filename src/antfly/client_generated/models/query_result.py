@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from ..models.query_hits import QueryHits
     from ..models.query_result_analyses import QueryResultAnalyses
     from ..models.query_result_facets import QueryResultFacets
+    from ..models.query_result_graph_results import QueryResultGraphResults
 
 
 T = TypeVar("T", bound="QueryResult")
@@ -25,6 +26,7 @@ class QueryResult:
         hits (Union[Unset, QueryHits]): A list of query hits.
         facets (Union[Unset, QueryResultFacets]):
         analyses (Union[Unset, QueryResultAnalyses]): Analysis results like PCA and t-SNE per index embeddings.
+        graph_results (Union[Unset, QueryResultGraphResults]): Results from declarative graph queries.
         error (Union[Unset, str]): Error message if the query failed.
         table (Union[Unset, str]): Which table this result came from
     """
@@ -34,6 +36,7 @@ class QueryResult:
     hits: Union[Unset, "QueryHits"] = UNSET
     facets: Union[Unset, "QueryResultFacets"] = UNSET
     analyses: Union[Unset, "QueryResultAnalyses"] = UNSET
+    graph_results: Union[Unset, "QueryResultGraphResults"] = UNSET
     error: Union[Unset, str] = UNSET
     table: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -55,6 +58,10 @@ class QueryResult:
         if not isinstance(self.analyses, Unset):
             analyses = self.analyses.to_dict()
 
+        graph_results: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.graph_results, Unset):
+            graph_results = self.graph_results.to_dict()
+
         error = self.error
 
         table = self.table
@@ -73,6 +80,8 @@ class QueryResult:
             field_dict["facets"] = facets
         if analyses is not UNSET:
             field_dict["analyses"] = analyses
+        if graph_results is not UNSET:
+            field_dict["graph_results"] = graph_results
         if error is not UNSET:
             field_dict["error"] = error
         if table is not UNSET:
@@ -85,6 +94,7 @@ class QueryResult:
         from ..models.query_hits import QueryHits
         from ..models.query_result_analyses import QueryResultAnalyses
         from ..models.query_result_facets import QueryResultFacets
+        from ..models.query_result_graph_results import QueryResultGraphResults
 
         d = dict(src_dict)
         took = d.pop("took")
@@ -112,6 +122,13 @@ class QueryResult:
         else:
             analyses = QueryResultAnalyses.from_dict(_analyses)
 
+        _graph_results = d.pop("graph_results", UNSET)
+        graph_results: Union[Unset, QueryResultGraphResults]
+        if isinstance(_graph_results, Unset):
+            graph_results = UNSET
+        else:
+            graph_results = QueryResultGraphResults.from_dict(_graph_results)
+
         error = d.pop("error", UNSET)
 
         table = d.pop("table", UNSET)
@@ -122,6 +139,7 @@ class QueryResult:
             hits=hits,
             facets=facets,
             analyses=analyses,
+            graph_results=graph_results,
             error=error,
             table=table,
         )

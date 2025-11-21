@@ -4,23 +4,12 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="QueryRequestExclusionQuery")
+T = TypeVar("T", bound="GraphResultNodeDocument")
 
 
 @_attrs_define
-class QueryRequestExclusionQuery:
-    """Bleve query applied as a NOT condition. Documents matching this query are excluded
-    from results. Applied before scoring.
-
-    Use for:
-    - Excluding drafts: `"status:draft"`
-    - Removing deprecated content: `"deprecated:true"`
-    - Filtering out archived items: `"status:archived"`
-
-        Example:
-            {'query': 'category:deprecated OR status:archived'}
-
-    """
+class GraphResultNodeDocument:
+    """Full document (if include_documents=true)"""
 
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -33,10 +22,10 @@ class QueryRequestExclusionQuery:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        query_request_exclusion_query = cls()
+        graph_result_node_document = cls()
 
-        query_request_exclusion_query.additional_properties = d
-        return query_request_exclusion_query
+        graph_result_node_document.additional_properties = d
+        return graph_result_node_document
 
     @property
     def additional_keys(self) -> list[str]:

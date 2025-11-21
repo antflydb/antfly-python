@@ -27,7 +27,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "delete",
-        "url": f"/user/{user_name}/permission",
+        "url": f"/users/{user_name}/permissions",
         "params": params,
     }
 

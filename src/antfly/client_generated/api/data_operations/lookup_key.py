@@ -16,7 +16,7 @@ def _get_kwargs(
 ) -> dict[str, Any]:
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": f"/table/{table_name}/key/{key}",
+        "url": f"/tables/{table_name}/lookup/{key}",
     }
 
     return _kwargs
