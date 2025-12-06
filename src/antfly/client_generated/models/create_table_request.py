@@ -21,13 +21,33 @@ class CreateTableRequest:
         num_shards (Union[Unset, int]): Number of shards to create for the table. Data is partitioned across shards
             based on key ranges.
 
-            Guidelines:
+            **Sizing Guidelines:**
             - Small datasets (<100K docs): 1-3 shards
             - Medium datasets (100K-1M docs): 3-10 shards
             - Large datasets (>1M docs): 10+ shards
 
             More shards enable better parallelism but increase overhead. Choose based on expected data size and query
             patterns.
+
+            **When to Add More Shards:**
+
+            Antfly supports **online shard reallocation** without downtime. Add more shards when:
+            - Individual shards exceed size thresholds (configurable)
+            - Query latency increases due to large shard size
+            - Need better parallelism for write-heavy workloads
+
+            Use the internal `/reallocate` endpoint to trigger automatic shard splitting:
+            ```bash
+            POST /_internal/v1/reallocate
+            ```
+
+            This enqueues a reallocation request that the leader processes asynchronously, splitting
+            large shards and redistributing data without service interruption.
+
+            **Advantages over Elasticsearch:**
+            - Automatic shard splitting (no manual reindexing required)
+            - Online operation (no downtime)
+            - Transparent to applications (keys remain accessible during reallocation)
              Example: 3.
         description (Union[Unset, str]): Optional human-readable description of the table and its purpose.
             Useful for documentation and team collaboration.

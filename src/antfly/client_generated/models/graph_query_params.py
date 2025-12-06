@@ -10,6 +10,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.graph_query_params_algorithm_params import GraphQueryParamsAlgorithmParams
+    from ..models.node_filter import NodeFilter
 
 
 T = TypeVar("T", bound="GraphQueryParams")
@@ -36,6 +37,7 @@ class GraphQueryParams:
             - min_weight: Minimize sum of edge weights
             - max_weight: Maximize product of edge weights
         k (Union[Unset, int]): Number of paths to find (k-shortest-paths)
+        node_filter (Union[Unset, NodeFilter]): Filter nodes during graph traversal using existing query primitives
         algorithm (Union[Unset, str]): Graph algorithm to run (e.g., 'pagerank', 'betweenness')
         algorithm_params (Union[Unset, GraphQueryParamsAlgorithmParams]): Parameters for the graph algorithm
     """
@@ -50,6 +52,7 @@ class GraphQueryParams:
     include_paths: Union[Unset, bool] = UNSET
     weight_mode: Union[Unset, PathWeightMode] = UNSET
     k: Union[Unset, int] = UNSET
+    node_filter: Union[Unset, "NodeFilter"] = UNSET
     algorithm: Union[Unset, str] = UNSET
     algorithm_params: Union[Unset, "GraphQueryParamsAlgorithmParams"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -81,6 +84,10 @@ class GraphQueryParams:
 
         k = self.k
 
+        node_filter: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.node_filter, Unset):
+            node_filter = self.node_filter.to_dict()
+
         algorithm = self.algorithm
 
         algorithm_params: Union[Unset, dict[str, Any]] = UNSET
@@ -110,6 +117,8 @@ class GraphQueryParams:
             field_dict["weight_mode"] = weight_mode
         if k is not UNSET:
             field_dict["k"] = k
+        if node_filter is not UNSET:
+            field_dict["node_filter"] = node_filter
         if algorithm is not UNSET:
             field_dict["algorithm"] = algorithm
         if algorithm_params is not UNSET:
@@ -120,6 +129,7 @@ class GraphQueryParams:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.graph_query_params_algorithm_params import GraphQueryParamsAlgorithmParams
+        from ..models.node_filter import NodeFilter
 
         d = dict(src_dict)
         edge_types = cast(list[str], d.pop("edge_types", UNSET))
@@ -152,6 +162,13 @@ class GraphQueryParams:
 
         k = d.pop("k", UNSET)
 
+        _node_filter = d.pop("node_filter", UNSET)
+        node_filter: Union[Unset, NodeFilter]
+        if isinstance(_node_filter, Unset):
+            node_filter = UNSET
+        else:
+            node_filter = NodeFilter.from_dict(_node_filter)
+
         algorithm = d.pop("algorithm", UNSET)
 
         _algorithm_params = d.pop("algorithm_params", UNSET)
@@ -172,6 +189,7 @@ class GraphQueryParams:
             include_paths=include_paths,
             weight_mode=weight_mode,
             k=k,
+            node_filter=node_filter,
             algorithm=algorithm,
             algorithm_params=algorithm_params,
         )

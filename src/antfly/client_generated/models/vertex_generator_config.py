@@ -13,28 +13,13 @@ T = TypeVar("T", bound="VertexGeneratorConfig")
 class VertexGeneratorConfig:
     """Configuration for Google Cloud Vertex AI generative models (enterprise-grade).
 
-    Uses Application Default Credentials (ADC) for authentication by default.
-    Suitable for production deployments on Google Cloud Platform.
+    Uses Application Default Credentials (ADC) for authentication. In GCP environments
+    (Cloud Run, GKE, Compute Engine) this is automatic. For local dev, run
+    `gcloud auth application-default login`. Requires IAM role `roles/aiplatform.user`.
 
-    **Authentication Priority:**
-    1. credentials_path (path to service account key file)
-    2. GOOGLE_APPLICATION_CREDENTIALS environment variable
-    3. Application Default Credentials (ADC) - RECOMMENDED
-       - In GCP: automatic (Cloud Run, GKE, Compute Engine)
-       - Local dev: `gcloud auth application-default login`
+    **Example Models:** gemini-2.5-flash (default), gemini-2.5-pro, gemini-3.0-pro
 
-    **Note:** credentials_json is not supported by the genkit VertexAI plugin.
-    Use credentials_path or ADC instead.
-
-    **Required IAM Permission:** `roles/aiplatform.user`
-
-    **Supported Models:**
-    - gemini-2.5-flash (default, fast and efficient)
-    - gemini-1.5-pro (balanced performance)
-    - gemini-1.5-flash (cost-effective)
-    - gemini-2.0-pro (advanced reasoning)
-
-    Defaults to gemini-2.5-flash if no model is specified.
+    **Docs:** https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models
 
         Example:
             {'provider': 'vertex', 'model': 'gemini-2.5-flash', 'project_id': 'my-gcp-project', 'location': 'us-central1',

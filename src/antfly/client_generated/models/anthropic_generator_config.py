@@ -12,25 +12,19 @@ T = TypeVar("T", bound="AnthropicGeneratorConfig")
 @_attrs_define
 class AnthropicGeneratorConfig:
     """Configuration for the Anthropic generative AI provider (Claude models).
-    Uses the firebase/genkit compat_oai/anthropic plugin with OpenAI-compatible API.
 
-    Defaults to claude-3-7-sonnet-20250219 if no model is specified.
+    API key via `api_key` field or `ANTHROPIC_API_KEY` environment variable.
 
-    API key can be provided via the 'api_key' field or the ANTHROPIC_API_KEY environment variable.
+    **Example Models:** claude-sonnet-4-5-20250929 (default), claude-opus-4-5-20251101, claude-3-5-haiku-20241022
 
-    Supported models:
-    - claude-3-7-sonnet-20250219 (latest, most capable)
-    - claude-3-5-haiku-20241022 (fast and efficient)
-    - claude-3-5-sonnet-20240620 (balanced performance)
-    - claude-3-opus-20240229 (highly capable)
-    - claude-3-haiku-20240307 (fastest)
+    **Docs:** https://docs.anthropic.com/en/docs/about-claude/models/overview
 
         Example:
-            {'provider': 'anthropic', 'model': 'claude-3-7-sonnet-20250219', 'temperature': 0.7, 'max_tokens': 4096}
+            {'provider': 'anthropic', 'model': 'claude-sonnet-4-5-20250929', 'temperature': 0.7, 'max_tokens': 4096}
 
         Attributes:
-            model (str): The full model ID of the Anthropic model to use (e.g., 'claude-3-7-sonnet-20250219',
-                'claude-3-5-haiku-20241022'). Default: 'claude-3-7-sonnet-20250219'. Example: claude-3-7-sonnet-20250219.
+            model (str): The full model ID of the Anthropic model to use (e.g., 'claude-sonnet-4-5-20250929', 'claude-
+                opus-4-5-20251101'). Default: 'claude-sonnet-4-5-20250929'. Example: claude-sonnet-4-5-20250929.
             api_key (Union[Unset, str]): The Anthropic API key. If not provided, falls back to ANTHROPIC_API_KEY environment
                 variable.
             url (Union[Unset, str]): The URL of the Anthropic API endpoint (optional, uses default if not specified).
@@ -42,7 +36,7 @@ class AnthropicGeneratorConfig:
                 token.
     """
 
-    model: str = "claude-3-7-sonnet-20250219"
+    model: str = "claude-sonnet-4-5-20250929"
     api_key: Union[Unset, str] = UNSET
     url: Union[Unset, str] = UNSET
     temperature: Union[Unset, float] = UNSET

@@ -13,13 +13,24 @@ T = TypeVar("T", bound="OllamaEmbedderConfig")
 class OllamaEmbedderConfig:
     """Configuration for the Ollama embedding provider.
 
-    Attributes:
-        model (str): The name of the Ollama model to use.
-        url (Union[Unset, str]): The URL of the Ollama API endpoint.
+    Local embeddings for privacy and offline use. URL via `url` field or `OLLAMA_HOST` env var.
+
+    **Example Models:** nomic-embed-text (768 dims), mxbai-embed-large (1024 dims), all-minilm (384 dims)
+
+    **Docs:** https://ollama.com/search?c=embedding
+
+        Example:
+            {'provider': 'ollama', 'model': 'nomic-embed-text', 'url': 'http://localhost:11434'}
+
+        Attributes:
+            model (str): The name of the Ollama model to use (e.g., 'nomic-embed-text', 'mxbai-embed-large'). Example:
+                nomic-embed-text.
+            url (Union[Unset, str]): The URL of the Ollama API endpoint. Can also be set via OLLAMA_HOST environment
+                variable. Default: 'http://localhost:11434'. Example: http://localhost:11434.
     """
 
     model: str
-    url: Union[Unset, str] = UNSET
+    url: Union[Unset, str] = "http://localhost:11434"
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

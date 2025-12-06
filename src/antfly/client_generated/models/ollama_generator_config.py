@@ -13,13 +13,20 @@ T = TypeVar("T", bound="OllamaGeneratorConfig")
 class OllamaGeneratorConfig:
     """Configuration for the Ollama generative AI provider.
 
-    Attributes:
-        model (str): The name of the Ollama model to use (e.g., 'llama3.2', 'llava').
-        url (Union[Unset, str]): The URL of the Ollama API endpoint.
-        temperature (Union[Unset, float]): Controls randomness in generation (0.0-2.0).
-        max_tokens (Union[Unset, int]): Maximum number of tokens to generate.
-        top_p (Union[Unset, float]): Nucleus sampling parameter.
-        top_k (Union[Unset, int]): Top-k sampling parameter.
+    Ollama provides local LLM inference for privacy and offline use.
+
+    **Example Models:** llama3.3:70b, qwen2.5:72b, deepseek-r1:70b, mistral:7b, llava:34b
+
+    **Docs:** https://ollama.com/library
+
+        Attributes:
+            model (str): The name of the Ollama model to use (e.g., 'llama3.3:70b', 'qwen2.5:72b', 'deepseek-coder:33b').
+                Example: llama3.3:70b.
+            url (Union[Unset, str]): The URL of the Ollama API endpoint.
+            temperature (Union[Unset, float]): Controls randomness in generation (0.0-2.0).
+            max_tokens (Union[Unset, int]): Maximum number of tokens to generate.
+            top_p (Union[Unset, float]): Nucleus sampling parameter.
+            top_k (Union[Unset, int]): Top-k sampling parameter.
     """
 
     model: str

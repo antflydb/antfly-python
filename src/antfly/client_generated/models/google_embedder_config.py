@@ -11,21 +11,33 @@ T = TypeVar("T", bound="GoogleEmbedderConfig")
 
 @_attrs_define
 class GoogleEmbedderConfig:
-    """Configuration for the Google embedding provider.
+    """Configuration for the Google AI (Gemini) embedding provider.
 
-    Attributes:
-        model (str): The name of the embedding model to use (e.g., 'text-embedding-004'). Default: 'text-embedding-004'.
-        project_id (Union[Unset, str]): The Google Cloud project ID.
-        location (Union[Unset, str]): The Google Cloud location (e.g., 'us-central1').
-        dimension (Union[Unset, int]): The dimension of the embedding. Default: 1024.
-        api_key (Union[Unset, str]): The Google API key.
-        url (Union[Unset, str]): The URL of the Google API endpoint.
+    API key via `api_key` field or `GEMINI_API_KEY` environment variable.
+
+    **Example Models:** gemini-embedding-001 (default, 3072 dims)
+
+    **Docs:** https://ai.google.dev/gemini-api/docs/embeddings
+
+        Example:
+            {'provider': 'gemini', 'model': 'gemini-embedding-001', 'dimension': 3072, 'api_key': 'your-api-key'}
+
+        Attributes:
+            model (str): The name of the embedding model to use. Default: 'gemini-embedding-001'. Example: gemini-
+                embedding-001.
+            project_id (Union[Unset, str]): The Google Cloud project ID (optional for Gemini API, required for Vertex AI).
+            location (Union[Unset, str]): The Google Cloud location (e.g., 'us-central1'). Required for Vertex AI, optional
+                for Gemini API.
+            dimension (Union[Unset, int]): The dimension of the embedding vector (768, 1536, or 3072 recommended). Default:
+                3072.
+            api_key (Union[Unset, str]): The Google API key. Can also be set via GEMINI_API_KEY environment variable.
+            url (Union[Unset, str]): The URL of the Google API endpoint (optional, uses default if not specified).
     """
 
-    model: str = "text-embedding-004"
+    model: str = "gemini-embedding-001"
     project_id: Union[Unset, str] = UNSET
     location: Union[Unset, str] = UNSET
-    dimension: Union[Unset, int] = 1024
+    dimension: Union[Unset, int] = 3072
     api_key: Union[Unset, str] = UNSET
     url: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)

@@ -58,8 +58,10 @@ class LinearMergeRequest:
             sync_level (Union[Unset, SyncLevel]): Synchronization level for batch operations:
                 - "propose": Wait for Raft proposal acceptance (fastest, default)
                 - "write": Wait for Pebble KV write
-                - "full_text": Wait for full-text index WAL write (slowest, most durable)
-                - "aknn": Wait for vector index write with best-effort synchronous embedding (falls back to async on timeout)
+                - "full_text": Wait for full-text index WAL write
+                - "enrichments": Pre-compute enrichments before Raft proposal (synchronous enrichment generation)
+                - "aknn": Wait for vector index write with best-effort synchronous embedding (falls back to async on timeout,
+                slowest, most durable)
     """
 
     records: "LinearMergeRequestRecords"

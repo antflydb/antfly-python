@@ -82,12 +82,32 @@ def sync_detailed(
     Args:
         table_name (str):
         body (BatchRequest): Batch insert, delete, and transform operations in a single request.
-            All operations are processed atomically within each shard.
 
-            Benefits:
+            **Atomicity**:
+            - **Single shard**: Operations are atomic within shard boundaries
+            - **Multiple shards**: Uses distributed 2-phase commit (2PC) for atomic cross-shard writes
+
+            **How distributed transactions work**:
+            1. Metadata server allocates HLC timestamp and selects coordinator shard
+            2. Coordinator writes transaction record, participants write intents
+            3. After all intents succeed, coordinator commits transaction
+            4. Participants are notified asynchronously to resolve intents
+            5. Recovery loop ensures notifications complete even after coordinator failure
+
+            **Performance**:
+            - Single-shard batches: < 5ms latency
+            - Cross-shard transactions: ~20ms latency
+            - Intent resolution: < 30 seconds worst-case (via recovery loop)
+
+            **Guarantees**:
+            - All writes succeed or all fail (atomicity across all shards)
+            - Coordinator failure is recoverable (new leader resumes notifications)
+            - Idempotent resolution (duplicate notifications are safe)
+
+            **Benefits**:
             - Reduces network overhead compared to individual requests
             - More efficient indexing (updates are batched)
-            - Atomic within shard boundaries
+            - Automatic distributed transactions when operations span shards
 
             The inserts are upserts - existing keys are overwritten, new keys are created.
              Example: {'inserts': {'user:123': {'name': 'John Doe', 'email': 'john@example.com',
@@ -126,12 +146,32 @@ def sync(
     Args:
         table_name (str):
         body (BatchRequest): Batch insert, delete, and transform operations in a single request.
-            All operations are processed atomically within each shard.
 
-            Benefits:
+            **Atomicity**:
+            - **Single shard**: Operations are atomic within shard boundaries
+            - **Multiple shards**: Uses distributed 2-phase commit (2PC) for atomic cross-shard writes
+
+            **How distributed transactions work**:
+            1. Metadata server allocates HLC timestamp and selects coordinator shard
+            2. Coordinator writes transaction record, participants write intents
+            3. After all intents succeed, coordinator commits transaction
+            4. Participants are notified asynchronously to resolve intents
+            5. Recovery loop ensures notifications complete even after coordinator failure
+
+            **Performance**:
+            - Single-shard batches: < 5ms latency
+            - Cross-shard transactions: ~20ms latency
+            - Intent resolution: < 30 seconds worst-case (via recovery loop)
+
+            **Guarantees**:
+            - All writes succeed or all fail (atomicity across all shards)
+            - Coordinator failure is recoverable (new leader resumes notifications)
+            - Idempotent resolution (duplicate notifications are safe)
+
+            **Benefits**:
             - Reduces network overhead compared to individual requests
             - More efficient indexing (updates are batched)
-            - Atomic within shard boundaries
+            - Automatic distributed transactions when operations span shards
 
             The inserts are upserts - existing keys are overwritten, new keys are created.
              Example: {'inserts': {'user:123': {'name': 'John Doe', 'email': 'john@example.com',
@@ -165,12 +205,32 @@ async def asyncio_detailed(
     Args:
         table_name (str):
         body (BatchRequest): Batch insert, delete, and transform operations in a single request.
-            All operations are processed atomically within each shard.
 
-            Benefits:
+            **Atomicity**:
+            - **Single shard**: Operations are atomic within shard boundaries
+            - **Multiple shards**: Uses distributed 2-phase commit (2PC) for atomic cross-shard writes
+
+            **How distributed transactions work**:
+            1. Metadata server allocates HLC timestamp and selects coordinator shard
+            2. Coordinator writes transaction record, participants write intents
+            3. After all intents succeed, coordinator commits transaction
+            4. Participants are notified asynchronously to resolve intents
+            5. Recovery loop ensures notifications complete even after coordinator failure
+
+            **Performance**:
+            - Single-shard batches: < 5ms latency
+            - Cross-shard transactions: ~20ms latency
+            - Intent resolution: < 30 seconds worst-case (via recovery loop)
+
+            **Guarantees**:
+            - All writes succeed or all fail (atomicity across all shards)
+            - Coordinator failure is recoverable (new leader resumes notifications)
+            - Idempotent resolution (duplicate notifications are safe)
+
+            **Benefits**:
             - Reduces network overhead compared to individual requests
             - More efficient indexing (updates are batched)
-            - Atomic within shard boundaries
+            - Automatic distributed transactions when operations span shards
 
             The inserts are upserts - existing keys are overwritten, new keys are created.
              Example: {'inserts': {'user:123': {'name': 'John Doe', 'email': 'john@example.com',
@@ -207,12 +267,32 @@ async def asyncio(
     Args:
         table_name (str):
         body (BatchRequest): Batch insert, delete, and transform operations in a single request.
-            All operations are processed atomically within each shard.
 
-            Benefits:
+            **Atomicity**:
+            - **Single shard**: Operations are atomic within shard boundaries
+            - **Multiple shards**: Uses distributed 2-phase commit (2PC) for atomic cross-shard writes
+
+            **How distributed transactions work**:
+            1. Metadata server allocates HLC timestamp and selects coordinator shard
+            2. Coordinator writes transaction record, participants write intents
+            3. After all intents succeed, coordinator commits transaction
+            4. Participants are notified asynchronously to resolve intents
+            5. Recovery loop ensures notifications complete even after coordinator failure
+
+            **Performance**:
+            - Single-shard batches: < 5ms latency
+            - Cross-shard transactions: ~20ms latency
+            - Intent resolution: < 30 seconds worst-case (via recovery loop)
+
+            **Guarantees**:
+            - All writes succeed or all fail (atomicity across all shards)
+            - Coordinator failure is recoverable (new leader resumes notifications)
+            - Idempotent resolution (duplicate notifications are safe)
+
+            **Benefits**:
             - Reduces network overhead compared to individual requests
             - More efficient indexing (updates are batched)
-            - Atomic within shard boundaries
+            - Automatic distributed transactions when operations span shards
 
             The inserts are upserts - existing keys are overwritten, new keys are created.
              Example: {'inserts': {'user:123': {'name': 'John Doe', 'email': 'john@example.com',

@@ -4,7 +4,7 @@ from typing import Any, TypeVar, Union
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.embedder_provider import EmbedderProvider
+from ..models.reranker_provider import RerankerProvider
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="RerankerConfig")
@@ -12,18 +12,18 @@ T = TypeVar("T", bound="RerankerConfig")
 
 @_attrs_define
 class RerankerConfig:
-    """A unified configuration for an embedding provider.
+    """A unified configuration for a reranking provider.
 
     Example:
-        {'provider': 'openai', 'model': 'text-embedding-004', 'field': 'content'}
+        {'provider': 'ollama', 'model': 'dengcao/Qwen3-Reranker-0.6B:F16', 'field': 'content'}
 
     Attributes:
-        provider (EmbedderProvider): The embedding provider to use.
-        field (Union[Unset, str]):
-        template (Union[Unset, str]):
+        provider (RerankerProvider): The reranking provider to use.
+        field (Union[Unset, str]): Field name to extract from documents for reranking.
+        template (Union[Unset, str]): Handlebars template to render document text for reranking.
     """
 
-    provider: EmbedderProvider
+    provider: RerankerProvider
     field: Union[Unset, str] = UNSET
     template: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -52,7 +52,7 @@ class RerankerConfig:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        provider = EmbedderProvider(d.pop("provider"))
+        provider = RerankerProvider(d.pop("provider"))
 
         field = d.pop("field", UNSET)
 

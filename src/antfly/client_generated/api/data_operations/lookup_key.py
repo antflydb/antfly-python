@@ -7,16 +7,25 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error import Error
 from ...models.lookup_key_response_200 import LookupKeyResponse200
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     table_name: str,
     key: str,
+    *,
+    fields: Union[Unset, str] = UNSET,
 ) -> dict[str, Any]:
+    params: dict[str, Any] = {}
+
+    params["fields"] = fields
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": f"/tables/{table_name}/lookup/{key}",
+        "params": params,
     }
 
     return _kwargs
@@ -67,12 +76,14 @@ def sync_detailed(
     key: str,
     *,
     client: AuthenticatedClient,
+    fields: Union[Unset, str] = UNSET,
 ) -> Response[Union[Error, LookupKeyResponse200]]:
     """Lookup a key in a table
 
     Args:
         table_name (str):
         key (str):
+        fields (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -85,6 +96,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         table_name=table_name,
         key=key,
+        fields=fields,
     )
 
     response = client.get_httpx_client().request(
@@ -99,12 +111,14 @@ def sync(
     key: str,
     *,
     client: AuthenticatedClient,
+    fields: Union[Unset, str] = UNSET,
 ) -> Optional[Union[Error, LookupKeyResponse200]]:
     """Lookup a key in a table
 
     Args:
         table_name (str):
         key (str):
+        fields (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -118,6 +132,7 @@ def sync(
         table_name=table_name,
         key=key,
         client=client,
+        fields=fields,
     ).parsed
 
 
@@ -126,12 +141,14 @@ async def asyncio_detailed(
     key: str,
     *,
     client: AuthenticatedClient,
+    fields: Union[Unset, str] = UNSET,
 ) -> Response[Union[Error, LookupKeyResponse200]]:
     """Lookup a key in a table
 
     Args:
         table_name (str):
         key (str):
+        fields (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -144,6 +161,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         table_name=table_name,
         key=key,
+        fields=fields,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -156,12 +174,14 @@ async def asyncio(
     key: str,
     *,
     client: AuthenticatedClient,
+    fields: Union[Unset, str] = UNSET,
 ) -> Optional[Union[Error, LookupKeyResponse200]]:
     """Lookup a key in a table
 
     Args:
         table_name (str):
         key (str):
+        fields (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -176,5 +196,6 @@ async def asyncio(
             table_name=table_name,
             key=key,
             client=client,
+            fields=fields,
         )
     ).parsed

@@ -77,14 +77,25 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: LinearMergeRequest,
 ) -> Response[Union[Error, LinearMergeResult]]:
-    """Linear merge sorted records from external source
+    """Synchronize data from external sources (Shopify, Postgres, S3) using a linear merge
 
-     Performs a stateless linear merge of sorted records from an external source.
-    Records are upserted, and any Antfly records in the key range that are absent
-    from the input are deleted. Supports progressive pagination for large datasets.
+     Synchronize and keep Antfly in sync with external data sources like Shopify,
+    Postgres, S3, or any sorted record source. Also known as: data synchronization,
+    database sync, incremental sync, e-commerce sync.
 
-    WARNING: Not safe for concurrent merge operations with overlapping ranges.
-    Designed as a sync/import API for single-client use.
+    Both source and destination must be sorted by the same key. Performs three-way merge:
+    - Inserts new records from source
+    - Updates changed records
+    - Deletes Antfly records absent from source page
+
+    **Stateless & Idempotent**: No sync state between pages. Safe to restart
+    from any page if interrupted.
+
+    **Use Cases**: Sync production databases, e-commerce APIs (Shopify, WooCommerce),
+    data lake exports, or warehouse tables to Antfly for low-latency hybrid search.
+
+    **WARNING**: Not safe for concurrent merges with overlapping ranges.
+    Single-client sync API only.
 
     Args:
         table_name (str):
@@ -126,14 +137,25 @@ def sync(
     client: AuthenticatedClient,
     body: LinearMergeRequest,
 ) -> Optional[Union[Error, LinearMergeResult]]:
-    """Linear merge sorted records from external source
+    """Synchronize data from external sources (Shopify, Postgres, S3) using a linear merge
 
-     Performs a stateless linear merge of sorted records from an external source.
-    Records are upserted, and any Antfly records in the key range that are absent
-    from the input are deleted. Supports progressive pagination for large datasets.
+     Synchronize and keep Antfly in sync with external data sources like Shopify,
+    Postgres, S3, or any sorted record source. Also known as: data synchronization,
+    database sync, incremental sync, e-commerce sync.
 
-    WARNING: Not safe for concurrent merge operations with overlapping ranges.
-    Designed as a sync/import API for single-client use.
+    Both source and destination must be sorted by the same key. Performs three-way merge:
+    - Inserts new records from source
+    - Updates changed records
+    - Deletes Antfly records absent from source page
+
+    **Stateless & Idempotent**: No sync state between pages. Safe to restart
+    from any page if interrupted.
+
+    **Use Cases**: Sync production databases, e-commerce APIs (Shopify, WooCommerce),
+    data lake exports, or warehouse tables to Antfly for low-latency hybrid search.
+
+    **WARNING**: Not safe for concurrent merges with overlapping ranges.
+    Single-client sync API only.
 
     Args:
         table_name (str):
@@ -170,14 +192,25 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: LinearMergeRequest,
 ) -> Response[Union[Error, LinearMergeResult]]:
-    """Linear merge sorted records from external source
+    """Synchronize data from external sources (Shopify, Postgres, S3) using a linear merge
 
-     Performs a stateless linear merge of sorted records from an external source.
-    Records are upserted, and any Antfly records in the key range that are absent
-    from the input are deleted. Supports progressive pagination for large datasets.
+     Synchronize and keep Antfly in sync with external data sources like Shopify,
+    Postgres, S3, or any sorted record source. Also known as: data synchronization,
+    database sync, incremental sync, e-commerce sync.
 
-    WARNING: Not safe for concurrent merge operations with overlapping ranges.
-    Designed as a sync/import API for single-client use.
+    Both source and destination must be sorted by the same key. Performs three-way merge:
+    - Inserts new records from source
+    - Updates changed records
+    - Deletes Antfly records absent from source page
+
+    **Stateless & Idempotent**: No sync state between pages. Safe to restart
+    from any page if interrupted.
+
+    **Use Cases**: Sync production databases, e-commerce APIs (Shopify, WooCommerce),
+    data lake exports, or warehouse tables to Antfly for low-latency hybrid search.
+
+    **WARNING**: Not safe for concurrent merges with overlapping ranges.
+    Single-client sync API only.
 
     Args:
         table_name (str):
@@ -217,14 +250,25 @@ async def asyncio(
     client: AuthenticatedClient,
     body: LinearMergeRequest,
 ) -> Optional[Union[Error, LinearMergeResult]]:
-    """Linear merge sorted records from external source
+    """Synchronize data from external sources (Shopify, Postgres, S3) using a linear merge
 
-     Performs a stateless linear merge of sorted records from an external source.
-    Records are upserted, and any Antfly records in the key range that are absent
-    from the input are deleted. Supports progressive pagination for large datasets.
+     Synchronize and keep Antfly in sync with external data sources like Shopify,
+    Postgres, S3, or any sorted record source. Also known as: data synchronization,
+    database sync, incremental sync, e-commerce sync.
 
-    WARNING: Not safe for concurrent merge operations with overlapping ranges.
-    Designed as a sync/import API for single-client use.
+    Both source and destination must be sorted by the same key. Performs three-way merge:
+    - Inserts new records from source
+    - Updates changed records
+    - Deletes Antfly records absent from source page
+
+    **Stateless & Idempotent**: No sync state between pages. Safe to restart
+    from any page if interrupted.
+
+    **Use Cases**: Sync production databases, e-commerce APIs (Shopify, WooCommerce),
+    data lake exports, or warehouse tables to Antfly for low-latency hybrid search.
+
+    **WARNING**: Not safe for concurrent merges with overlapping ranges.
+    Single-client sync API only.
 
     Args:
         table_name (str):

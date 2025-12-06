@@ -3,6 +3,12 @@
 from .analyses import Analyses
 from .analyses_result import AnalysesResult
 from .answer_agent_result import AnswerAgentResult
+from .answer_agent_steps import AnswerAgentSteps
+from .answer_confidence import AnswerConfidence
+from .answer_result import AnswerResult
+from .answer_step_config import AnswerStepConfig
+from .antfly_chunker_config import AntflyChunkerConfig
+from .antfly_chunker_config_full_text import AntflyChunkerConfigFullText
 from .antfly_type import AntflyType
 from .anthropic_generator_config import AnthropicGeneratorConfig
 from .backup_request import BackupRequest
@@ -14,13 +20,39 @@ from .batch_response_201 import BatchResponse201
 from .batch_response_201_failed_item import BatchResponse201FailedItem
 from .bedrock_embedder_config import BedrockEmbedderConfig
 from .bedrock_generator_config import BedrockGeneratorConfig
+from .bing_search_config import BingSearchConfig
+from .bing_search_config_freshness import BingSearchConfigFreshness
 from .bleve_index_v2_config import BleveIndexV2Config
 from .bleve_index_v2_stats import BleveIndexV2Stats
 from .bool_field_query import BoolFieldQuery
 from .boolean_query import BooleanQuery
+from .brave_search_config import BraveSearchConfig
+from .brave_search_config_freshness import BraveSearchConfigFreshness
+from .chain_condition import ChainCondition
+from .chain_link import ChainLink
+from .chat_agent_result import ChatAgentResult
+from .chat_agent_steps import ChatAgentSteps
+from .chat_message import ChatMessage
+from .chat_message_role import ChatMessageRole
+from .chat_tool_call import ChatToolCall
+from .chat_tool_call_arguments import ChatToolCallArguments
+from .chat_tool_name import ChatToolName
+from .chat_tool_result import ChatToolResult
+from .chat_tool_result_result import ChatToolResultResult
+from .chat_tools_config import ChatToolsConfig
+from .chunker_config import ChunkerConfig
+from .chunker_provider import ChunkerProvider
+from .clarification_request import ClarificationRequest
+from .classification_step_config import ClassificationStepConfig
 from .classification_transformation_result import ClassificationTransformationResult
 from .cluster_health import ClusterHealth
 from .cluster_status import ClusterStatus
+from .cohere_embedder_config import CohereEmbedderConfig
+from .cohere_embedder_config_input_type import CohereEmbedderConfigInputType
+from .cohere_embedder_config_truncate import CohereEmbedderConfigTruncate
+from .cohere_generator_config import CohereGeneratorConfig
+from .cohere_reranker_config import CohereRerankerConfig
+from .confidence_step_config import ConfidenceStepConfig
 from .conjunction_query import ConjunctionQuery
 from .create_table_request import CreateTableRequest
 from .create_table_request_indexes import CreateTableRequestIndexes
@@ -32,6 +64,7 @@ from .disjunction_query import DisjunctionQuery
 from .doc_id_query import DocIdQuery
 from .document_schema import DocumentSchema
 from .document_schema_schema import DocumentSchemaSchema
+from .duck_duck_go_search_config import DuckDuckGoSearchConfig
 from .edge import Edge
 from .edge_direction import EdgeDirection
 from .edge_metadata import EdgeMetadata
@@ -42,10 +75,26 @@ from .embedder_provider import EmbedderProvider
 from .embedding_index_config import EmbeddingIndexConfig
 from .embedding_index_stats import EmbeddingIndexStats
 from .error import Error
+from .eval_config import EvalConfig
+from .eval_options import EvalOptions
+from .eval_request import EvalRequest
+from .eval_request_context_item import EvalRequestContextItem
+from .eval_result import EvalResult
+from .eval_scores import EvalScores
+from .eval_scores_generation import EvalScoresGeneration
+from .eval_scores_retrieval import EvalScoresRetrieval
+from .eval_summary import EvalSummary
+from .evaluator_name import EvaluatorName
+from .evaluator_score import EvaluatorScore
+from .evaluator_score_metadata import EvaluatorScoreMetadata
 from .facet_option import FacetOption
 from .facet_result import FacetResult
 from .failed_operation import FailedOperation
 from .failed_operation_operation import FailedOperationOperation
+from .fetch_config import FetchConfig
+from .filter_spec import FilterSpec
+from .filter_spec_operator import FilterSpecOperator
+from .followup_step_config import FollowupStepConfig
 from .fuzziness_type_1 import FuzzinessType1
 from .fuzzy_query import FuzzyQuery
 from .generator_config import GeneratorConfig
@@ -58,6 +107,8 @@ from .geo_shape_geometry_relation import GeoShapeGeometryRelation
 from .get_current_user_response_200 import GetCurrentUserResponse200
 from .google_embedder_config import GoogleEmbedderConfig
 from .google_generator_config import GoogleGeneratorConfig
+from .google_search_config import GoogleSearchConfig
+from .google_search_config_search_type import GoogleSearchConfigSearchType
 from .graph_index_v0_config import GraphIndexV0Config
 from .graph_index_v0_stats import GraphIndexV0Stats
 from .graph_index_v0_stats_edge_types import GraphIndexV0StatsEdgeTypes
@@ -69,6 +120,7 @@ from .graph_query_result import GraphQueryResult
 from .graph_query_type import GraphQueryType
 from .graph_result_node import GraphResultNode
 from .graph_result_node_document import GraphResultNodeDocument
+from .ground_truth import GroundTruth
 from .index_status import IndexStatus
 from .index_status_shard_status import IndexStatusShardStatus
 from .index_type import IndexType
@@ -89,11 +141,14 @@ from .match_query import MatchQuery
 from .match_query_operator import MatchQueryOperator
 from .merge_strategy import MergeStrategy
 from .multi_phrase_query import MultiPhraseQuery
+from .node_filter import NodeFilter
+from .node_filter_filter_query import NodeFilterFilterQuery
 from .numeric_range import NumericRange
 from .numeric_range_query import NumericRangeQuery
 from .numeric_range_result import NumericRangeResult
 from .ollama_embedder_config import OllamaEmbedderConfig
 from .ollama_generator_config import OllamaGeneratorConfig
+from .ollama_reranker_config import OllamaRerankerConfig
 from .open_ai_embedder_config import OpenAIEmbedderConfig
 from .open_ai_generator_config import OpenAIGeneratorConfig
 from .path import Path
@@ -103,10 +158,18 @@ from .path_find_request import PathFindRequest
 from .path_find_result import PathFindResult
 from .path_find_weight_mode import PathFindWeightMode
 from .path_weight_mode import PathWeightMode
+from .pattern_edge_step import PatternEdgeStep
+from .pattern_match import PatternMatch
+from .pattern_match_bindings import PatternMatchBindings
+from .pattern_step import PatternStep
 from .permission import Permission
 from .permission_type import PermissionType
 from .phrase_query import PhraseQuery
 from .prefix_query import PrefixQuery
+from .pruner import Pruner
+from .query_builder_request import QueryBuilderRequest
+from .query_builder_result import QueryBuilderResult
+from .query_builder_result_query import QueryBuilderResultQuery
 from .query_hit import QueryHit
 from .query_hit_index_scores import QueryHitIndexScores
 from .query_hit_source import QueryHitSource
@@ -116,13 +179,22 @@ from .query_result import QueryResult
 from .query_result_analyses import QueryResultAnalyses
 from .query_result_facets import QueryResultFacets
 from .query_result_graph_results import QueryResultGraphResults
+from .query_strategy import QueryStrategy
 from .query_string_query import QueryStringQuery
 from .rag_result import RAGResult
 from .regexp_query import RegexpQuery
 from .reranker_config import RerankerConfig
+from .reranker_provider import RerankerProvider
 from .resource_type import ResourceType
 from .restore_table_response_202 import RestoreTableResponse202
+from .retry_config import RetryConfig
 from .route_type import RouteType
+from .schemas_chat_agent_result import SchemasChatAgentResult
+from .schemas_chat_agent_result_query_results_item import SchemasChatAgentResultQueryResultsItem
+from .semantic_query_mode import SemanticQueryMode
+from .serper_search_config import SerperSearchConfig
+from .serper_search_config_search_type import SerperSearchConfigSearchType
+from .serper_search_config_time_period import SerperSearchConfigTimePeriod
 from .shard_config import ShardConfig
 from .storage_status import StorageStatus
 from .success_message import SuccessMessage
@@ -134,9 +206,14 @@ from .table_schema import TableSchema
 from .table_schema_document_schemas import TableSchemaDocumentSchemas
 from .table_shards import TableShards
 from .table_status import TableStatus
+from .tavily_search_config import TavilySearchConfig
+from .tavily_search_config_search_depth import TavilySearchConfigSearchDepth
 from .term_facet_result import TermFacetResult
 from .term_query import TermQuery
 from .term_range_query import TermRangeQuery
+from .termite_chunker_config import TermiteChunkerConfig
+from .termite_chunker_config_full_text import TermiteChunkerConfigFullText
+from .termite_reranker_config import TermiteRerankerConfig
 from .transform import Transform
 from .transform_op import TransformOp
 from .transform_op_type import TransformOpType
@@ -146,15 +223,23 @@ from .traversal_rules import TraversalRules
 from .traverse_response import TraverseResponse
 from .update_password_request import UpdatePasswordRequest
 from .user import User
-from .user_context import UserContext
 from .vertex_embedder_config import VertexEmbedderConfig
 from .vertex_generator_config import VertexGeneratorConfig
+from .vertex_reranker_config import VertexRerankerConfig
+from .web_search_config import WebSearchConfig
+from .web_search_provider import WebSearchProvider
 from .wildcard_query import WildcardQuery
 
 __all__ = (
     "Analyses",
     "AnalysesResult",
     "AnswerAgentResult",
+    "AnswerAgentSteps",
+    "AnswerConfidence",
+    "AnswerResult",
+    "AnswerStepConfig",
+    "AntflyChunkerConfig",
+    "AntflyChunkerConfigFullText",
     "AntflyType",
     "AnthropicGeneratorConfig",
     "BackupRequest",
@@ -166,13 +251,39 @@ __all__ = (
     "BatchResponse201FailedItem",
     "BedrockEmbedderConfig",
     "BedrockGeneratorConfig",
+    "BingSearchConfig",
+    "BingSearchConfigFreshness",
     "BleveIndexV2Config",
     "BleveIndexV2Stats",
     "BooleanQuery",
     "BoolFieldQuery",
+    "BraveSearchConfig",
+    "BraveSearchConfigFreshness",
+    "ChainCondition",
+    "ChainLink",
+    "ChatAgentResult",
+    "ChatAgentSteps",
+    "ChatMessage",
+    "ChatMessageRole",
+    "ChatToolCall",
+    "ChatToolCallArguments",
+    "ChatToolName",
+    "ChatToolResult",
+    "ChatToolResultResult",
+    "ChatToolsConfig",
+    "ChunkerConfig",
+    "ChunkerProvider",
+    "ClarificationRequest",
+    "ClassificationStepConfig",
     "ClassificationTransformationResult",
     "ClusterHealth",
     "ClusterStatus",
+    "CohereEmbedderConfig",
+    "CohereEmbedderConfigInputType",
+    "CohereEmbedderConfigTruncate",
+    "CohereGeneratorConfig",
+    "CohereRerankerConfig",
+    "ConfidenceStepConfig",
     "ConjunctionQuery",
     "CreateTableRequest",
     "CreateTableRequestIndexes",
@@ -184,6 +295,7 @@ __all__ = (
     "DocIdQuery",
     "DocumentSchema",
     "DocumentSchemaSchema",
+    "DuckDuckGoSearchConfig",
     "Edge",
     "EdgeDirection",
     "EdgeMetadata",
@@ -194,10 +306,26 @@ __all__ = (
     "EmbeddingIndexConfig",
     "EmbeddingIndexStats",
     "Error",
+    "EvalConfig",
+    "EvalOptions",
+    "EvalRequest",
+    "EvalRequestContextItem",
+    "EvalResult",
+    "EvalScores",
+    "EvalScoresGeneration",
+    "EvalScoresRetrieval",
+    "EvalSummary",
+    "EvaluatorName",
+    "EvaluatorScore",
+    "EvaluatorScoreMetadata",
     "FacetOption",
     "FacetResult",
     "FailedOperation",
     "FailedOperationOperation",
+    "FetchConfig",
+    "FilterSpec",
+    "FilterSpecOperator",
+    "FollowupStepConfig",
     "FuzzinessType1",
     "FuzzyQuery",
     "GeneratorConfig",
@@ -210,6 +338,8 @@ __all__ = (
     "GetCurrentUserResponse200",
     "GoogleEmbedderConfig",
     "GoogleGeneratorConfig",
+    "GoogleSearchConfig",
+    "GoogleSearchConfigSearchType",
     "GraphIndexV0Config",
     "GraphIndexV0Stats",
     "GraphIndexV0StatsEdgeTypes",
@@ -221,6 +351,7 @@ __all__ = (
     "GraphQueryType",
     "GraphResultNode",
     "GraphResultNodeDocument",
+    "GroundTruth",
     "IndexStatus",
     "IndexStatusShardStatus",
     "IndexType",
@@ -241,11 +372,14 @@ __all__ = (
     "MatchQueryOperator",
     "MergeStrategy",
     "MultiPhraseQuery",
+    "NodeFilter",
+    "NodeFilterFilterQuery",
     "NumericRange",
     "NumericRangeQuery",
     "NumericRangeResult",
     "OllamaEmbedderConfig",
     "OllamaGeneratorConfig",
+    "OllamaRerankerConfig",
     "OpenAIEmbedderConfig",
     "OpenAIGeneratorConfig",
     "Path",
@@ -255,10 +389,18 @@ __all__ = (
     "PathFindResult",
     "PathFindWeightMode",
     "PathWeightMode",
+    "PatternEdgeStep",
+    "PatternMatch",
+    "PatternMatchBindings",
+    "PatternStep",
     "Permission",
     "PermissionType",
     "PhraseQuery",
     "PrefixQuery",
+    "Pruner",
+    "QueryBuilderRequest",
+    "QueryBuilderResult",
+    "QueryBuilderResultQuery",
     "QueryHit",
     "QueryHitIndexScores",
     "QueryHits",
@@ -268,13 +410,22 @@ __all__ = (
     "QueryResultAnalyses",
     "QueryResultFacets",
     "QueryResultGraphResults",
+    "QueryStrategy",
     "QueryStringQuery",
     "RAGResult",
     "RegexpQuery",
     "RerankerConfig",
+    "RerankerProvider",
     "ResourceType",
     "RestoreTableResponse202",
+    "RetryConfig",
     "RouteType",
+    "SchemasChatAgentResult",
+    "SchemasChatAgentResultQueryResultsItem",
+    "SemanticQueryMode",
+    "SerperSearchConfig",
+    "SerperSearchConfigSearchType",
+    "SerperSearchConfigTimePeriod",
     "ShardConfig",
     "StorageStatus",
     "SuccessMessage",
@@ -286,7 +437,12 @@ __all__ = (
     "TableSchemaDocumentSchemas",
     "TableShards",
     "TableStatus",
+    "TavilySearchConfig",
+    "TavilySearchConfigSearchDepth",
     "TermFacetResult",
+    "TermiteChunkerConfig",
+    "TermiteChunkerConfigFullText",
+    "TermiteRerankerConfig",
     "TermQuery",
     "TermRangeQuery",
     "Transform",
@@ -298,8 +454,10 @@ __all__ = (
     "TraverseResponse",
     "UpdatePasswordRequest",
     "User",
-    "UserContext",
     "VertexEmbedderConfig",
     "VertexGeneratorConfig",
+    "VertexRerankerConfig",
+    "WebSearchConfig",
+    "WebSearchProvider",
     "WildcardQuery",
 )

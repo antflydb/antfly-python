@@ -11,19 +11,30 @@ T = TypeVar("T", bound="BedrockEmbedderConfig")
 
 @_attrs_define
 class BedrockEmbedderConfig:
-    """Configuration for the Bedrock embedding provider.
+    """Configuration for the AWS Bedrock embedding provider.
 
-    Attributes:
-        model (str): The name of the Bedrock model to use. Example: amazon.titan-embed-text-v1.
-        region (Union[Unset, str]): The AWS region for the Bedrock service.
-        strip_new_lines (Union[Unset, bool]): Whether to strip new lines from the input text.
-        batch_size (Union[Unset, int]): The batch size for embedding requests.
+    Uses AWS credentials from environment or IAM roles.
+
+    **Example Models:** cohere.embed-english-v4, amazon.titan-embed-text-v2:0
+
+    **Docs:** https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html
+
+        Example:
+            {'provider': 'bedrock', 'model': 'cohere.embed-english-v4', 'region': 'us-east-1'}
+
+        Attributes:
+            model (str): The Bedrock model ID to use (e.g., 'cohere.embed-english-v4', 'amazon.titan-embed-text-v2:0').
+                Example: cohere.embed-english-v4.
+            region (Union[Unset, str]): The AWS region for the Bedrock service (e.g., 'us-east-1'). Example: us-east-1.
+            strip_new_lines (Union[Unset, bool]): Whether to strip new lines from the input text before embedding. Default:
+                False.
+            batch_size (Union[Unset, int]): The batch size for embedding requests to optimize throughput. Default: 1.
     """
 
     model: str
     region: Union[Unset, str] = UNSET
-    strip_new_lines: Union[Unset, bool] = UNSET
-    batch_size: Union[Unset, int] = UNSET
+    strip_new_lines: Union[Unset, bool] = False
+    batch_size: Union[Unset, int] = 1
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

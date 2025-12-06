@@ -10,6 +10,7 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.graph_result_node import GraphResultNode
     from ..models.path import Path
+    from ..models.pattern_match import PatternMatch
 
 
 T = TypeVar("T", bound="GraphQueryResult")
@@ -24,6 +25,7 @@ class GraphQueryResult:
         total (int): Total number of results
         nodes (Union[Unset, list['GraphResultNode']]): Result nodes
         paths (Union[Unset, list['Path']]): Result paths (for pathfinding queries)
+        matches (Union[Unset, list['PatternMatch']]): Pattern matches (for pattern queries)
         took (Union[Unset, int]): Query execution time
     """
 
@@ -31,6 +33,7 @@ class GraphQueryResult:
     total: int
     nodes: Union[Unset, list["GraphResultNode"]] = UNSET
     paths: Union[Unset, list["Path"]] = UNSET
+    matches: Union[Unset, list["PatternMatch"]] = UNSET
     took: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -53,6 +56,13 @@ class GraphQueryResult:
                 paths_item = paths_item_data.to_dict()
                 paths.append(paths_item)
 
+        matches: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.matches, Unset):
+            matches = []
+            for matches_item_data in self.matches:
+                matches_item = matches_item_data.to_dict()
+                matches.append(matches_item)
+
         took = self.took
 
         field_dict: dict[str, Any] = {}
@@ -67,6 +77,8 @@ class GraphQueryResult:
             field_dict["nodes"] = nodes
         if paths is not UNSET:
             field_dict["paths"] = paths
+        if matches is not UNSET:
+            field_dict["matches"] = matches
         if took is not UNSET:
             field_dict["took"] = took
 
@@ -76,6 +88,7 @@ class GraphQueryResult:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.graph_result_node import GraphResultNode
         from ..models.path import Path
+        from ..models.pattern_match import PatternMatch
 
         d = dict(src_dict)
         type_ = GraphQueryType(d.pop("type"))
@@ -96,6 +109,13 @@ class GraphQueryResult:
 
             paths.append(paths_item)
 
+        matches = []
+        _matches = d.pop("matches", UNSET)
+        for matches_item_data in _matches or []:
+            matches_item = PatternMatch.from_dict(matches_item_data)
+
+            matches.append(matches_item)
+
         took = d.pop("took", UNSET)
 
         graph_query_result = cls(
@@ -103,6 +123,7 @@ class GraphQueryResult:
             total=total,
             nodes=nodes,
             paths=paths,
+            matches=matches,
             took=took,
         )
 

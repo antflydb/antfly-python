@@ -13,46 +13,34 @@ T = TypeVar("T", bound="VertexEmbedderConfig")
 class VertexEmbedderConfig:
     """Configuration for Google Cloud Vertex AI embedding models (enterprise-grade).
 
-    Uses Application Default Credentials (ADC) for authentication by default.
-    Suitable for production deployments on Google Cloud Platform.
+    Uses Application Default Credentials (ADC) for authentication. Requires IAM role `roles/aiplatform.user`.
 
-    **Authentication Priority:**
-    1. credentials_path (path to service account key file)
-    2. GOOGLE_APPLICATION_CREDENTIALS environment variable
-    3. Application Default Credentials (ADC) - RECOMMENDED
-       - In GCP: automatic (Cloud Run, GKE, Compute Engine)
-       - Local dev: `gcloud auth application-default login`
+    **Example Models:** gemini-embedding-001 (default, 3072 dims), multimodalembedding (images/audio/video)
 
-    **Required IAM Permission:** `roles/aiplatform.user`
-
-    **Supported Models:**
-    - text-embedding-004 (latest, 768 dimensions)
-    - textembedding-gecko@003, @002, @001 (legacy)
-    - textembedding-gecko-multilingual@001 (multilingual support)
-    - text-multilingual-embedding-002 (multilingual, 768 dimensions)
-    - multimodalembedding (images, audio, video - 128/256/512/1408 dimensions)
+    **Docs:** https://cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-text-embeddings
 
         Example:
-            {'provider': 'vertex', 'model': 'text-embedding-004', 'project_id': 'my-gcp-project', 'location': 'us-central1',
-                'dimension': 768}
+            {'provider': 'vertex', 'model': 'gemini-embedding-001', 'project_id': 'my-gcp-project', 'location': 'us-
+                central1', 'dimension': 3072}
 
         Attributes:
-            model (str): The name of the Vertex AI embedding model to use. Example: text-embedding-004.
+            model (str): The name of the Vertex AI embedding model to use. Default: 'gemini-embedding-001'. Example: gemini-
+                embedding-001.
             project_id (Union[Unset, str]): Google Cloud project ID. Can also be set via GOOGLE_CLOUD_PROJECT environment
                 variable.
             location (Union[Unset, str]): Google Cloud region for Vertex AI API (e.g., 'us-central1', 'europe-west1'). Can
                 also be set via GOOGLE_CLOUD_LOCATION. Defaults to 'us-central1'. Default: 'us-central1'.
             credentials_path (Union[Unset, str]): Path to service account JSON key file. Alternative to ADC for non-GCP
                 environments.
-            dimension (Union[Unset, int]): The dimension of the embedding vector. Model-specific (e.g., 768 for text-
-                embedding-004, 128-1408 for multimodalembedding). Default: 768.
+            dimension (Union[Unset, int]): The dimension of the embedding vector (768, 1536, or 3072 for gemini-
+                embedding-001; 128-1408 for multimodalembedding). Default: 3072.
     """
 
-    model: str
+    model: str = "gemini-embedding-001"
     project_id: Union[Unset, str] = UNSET
     location: Union[Unset, str] = "us-central1"
     credentials_path: Union[Unset, str] = UNSET
-    dimension: Union[Unset, int] = 768
+    dimension: Union[Unset, int] = 3072
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

@@ -7,6 +7,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.eval_result import EvalResult
     from ..models.query_result import QueryResult
     from ..models.summarize_result import SummarizeResult
 
@@ -23,10 +24,12 @@ class RAGResult:
             fields for failures.
         summary_result (Union[Unset, SummarizeResult]): Result of a summarization operation. The summary is formatted as
             markdown with inline resource references using [resource_id <id>] or [resource_id <id1>, <id2>] format.
+        eval_result (Union[Unset, EvalResult]): Complete evaluation result
     """
 
     query_results: Union[Unset, list["QueryResult"]] = UNSET
     summary_result: Union[Unset, "SummarizeResult"] = UNSET
+    eval_result: Union[Unset, "EvalResult"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -41,6 +44,10 @@ class RAGResult:
         if not isinstance(self.summary_result, Unset):
             summary_result = self.summary_result.to_dict()
 
+        eval_result: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.eval_result, Unset):
+            eval_result = self.eval_result.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -48,11 +55,14 @@ class RAGResult:
             field_dict["query_results"] = query_results
         if summary_result is not UNSET:
             field_dict["summary_result"] = summary_result
+        if eval_result is not UNSET:
+            field_dict["eval_result"] = eval_result
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.eval_result import EvalResult
         from ..models.query_result import QueryResult
         from ..models.summarize_result import SummarizeResult
 
@@ -71,9 +81,17 @@ class RAGResult:
         else:
             summary_result = SummarizeResult.from_dict(_summary_result)
 
+        _eval_result = d.pop("eval_result", UNSET)
+        eval_result: Union[Unset, EvalResult]
+        if isinstance(_eval_result, Unset):
+            eval_result = UNSET
+        else:
+            eval_result = EvalResult.from_dict(_eval_result)
+
         rag_result = cls(
             query_results=query_results,
             summary_result=summary_result,
+            eval_result=eval_result,
         )
 
         rag_result.additional_properties = d
