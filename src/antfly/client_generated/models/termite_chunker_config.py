@@ -36,18 +36,16 @@ class TermiteChunkerConfig:
         Attributes:
             model (str): The chunking model to use. Either 'fixed' for simple token-based chunking, or a model name from
                 models/chunkers/{name}/. Default: 'fixed'. Example: fixed.
+            max_chunks (Union[Unset, int]): Maximum number of chunks to generate per document.
+            overlap_tokens (Union[Unset, int]): Number of tokens to overlap between consecutive chunks. Helps maintain
+                context across chunk boundaries. Only used by fixed-size chunkers.
+            separator (Union[Unset, str]): Separator string for splitting (e.g., '\n\n' for paragraphs). Only used by fixed-
+                size chunkers.
+            threshold (Union[Unset, float]): Minimum confidence threshold for separator detection (0.0-1.0). Only used by
+                ONNX models.
+            target_tokens (Union[Unset, int]): Target number of tokens per chunk.
             api_url (Union[Unset, str]): The URL of the Termite API endpoint (e.g., 'http://localhost:8080'). Can also be
                 set via ANTFLY_TERMITE_URL environment variable. Example: http://localhost:8080.
-            target_tokens (Union[Unset, int]): Target number of tokens per chunk. Chunker will aim for chunks around this
-                size. Default: 500.
-            overlap_tokens (Union[Unset, int]): Number of tokens to overlap between consecutive chunks. Helps maintain
-                context across chunk boundaries. Default: 50.
-            separator (Union[Unset, str]): Separator string for splitting (e.g., '\n\n' for paragraphs). Only used with
-                fixed strategy. Default: '\n\n'.
-            max_chunks (Union[Unset, int]): Maximum number of chunks to generate per document. Prevents excessive chunking
-                of very large documents. Default: 50.
-            threshold (Union[Unset, float]): Minimum confidence threshold for separator detection. Only used with ONNX-based
-                models. Default: 0.5.
             full_text (Union[Unset, TermiteChunkerConfigFullText]): Configuration for full-text indexing of chunks in Bleve.
                 When present (even if empty), chunks will be stored with :cft: suffix and indexed in Bleve's _chunks field.
                 When absent, chunks use :c: suffix and are only used for vector embeddings.
@@ -55,29 +53,29 @@ class TermiteChunkerConfig:
     """
 
     model: str = "fixed"
+    max_chunks: Union[Unset, int] = UNSET
+    overlap_tokens: Union[Unset, int] = UNSET
+    separator: Union[Unset, str] = UNSET
+    threshold: Union[Unset, float] = UNSET
+    target_tokens: Union[Unset, int] = UNSET
     api_url: Union[Unset, str] = UNSET
-    target_tokens: Union[Unset, int] = 500
-    overlap_tokens: Union[Unset, int] = 50
-    separator: Union[Unset, str] = "\n\n"
-    max_chunks: Union[Unset, int] = 50
-    threshold: Union[Unset, float] = 0.5
     full_text: Union[Unset, "TermiteChunkerConfigFullText"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         model = self.model
 
-        api_url = self.api_url
-
-        target_tokens = self.target_tokens
+        max_chunks = self.max_chunks
 
         overlap_tokens = self.overlap_tokens
 
         separator = self.separator
 
-        max_chunks = self.max_chunks
-
         threshold = self.threshold
+
+        target_tokens = self.target_tokens
+
+        api_url = self.api_url
 
         full_text: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.full_text, Unset):
@@ -90,18 +88,18 @@ class TermiteChunkerConfig:
                 "model": model,
             }
         )
-        if api_url is not UNSET:
-            field_dict["api_url"] = api_url
-        if target_tokens is not UNSET:
-            field_dict["target_tokens"] = target_tokens
+        if max_chunks is not UNSET:
+            field_dict["max_chunks"] = max_chunks
         if overlap_tokens is not UNSET:
             field_dict["overlap_tokens"] = overlap_tokens
         if separator is not UNSET:
             field_dict["separator"] = separator
-        if max_chunks is not UNSET:
-            field_dict["max_chunks"] = max_chunks
         if threshold is not UNSET:
             field_dict["threshold"] = threshold
+        if target_tokens is not UNSET:
+            field_dict["target_tokens"] = target_tokens
+        if api_url is not UNSET:
+            field_dict["api_url"] = api_url
         if full_text is not UNSET:
             field_dict["full_text"] = full_text
 
@@ -114,17 +112,17 @@ class TermiteChunkerConfig:
         d = dict(src_dict)
         model = d.pop("model")
 
-        api_url = d.pop("api_url", UNSET)
-
-        target_tokens = d.pop("target_tokens", UNSET)
+        max_chunks = d.pop("max_chunks", UNSET)
 
         overlap_tokens = d.pop("overlap_tokens", UNSET)
 
         separator = d.pop("separator", UNSET)
 
-        max_chunks = d.pop("max_chunks", UNSET)
-
         threshold = d.pop("threshold", UNSET)
+
+        target_tokens = d.pop("target_tokens", UNSET)
+
+        api_url = d.pop("api_url", UNSET)
 
         _full_text = d.pop("full_text", UNSET)
         full_text: Union[Unset, TermiteChunkerConfigFullText]
@@ -135,12 +133,12 @@ class TermiteChunkerConfig:
 
         termite_chunker_config = cls(
             model=model,
-            api_url=api_url,
-            target_tokens=target_tokens,
+            max_chunks=max_chunks,
             overlap_tokens=overlap_tokens,
             separator=separator,
-            max_chunks=max_chunks,
             threshold=threshold,
+            target_tokens=target_tokens,
+            api_url=api_url,
             full_text=full_text,
         )
 

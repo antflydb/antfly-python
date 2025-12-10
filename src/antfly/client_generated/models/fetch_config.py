@@ -1,10 +1,14 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.credentials import Credentials
+
 
 T = TypeVar("T", bound="FetchConfig")
 
@@ -19,6 +23,7 @@ class FetchConfig:
     - PDF files (extracts text)
     - Images (returns as data URIs)
     - Plain text files
+    - S3 URLs (requires s3_credentials)
 
     Security features (from lib/scraping.ContentSecurityConfig):
     - Allowed host whitelist
@@ -27,6 +32,7 @@ class FetchConfig:
     - Timeout controls
 
         Attributes:
+            s3_credentials (Union[Unset, Credentials]):
             max_content_length (Union[Unset, int]): Maximum content length in characters (truncated if exceeded) Default:
                 50000.
             allowed_hosts (Union[Unset, list[str]]): Whitelist of allowed hostnames for fetching.
@@ -39,6 +45,7 @@ class FetchConfig:
             timeout_seconds (Union[Unset, int]): Download timeout in seconds Default: 30.
     """
 
+    s3_credentials: Union[Unset, "Credentials"] = UNSET
     max_content_length: Union[Unset, int] = 50000
     allowed_hosts: Union[Unset, list[str]] = UNSET
     block_private_ips: Union[Unset, bool] = True
@@ -47,6 +54,10 @@ class FetchConfig:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        s3_credentials: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.s3_credentials, Unset):
+            s3_credentials = self.s3_credentials.to_dict()
+
         max_content_length = self.max_content_length
 
         allowed_hosts: Union[Unset, list[str]] = UNSET
@@ -62,6 +73,8 @@ class FetchConfig:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if s3_credentials is not UNSET:
+            field_dict["s3_credentials"] = s3_credentials
         if max_content_length is not UNSET:
             field_dict["max_content_length"] = max_content_length
         if allowed_hosts is not UNSET:
@@ -77,7 +90,16 @@ class FetchConfig:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.credentials import Credentials
+
         d = dict(src_dict)
+        _s3_credentials = d.pop("s3_credentials", UNSET)
+        s3_credentials: Union[Unset, Credentials]
+        if isinstance(_s3_credentials, Unset):
+            s3_credentials = UNSET
+        else:
+            s3_credentials = Credentials.from_dict(_s3_credentials)
+
         max_content_length = d.pop("max_content_length", UNSET)
 
         allowed_hosts = cast(list[str], d.pop("allowed_hosts", UNSET))
@@ -89,6 +111,7 @@ class FetchConfig:
         timeout_seconds = d.pop("timeout_seconds", UNSET)
 
         fetch_config = cls(
+            s3_credentials=s3_credentials,
             max_content_length=max_content_length,
             allowed_hosts=allowed_hosts,
             block_private_ips=block_private_ips,

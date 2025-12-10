@@ -47,6 +47,7 @@ class ChatToolsConfig:
                 - PDF files (extracts text)
                 - Images (returns as data URIs)
                 - Plain text files
+                - S3 URLs (requires s3_credentials)
 
                 Security features (from lib/scraping.ContentSecurityConfig):
                 - Allowed host whitelist

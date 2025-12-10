@@ -11,6 +11,8 @@ from .antfly_chunker_config import AntflyChunkerConfig
 from .antfly_chunker_config_full_text import AntflyChunkerConfigFullText
 from .antfly_type import AntflyType
 from .anthropic_generator_config import AnthropicGeneratorConfig
+from .backup_info import BackupInfo
+from .backup_list_response import BackupListResponse
 from .backup_request import BackupRequest
 from .backup_table_response_201 import BackupTableResponse201
 from .batch_request import BatchRequest
@@ -40,12 +42,20 @@ from .chat_tool_name import ChatToolName
 from .chat_tool_result import ChatToolResult
 from .chat_tool_result_result import ChatToolResultResult
 from .chat_tools_config import ChatToolsConfig
+from .chunk_options import ChunkOptions
 from .chunker_config import ChunkerConfig
 from .chunker_provider import ChunkerProvider
 from .clarification_request import ClarificationRequest
 from .classification_step_config import ClassificationStepConfig
 from .classification_transformation_result import ClassificationTransformationResult
+from .cluster_backup_request import ClusterBackupRequest
+from .cluster_backup_response import ClusterBackupResponse
+from .cluster_backup_response_status import ClusterBackupResponseStatus
 from .cluster_health import ClusterHealth
+from .cluster_restore_request import ClusterRestoreRequest
+from .cluster_restore_request_restore_mode import ClusterRestoreRequestRestoreMode
+from .cluster_restore_response import ClusterRestoreResponse
+from .cluster_restore_response_status import ClusterRestoreResponseStatus
 from .cluster_status import ClusterStatus
 from .cohere_embedder_config import CohereEmbedderConfig
 from .cohere_embedder_config_input_type import CohereEmbedderConfigInputType
@@ -57,6 +67,7 @@ from .conjunction_query import ConjunctionQuery
 from .create_table_request import CreateTableRequest
 from .create_table_request_indexes import CreateTableRequestIndexes
 from .create_user_request import CreateUserRequest
+from .credentials import Credentials
 from .date_range import DateRange
 from .date_range_result import DateRangeResult
 from .date_range_string_query import DateRangeStringQuery
@@ -201,7 +212,11 @@ from .success_message import SuccessMessage
 from .summarize_result import SummarizeResult
 from .sync_level import SyncLevel
 from .table import Table
+from .table_backup_status import TableBackupStatus
+from .table_backup_status_status import TableBackupStatusStatus
 from .table_indexes import TableIndexes
+from .table_restore_status import TableRestoreStatus
+from .table_restore_status_status import TableRestoreStatusStatus
 from .table_schema import TableSchema
 from .table_schema_document_schemas import TableSchemaDocumentSchemas
 from .table_shards import TableShards
@@ -242,6 +257,8 @@ __all__ = (
     "AntflyChunkerConfigFullText",
     "AntflyType",
     "AnthropicGeneratorConfig",
+    "BackupInfo",
+    "BackupListResponse",
     "BackupRequest",
     "BackupTableResponse201",
     "BatchRequest",
@@ -273,10 +290,18 @@ __all__ = (
     "ChatToolsConfig",
     "ChunkerConfig",
     "ChunkerProvider",
+    "ChunkOptions",
     "ClarificationRequest",
     "ClassificationStepConfig",
     "ClassificationTransformationResult",
+    "ClusterBackupRequest",
+    "ClusterBackupResponse",
+    "ClusterBackupResponseStatus",
     "ClusterHealth",
+    "ClusterRestoreRequest",
+    "ClusterRestoreRequestRestoreMode",
+    "ClusterRestoreResponse",
+    "ClusterRestoreResponseStatus",
     "ClusterStatus",
     "CohereEmbedderConfig",
     "CohereEmbedderConfigInputType",
@@ -288,6 +313,7 @@ __all__ = (
     "CreateTableRequest",
     "CreateTableRequestIndexes",
     "CreateUserRequest",
+    "Credentials",
     "DateRange",
     "DateRangeResult",
     "DateRangeStringQuery",
@@ -432,7 +458,11 @@ __all__ = (
     "SummarizeResult",
     "SyncLevel",
     "Table",
+    "TableBackupStatus",
+    "TableBackupStatusStatus",
     "TableIndexes",
+    "TableRestoreStatus",
+    "TableRestoreStatusStatus",
     "TableSchema",
     "TableSchemaDocumentSchemas",
     "TableShards",
