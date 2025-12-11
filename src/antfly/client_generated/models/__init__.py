@@ -19,7 +19,6 @@ from .batch_request import BatchRequest
 from .batch_request_inserts import BatchRequestInserts
 from .batch_request_inserts_additional_property import BatchRequestInsertsAdditionalProperty
 from .batch_response_201 import BatchResponse201
-from .batch_response_201_failed_item import BatchResponse201FailedItem
 from .bedrock_embedder_config import BedrockEmbedderConfig
 from .bedrock_generator_config import BedrockGeneratorConfig
 from .bing_search_config import BingSearchConfig
@@ -265,7 +264,6 @@ __all__ = (
     "BatchRequestInserts",
     "BatchRequestInsertsAdditionalProperty",
     "BatchResponse201",
-    "BatchResponse201FailedItem",
     "BedrockEmbedderConfig",
     "BedrockGeneratorConfig",
     "BingSearchConfig",
