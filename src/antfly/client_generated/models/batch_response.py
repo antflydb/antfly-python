@@ -6,11 +6,11 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="BatchResponse201")
+T = TypeVar("T", bound="BatchResponse")
 
 
 @_attrs_define
-class BatchResponse201:
+class BatchResponse:
     """
     Attributes:
         inserted (Union[Unset, int]): Number of documents successfully inserted
@@ -51,14 +51,14 @@ class BatchResponse201:
 
         transformed = d.pop("transformed", UNSET)
 
-        batch_response_201 = cls(
+        batch_response = cls(
             inserted=inserted,
             deleted=deleted,
             transformed=transformed,
         )
 
-        batch_response_201.additional_properties = d
-        return batch_response_201
+        batch_response.additional_properties = d
+        return batch_response
 
     @property
     def additional_keys(self) -> list[str]:

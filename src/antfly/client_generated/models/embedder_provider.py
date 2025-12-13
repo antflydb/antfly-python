@@ -8,6 +8,7 @@ class EmbedderProvider(str, Enum):
     MOCK = "mock"
     OLLAMA = "ollama"
     OPENAI = "openai"
+    OPENROUTER = "openrouter"
     VERTEX = "vertex"
 
     def __str__(self) -> str:

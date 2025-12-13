@@ -6,7 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.batch_request import BatchRequest
-from ...models.batch_response_201 import BatchResponse201
+from ...models.batch_response import BatchResponse
 from ...models.error import Error
 from ...types import Response
 
@@ -33,9 +33,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[BatchResponse201, Error]]:
+) -> Optional[Union[BatchResponse, Error]]:
     if response.status_code == 201:
-        response_201 = BatchResponse201.from_dict(response.json())
+        response_201 = BatchResponse.from_dict(response.json())
 
         return response_201
 
@@ -62,7 +62,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[BatchResponse201, Error]]:
+) -> Response[Union[BatchResponse, Error]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -76,7 +76,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: BatchRequest,
-) -> Response[Union[BatchResponse201, Error]]:
+) -> Response[Union[BatchResponse, Error]]:
     """Perform batch inserts and deletes on a table
 
     Args:
@@ -120,7 +120,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[BatchResponse201, Error]]
+        Response[Union[BatchResponse, Error]]
     """
 
     kwargs = _get_kwargs(
@@ -140,7 +140,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: BatchRequest,
-) -> Optional[Union[BatchResponse201, Error]]:
+) -> Optional[Union[BatchResponse, Error]]:
     """Perform batch inserts and deletes on a table
 
     Args:
@@ -184,7 +184,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[BatchResponse201, Error]
+        Union[BatchResponse, Error]
     """
 
     return sync_detailed(
@@ -199,7 +199,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: BatchRequest,
-) -> Response[Union[BatchResponse201, Error]]:
+) -> Response[Union[BatchResponse, Error]]:
     """Perform batch inserts and deletes on a table
 
     Args:
@@ -243,7 +243,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[BatchResponse201, Error]]
+        Response[Union[BatchResponse, Error]]
     """
 
     kwargs = _get_kwargs(
@@ -261,7 +261,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: BatchRequest,
-) -> Optional[Union[BatchResponse201, Error]]:
+) -> Optional[Union[BatchResponse, Error]]:
     """Perform batch inserts and deletes on a table
 
     Args:
@@ -305,7 +305,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[BatchResponse201, Error]
+        Union[BatchResponse, Error]
     """
 
     return (

@@ -18,7 +18,7 @@ from .backup_table_response_201 import BackupTableResponse201
 from .batch_request import BatchRequest
 from .batch_request_inserts import BatchRequestInserts
 from .batch_request_inserts_additional_property import BatchRequestInsertsAdditionalProperty
-from .batch_response_201 import BatchResponse201
+from .batch_response import BatchResponse
 from .bedrock_embedder_config import BedrockEmbedderConfig
 from .bedrock_generator_config import BedrockGeneratorConfig
 from .bing_search_config import BingSearchConfig
@@ -161,6 +161,8 @@ from .ollama_generator_config import OllamaGeneratorConfig
 from .ollama_reranker_config import OllamaRerankerConfig
 from .open_ai_embedder_config import OpenAIEmbedderConfig
 from .open_ai_generator_config import OpenAIGeneratorConfig
+from .open_router_embedder_config import OpenRouterEmbedderConfig
+from .open_router_generator_config import OpenRouterGeneratorConfig
 from .path import Path
 from .path_edge import PathEdge
 from .path_edge_metadata import PathEdgeMetadata
@@ -263,7 +265,7 @@ __all__ = (
     "BatchRequest",
     "BatchRequestInserts",
     "BatchRequestInsertsAdditionalProperty",
-    "BatchResponse201",
+    "BatchResponse",
     "BedrockEmbedderConfig",
     "BedrockGeneratorConfig",
     "BingSearchConfig",
@@ -406,6 +408,8 @@ __all__ = (
     "OllamaRerankerConfig",
     "OpenAIEmbedderConfig",
     "OpenAIGeneratorConfig",
+    "OpenRouterEmbedderConfig",
+    "OpenRouterGeneratorConfig",
     "Path",
     "PathEdge",
     "PathEdgeMetadata",
