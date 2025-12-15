@@ -8,8 +8,8 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.eval_result import EvalResult
+    from ..models.generate_result import GenerateResult
     from ..models.query_result import QueryResult
-    from ..models.summarize_result import SummarizeResult
 
 
 T = TypeVar("T", bound="RAGResult")
@@ -17,18 +17,18 @@ T = TypeVar("T", bound="RAGResult")
 
 @_attrs_define
 class RAGResult:
-    """RAG result with individual query results and summary
+    """RAG result with individual query results and generation/evaluation outcome
 
     Attributes:
         query_results (Union[Unset, list['QueryResult']]): Results from each query. Check each result's status and error
             fields for failures.
-        summary_result (Union[Unset, SummarizeResult]): Result of a summarization operation. The summary is formatted as
-            markdown with inline resource references using [resource_id <id>] or [resource_id <id1>, <id2>] format.
+        generate_result (Union[Unset, GenerateResult]): Result of a generate operation. Formatted as markdown by default
+            with inline resource references using [resource_id <id>] or [resource_id <id1>, <id2>] format.
         eval_result (Union[Unset, EvalResult]): Complete evaluation result
     """
 
     query_results: Union[Unset, list["QueryResult"]] = UNSET
-    summary_result: Union[Unset, "SummarizeResult"] = UNSET
+    generate_result: Union[Unset, "GenerateResult"] = UNSET
     eval_result: Union[Unset, "EvalResult"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -40,9 +40,9 @@ class RAGResult:
                 query_results_item = query_results_item_data.to_dict()
                 query_results.append(query_results_item)
 
-        summary_result: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.summary_result, Unset):
-            summary_result = self.summary_result.to_dict()
+        generate_result: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.generate_result, Unset):
+            generate_result = self.generate_result.to_dict()
 
         eval_result: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.eval_result, Unset):
@@ -53,8 +53,8 @@ class RAGResult:
         field_dict.update({})
         if query_results is not UNSET:
             field_dict["query_results"] = query_results
-        if summary_result is not UNSET:
-            field_dict["summary_result"] = summary_result
+        if generate_result is not UNSET:
+            field_dict["generate_result"] = generate_result
         if eval_result is not UNSET:
             field_dict["eval_result"] = eval_result
 
@@ -63,8 +63,8 @@ class RAGResult:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.eval_result import EvalResult
+        from ..models.generate_result import GenerateResult
         from ..models.query_result import QueryResult
-        from ..models.summarize_result import SummarizeResult
 
         d = dict(src_dict)
         query_results = []
@@ -74,12 +74,12 @@ class RAGResult:
 
             query_results.append(query_results_item)
 
-        _summary_result = d.pop("summary_result", UNSET)
-        summary_result: Union[Unset, SummarizeResult]
-        if isinstance(_summary_result, Unset):
-            summary_result = UNSET
+        _generate_result = d.pop("generate_result", UNSET)
+        generate_result: Union[Unset, GenerateResult]
+        if isinstance(_generate_result, Unset):
+            generate_result = UNSET
         else:
-            summary_result = SummarizeResult.from_dict(_summary_result)
+            generate_result = GenerateResult.from_dict(_generate_result)
 
         _eval_result = d.pop("eval_result", UNSET)
         eval_result: Union[Unset, EvalResult]
@@ -90,7 +90,7 @@ class RAGResult:
 
         rag_result = cls(
             query_results=query_results,
-            summary_result=summary_result,
+            generate_result=generate_result,
             eval_result=eval_result,
         )
 

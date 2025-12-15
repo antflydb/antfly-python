@@ -107,6 +107,7 @@ from .filter_spec_operator import FilterSpecOperator
 from .followup_step_config import FollowupStepConfig
 from .fuzziness_type_1 import FuzzinessType1
 from .fuzzy_query import FuzzyQuery
+from .generate_result import GenerateResult
 from .generator_config import GeneratorConfig
 from .generator_provider import GeneratorProvider
 from .geo_bounding_box_query import GeoBoundingBoxQuery
@@ -210,7 +211,6 @@ from .serper_search_config_time_period import SerperSearchConfigTimePeriod
 from .shard_config import ShardConfig
 from .storage_status import StorageStatus
 from .success_message import SuccessMessage
-from .summarize_result import SummarizeResult
 from .sync_level import SyncLevel
 from .table import Table
 from .table_backup_status import TableBackupStatus
@@ -354,6 +354,7 @@ __all__ = (
     "FollowupStepConfig",
     "FuzzinessType1",
     "FuzzyQuery",
+    "GenerateResult",
     "GeneratorConfig",
     "GeneratorProvider",
     "GeoBoundingBoxQuery",
@@ -457,7 +458,6 @@ __all__ = (
     "ShardConfig",
     "StorageStatus",
     "SuccessMessage",
-    "SummarizeResult",
     "SyncLevel",
     "Table",
     "TableBackupStatus",

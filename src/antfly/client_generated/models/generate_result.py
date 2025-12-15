@@ -4,30 +4,30 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="SummarizeResult")
+T = TypeVar("T", bound="GenerateResult")
 
 
 @_attrs_define
-class SummarizeResult:
-    """Result of a summarization operation. The summary is formatted as markdown with inline resource references using
-    [resource_id <id>] or [resource_id <id1>, <id2>] format.
+class GenerateResult:
+    """Result of a generate operation. Formatted as markdown by default with inline resource references using [resource_id
+    <id>] or [resource_id <id1>, <id2>] format.
 
         Attributes:
-            summary (str): The generated summary text in markdown format with inline resource references like [resource_id
-                res1] or [resource_id res1, res2]
+            text (str): The generated text in markdown format with inline resource references like [resource_id res1] or
+                [resource_id res1, res2]
     """
 
-    summary: str
+    text: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        summary = self.summary
+        text = self.text
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "summary": summary,
+                "text": text,
             }
         )
 
@@ -36,14 +36,14 @@ class SummarizeResult:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        summary = d.pop("summary")
+        text = d.pop("text")
 
-        summarize_result = cls(
-            summary=summary,
+        generate_result = cls(
+            text=text,
         )
 
-        summarize_result.additional_properties = d
-        return summarize_result
+        generate_result.additional_properties = d
+        return generate_result
 
     @property
     def additional_keys(self) -> list[str]:
