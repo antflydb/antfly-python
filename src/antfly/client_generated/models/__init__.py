@@ -229,6 +229,7 @@ from .term_query import TermQuery
 from .term_range_query import TermRangeQuery
 from .termite_chunker_config import TermiteChunkerConfig
 from .termite_chunker_config_full_text import TermiteChunkerConfigFullText
+from .termite_embedder_config import TermiteEmbedderConfig
 from .termite_reranker_config import TermiteRerankerConfig
 from .transform import Transform
 from .transform_op import TransformOp
@@ -474,6 +475,7 @@ __all__ = (
     "TermFacetResult",
     "TermiteChunkerConfig",
     "TermiteChunkerConfigFullText",
+    "TermiteEmbedderConfig",
     "TermiteRerankerConfig",
     "TermQuery",
     "TermRangeQuery",
