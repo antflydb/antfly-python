@@ -166,6 +166,72 @@ class TestBug3FixedMissingQueryEndpoints:
         assert not hasattr(AntflyClient, 'query')
 
 
+class TestBug4FixedTypeMismatch:
+    """Bug #4 Fix: Type mismatch with Client vs AuthenticatedClient.
+
+    The generated API functions type-hint AuthenticatedClient but work with
+    Client too since both have identical interfaces. We use a type alias and
+    type: ignore comments to document this intentional usage.
+    """
+
+    def test_client_and_authenticated_client_have_same_interface(self):
+        """Verify both client types have the same interface."""
+        from antfly.client_generated.client import AuthenticatedClient, Client
+
+        # Both should have get_httpx_client method
+        assert hasattr(Client, 'get_httpx_client')
+        assert hasattr(AuthenticatedClient, 'get_httpx_client')
+
+        # Both should have get_async_httpx_client method
+        assert hasattr(Client, 'get_async_httpx_client')
+        assert hasattr(AuthenticatedClient, 'get_async_httpx_client')
+
+    def test_api_client_type_alias_exists(self):
+        """Verify ApiClient type alias is defined."""
+        from antfly.client import ApiClient
+        from antfly.client_generated.client import AuthenticatedClient, Client
+        from typing import get_args
+
+        # ApiClient should be Union[Client, AuthenticatedClient]
+        args = get_args(ApiClient)
+        assert Client in args
+        assert AuthenticatedClient in args
+
+
+class TestBatchWriteHttpStatus:
+    """Test that batch_write accepts both HTTP 200 and 201."""
+
+    def test_batch_write_parse_response_accepts_200(self):
+        """Verify batch_write._parse_response accepts HTTP 200."""
+        from unittest.mock import MagicMock
+        from antfly.client_generated.api.data_operations import batch_write
+        from antfly.client_generated import Client
+
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {}
+
+        mock_client = MagicMock(spec=Client)
+
+        result = batch_write._parse_response(client=mock_client, response=mock_response)
+        assert result is not None
+
+    def test_batch_write_parse_response_accepts_201(self):
+        """Verify batch_write._parse_response accepts HTTP 201."""
+        from unittest.mock import MagicMock
+        from antfly.client_generated.api.data_operations import batch_write
+        from antfly.client_generated import Client
+
+        mock_response = MagicMock()
+        mock_response.status_code = 201
+        mock_response.json.return_value = {}
+
+        mock_client = MagicMock(spec=Client)
+
+        result = batch_write._parse_response(client=mock_client, response=mock_response)
+        assert result is not None
+
+
 class TestClientIntegration:
     """Integration tests for the fixed AntflyClient."""
 

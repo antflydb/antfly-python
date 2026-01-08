@@ -1,6 +1,6 @@
 """Main client interface for Antfly SDK."""
 
-from typing import Any, Optional, cast
+from typing import Any, Optional, Union, cast
 
 from httpx import Timeout
 
@@ -28,9 +28,16 @@ from antfly.client_generated.types import UNSET
 
 from .exceptions import AntflyException
 
+# Type alias: generated API functions type-hint AuthenticatedClient but work with
+# Client too since both have identical interfaces (get_httpx_client, etc.)
+# We use Client with basic auth via httpx_args instead of token-based auth.
+ApiClient = Union[Client, AuthenticatedClient]
+
 
 class AntflyClient:
     """High-level client for interacting with Antfly database."""
+
+    _client: ApiClient
 
     def __init__(
         self,
@@ -54,7 +61,7 @@ class AntflyClient:
         if username and password:
             httpx_args["auth"] = (username, password)
 
-        self._client = Client(
+        self._client: ApiClient = Client(
             base_url=self.base_url,
             timeout=Timeout(timeout),
             httpx_args=httpx_args,
@@ -92,7 +99,7 @@ class AntflyClient:
 
         response = create_table.sync(
             table_name=name,
-            client=cast(AuthenticatedClient, self._client),
+            client=self._client,  # type: ignore[arg-type]
             body=request,
         )
 
@@ -113,7 +120,7 @@ class AntflyClient:
         Raises:
             AntflyException: If listing tables fails
         """
-        response = list_tables.sync(client=cast(AuthenticatedClient, self._client))
+        response = list_tables.sync(client=self._client)  # type: ignore[arg-type]
 
         if isinstance(response, Error):
             raise AntflyException(f"Failed to list tables: {response.error}")
@@ -137,7 +144,7 @@ class AntflyClient:
         """
         response = get_table.sync(
             table_name=name,
-            client=cast(AuthenticatedClient, self._client),
+            client=self._client,  # type: ignore[arg-type]
         )
 
         if isinstance(response, Error):
@@ -159,7 +166,7 @@ class AntflyClient:
         """
         response = drop_table.sync(
             table_name=name,
-            client=cast(AuthenticatedClient, self._client),
+            client=self._client,  # type: ignore[arg-type]
         )
 
         if isinstance(response, Error):
@@ -186,7 +193,7 @@ class AntflyClient:
         response = lookup_key.sync(
             table_name=table,
             key=key,
-            client=cast(AuthenticatedClient, self._client),
+            client=self._client,  # type: ignore[arg-type]
         )
 
         if isinstance(response, Error):
@@ -229,7 +236,7 @@ class AntflyClient:
 
         response = batch_write.sync(
             table_name=table,
-            client=cast(AuthenticatedClient, self._client),
+            client=self._client,  # type: ignore[arg-type]
             body=request,
         )
 
