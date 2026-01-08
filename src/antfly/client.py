@@ -5,25 +5,21 @@ from typing import Any, Optional, cast
 from httpx import Timeout
 
 from antfly.client_generated import Client
-from antfly.client_generated.api.api_table import (
-    batch,
+from antfly.client_generated.api.data_operations import batch_write, lookup_key
+from antfly.client_generated.api.table_management import (
     create_table,
     drop_table,
     get_table,
     list_tables,
-    lookup_key,
-    query_table,
 )
 from antfly.client_generated.client import AuthenticatedClient
 from antfly.client_generated.models import (
     BatchRequest,
     BatchRequestInserts,
+    BatchRequestInsertsAdditionalProperty,
     CreateTableRequest,
     CreateTableRequestIndexes,
     Error,
-    QueryRequest,
-    QueryRequestFullTextSearch,
-    QueryResponses,
     Table,
     TableSchema,
     TableStatus,
@@ -171,69 +167,7 @@ class AntflyClient:
         if response is None:
             raise AntflyException(f"Failed to drop table '{name}'")
 
-    # Query operations
-
-    def query(
-        self,
-        table: Optional[str] = None,
-        full_text_search: Optional[dict[str, Any]] = None,
-        semantic_search: Optional[str] = None,
-        filter_prefix: Optional[str] = None,
-        limit: int = 10,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> QueryResponses:
-        """
-        Query a table or perform global query.
-
-        Args:
-            table: Table name (optional for global query)
-            full_text_search: Full-text search query
-            semantic_search: Semantic search query
-            filter_prefix: Key prefix filter
-            limit: Maximum number of results
-            offset: Number of results to skip
-            **kwargs: Additional query parameters
-
-        Returns:
-            Query result object
-
-        Raises:
-            AntflyException: If query fails
-        """
-        request = QueryRequest(
-            table=table if table is not None else UNSET,
-            full_text_search=(
-                cast(QueryRequestFullTextSearch, full_text_search) if full_text_search is not None else UNSET
-            ),
-            semantic_search=semantic_search if semantic_search is not None else UNSET,
-            filter_prefix=filter_prefix if filter_prefix is not None else UNSET,
-            limit=limit,
-            offset=offset,
-            **kwargs,
-        )
-
-        if table:
-            response = query_table.sync(
-                table_name=table,
-                client=cast(AuthenticatedClient, self._client),
-                body=request,
-            )
-        else:
-            # Use global query endpoint
-            from antfly.client_generated.api.api_table import global_query
-
-            response = global_query.sync(
-                client=cast(AuthenticatedClient, self._client),
-                body=request,
-            )
-
-        if isinstance(response, Error):
-            raise AntflyException(f"Query failed: {response.error}")
-        if response is None:
-            raise AntflyException("Query failed")
-
-        return response
+    # Data operations
 
     def get(self, table: str, key: str) -> dict[str, Any]:
         """
@@ -279,12 +213,21 @@ class AntflyClient:
         Raises:
             AntflyException: If batch operation fails
         """
+        # Convert plain dict to proper BatchRequestInserts model
+        inserts_model: BatchRequestInserts | type[UNSET] = UNSET
+        if inserts is not None:
+            inserts_model = BatchRequestInserts()
+            for key, value in inserts.items():
+                prop = BatchRequestInsertsAdditionalProperty()
+                prop.additional_properties = value
+                inserts_model[key] = prop
+
         request = BatchRequest(
-            inserts=cast(BatchRequestInserts, inserts) if inserts is not None else UNSET,
-            deletes=deletes or [],
+            inserts=inserts_model,
+            deletes=deletes if deletes is not None else UNSET,
         )
 
-        response = batch.sync(
+        response = batch_write.sync(
             table_name=table,
             client=cast(AuthenticatedClient, self._client),
             body=request,
