@@ -24,7 +24,7 @@ from antfly.client_generated.models import (
     TableSchema,
     TableStatus,
 )
-from antfly.client_generated.types import UNSET
+from antfly.client_generated.types import UNSET, Unset
 
 from .exceptions import AntflyException
 
@@ -221,7 +221,7 @@ class AntflyClient:
             AntflyException: If batch operation fails
         """
         # Convert plain dict to proper BatchRequestInserts model
-        inserts_model: BatchRequestInserts | type[UNSET] = UNSET
+        inserts_model: BatchRequestInserts | Unset = UNSET
         if inserts is not None:
             inserts_model = BatchRequestInserts()
             for key, value in inserts.items():

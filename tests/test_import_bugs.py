@@ -16,7 +16,7 @@ class TestBug1FixedImportPaths:
     def test_api_table_module_does_not_exist(self):
         """Verify that api_table module still doesn't exist (it never should)."""
         with pytest.raises((ModuleNotFoundError, ImportError)):
-            from antfly.client_generated.api import api_table  # noqa: F401
+            from antfly.client_generated.api import api_table  # type: ignore[attr-defined] # noqa: F401
 
     def test_batch_write_is_in_data_operations(self):
         """Verify batch_write exists in data_operations."""
@@ -147,22 +147,26 @@ class TestBug3FixedMissingQueryEndpoints:
     def test_query_table_does_not_exist(self):
         """Verify query_table doesn't exist anywhere."""
         with pytest.raises((ModuleNotFoundError, ImportError)):
-            from antfly.client_generated.api.api_table import query_table  # noqa: F401
+            from antfly.client_generated.api.api_table import query_table  # type: ignore[import-not-found] # noqa: F401
 
     def test_global_query_does_not_exist(self):
         """Verify global_query doesn't exist anywhere."""
         with pytest.raises((ModuleNotFoundError, ImportError)):
-            from antfly.client_generated.api.api_table import global_query  # noqa: F401
+            from antfly.client_generated.api.api_table import (
+                global_query,  # type: ignore[import-not-found] # noqa: F401
+            )
 
     def test_query_request_model_does_not_exist(self):
         """Verify QueryRequest model doesn't exist."""
         with pytest.raises(ImportError):
-            from antfly.client_generated.models import QueryRequest  # noqa: F401
+            from antfly.client_generated.models import QueryRequest  # type: ignore[attr-defined] # noqa: F401
 
     def test_query_request_full_text_search_model_does_not_exist(self):
         """Verify QueryRequestFullTextSearch model doesn't exist."""
         with pytest.raises(ImportError):
-            from antfly.client_generated.models import QueryRequestFullTextSearch  # noqa: F401
+            from antfly.client_generated.models import (
+                QueryRequestFullTextSearch,  # type: ignore[attr-defined] # noqa: F401
+            )
 
     def test_antfly_client_query_method_removed(self):
         """Verify that AntflyClient no longer has a query method."""
