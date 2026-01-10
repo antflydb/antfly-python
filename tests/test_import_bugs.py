@@ -21,14 +21,16 @@ class TestBug1FixedImportPaths:
     def test_batch_write_is_in_data_operations(self):
         """Verify batch_write exists in data_operations."""
         from antfly.client_generated.api.data_operations import batch_write
-        assert hasattr(batch_write, 'sync')
-        assert hasattr(batch_write, 'asyncio')
+
+        assert hasattr(batch_write, "sync")
+        assert hasattr(batch_write, "asyncio")
 
     def test_lookup_key_is_in_data_operations(self):
         """Verify lookup_key exists in data_operations."""
         from antfly.client_generated.api.data_operations import lookup_key
-        assert hasattr(lookup_key, 'sync')
-        assert hasattr(lookup_key, 'asyncio')
+
+        assert hasattr(lookup_key, "sync")
+        assert hasattr(lookup_key, "asyncio")
 
     def test_table_operations_are_in_table_management(self):
         """Verify table operations exist in table_management."""
@@ -38,15 +40,17 @@ class TestBug1FixedImportPaths:
             get_table,
             list_tables,
         )
-        assert hasattr(create_table, 'sync')
-        assert hasattr(drop_table, 'sync')
-        assert hasattr(get_table, 'sync')
-        assert hasattr(list_tables, 'sync')
+
+        assert hasattr(create_table, "sync")
+        assert hasattr(drop_table, "sync")
+        assert hasattr(get_table, "sync")
+        assert hasattr(list_tables, "sync")
 
     def test_client_import_succeeds(self):
         """Verify that importing AntflyClient now succeeds."""
         # This should work now that imports are fixed
         from antfly import AntflyClient
+
         assert AntflyClient is not None
 
     def test_antfly_client_has_expected_methods(self):
@@ -54,17 +58,17 @@ class TestBug1FixedImportPaths:
         from antfly import AntflyClient
 
         # Table operations
-        assert hasattr(AntflyClient, 'create_table')
-        assert hasattr(AntflyClient, 'list_tables')
-        assert hasattr(AntflyClient, 'get_table')
-        assert hasattr(AntflyClient, 'drop_table')
+        assert hasattr(AntflyClient, "create_table")
+        assert hasattr(AntflyClient, "list_tables")
+        assert hasattr(AntflyClient, "get_table")
+        assert hasattr(AntflyClient, "drop_table")
 
         # Data operations
-        assert hasattr(AntflyClient, 'get')
-        assert hasattr(AntflyClient, 'batch')
+        assert hasattr(AntflyClient, "get")
+        assert hasattr(AntflyClient, "batch")
 
         # Query method was removed since endpoints don't exist
-        assert not hasattr(AntflyClient, 'query')
+        assert not hasattr(AntflyClient, "query")
 
 
 class TestBug2FixedCastMisuse:
@@ -81,6 +85,7 @@ class TestBug2FixedCastMisuse:
         This demonstrates why we can't use cast() and need proper conversion.
         """
         from typing import cast
+
         from antfly.client_generated.models import BatchRequestInserts
 
         plain_dict = {"user:1": {"name": "John"}}
@@ -97,6 +102,7 @@ class TestBug2FixedCastMisuse:
         This demonstrates the bug that existed before the fix.
         """
         from typing import cast
+
         from antfly.client_generated.models import BatchRequest, BatchRequestInserts
 
         # This is what the broken client.py used to do
@@ -163,7 +169,7 @@ class TestBug3FixedMissingQueryEndpoints:
         from antfly import AntflyClient
 
         # The query method was removed since it relied on non-existent endpoints
-        assert not hasattr(AntflyClient, 'query')
+        assert not hasattr(AntflyClient, "query")
 
 
 class TestBug4FixedTypeMismatch:
@@ -179,18 +185,19 @@ class TestBug4FixedTypeMismatch:
         from antfly.client_generated.client import AuthenticatedClient, Client
 
         # Both should have get_httpx_client method
-        assert hasattr(Client, 'get_httpx_client')
-        assert hasattr(AuthenticatedClient, 'get_httpx_client')
+        assert hasattr(Client, "get_httpx_client")
+        assert hasattr(AuthenticatedClient, "get_httpx_client")
 
         # Both should have get_async_httpx_client method
-        assert hasattr(Client, 'get_async_httpx_client')
-        assert hasattr(AuthenticatedClient, 'get_async_httpx_client')
+        assert hasattr(Client, "get_async_httpx_client")
+        assert hasattr(AuthenticatedClient, "get_async_httpx_client")
 
     def test_api_client_type_alias_exists(self):
         """Verify ApiClient type alias is defined."""
+        from typing import get_args
+
         from antfly.client import ApiClient
         from antfly.client_generated.client import AuthenticatedClient, Client
-        from typing import get_args
 
         # ApiClient should be Union[Client, AuthenticatedClient]
         args = get_args(ApiClient)
@@ -204,8 +211,9 @@ class TestBatchWriteHttpStatus:
     def test_batch_write_parse_response_accepts_200(self):
         """Verify batch_write._parse_response accepts HTTP 200."""
         from unittest.mock import MagicMock
-        from antfly.client_generated.api.data_operations import batch_write
+
         from antfly.client_generated import Client
+        from antfly.client_generated.api.data_operations import batch_write
 
         mock_response = MagicMock()
         mock_response.status_code = 200
@@ -219,8 +227,9 @@ class TestBatchWriteHttpStatus:
     def test_batch_write_parse_response_accepts_201(self):
         """Verify batch_write._parse_response accepts HTTP 201."""
         from unittest.mock import MagicMock
-        from antfly.client_generated.api.data_operations import batch_write
+
         from antfly.client_generated import Client
+        from antfly.client_generated.api.data_operations import batch_write
 
         mock_response = MagicMock()
         mock_response.status_code = 201
