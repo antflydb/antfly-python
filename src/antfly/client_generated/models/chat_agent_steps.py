@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from ..models.answer_step_config import AnswerStepConfig
     from ..models.chat_tools_config import ChatToolsConfig
     from ..models.classification_step_config import ClassificationStepConfig
+    from ..models.confidence_step_config import ConfidenceStepConfig
 
 
 T = TypeVar("T", bound="ChatAgentSteps")
@@ -27,6 +28,9 @@ class ChatAgentSteps:
             answer (Union[Unset, AnswerStepConfig]): Configuration for the answer generation step. This step generates the
                 final
                 answer from retrieved documents using the reasoning as context.
+            confidence (Union[Unset, ConfidenceStepConfig]): Configuration for confidence assessment. Evaluates answer
+                quality and
+                resource relevance. Can use a model calibrated for scoring tasks.
             tools (Union[Unset, ChatToolsConfig]): Configuration for chat agent tools.
 
                 If `enabled_tools` is empty/omitted, defaults to: add_filter, ask_clarification, search.
@@ -37,6 +41,7 @@ class ChatAgentSteps:
 
     classification: Union[Unset, "ClassificationStepConfig"] = UNSET
     answer: Union[Unset, "AnswerStepConfig"] = UNSET
+    confidence: Union[Unset, "ConfidenceStepConfig"] = UNSET
     tools: Union[Unset, "ChatToolsConfig"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -49,6 +54,10 @@ class ChatAgentSteps:
         if not isinstance(self.answer, Unset):
             answer = self.answer.to_dict()
 
+        confidence: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.confidence, Unset):
+            confidence = self.confidence.to_dict()
+
         tools: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.tools, Unset):
             tools = self.tools.to_dict()
@@ -60,6 +69,8 @@ class ChatAgentSteps:
             field_dict["classification"] = classification
         if answer is not UNSET:
             field_dict["answer"] = answer
+        if confidence is not UNSET:
+            field_dict["confidence"] = confidence
         if tools is not UNSET:
             field_dict["tools"] = tools
 
@@ -70,6 +81,7 @@ class ChatAgentSteps:
         from ..models.answer_step_config import AnswerStepConfig
         from ..models.chat_tools_config import ChatToolsConfig
         from ..models.classification_step_config import ClassificationStepConfig
+        from ..models.confidence_step_config import ConfidenceStepConfig
 
         d = dict(src_dict)
         _classification = d.pop("classification", UNSET)
@@ -86,6 +98,13 @@ class ChatAgentSteps:
         else:
             answer = AnswerStepConfig.from_dict(_answer)
 
+        _confidence = d.pop("confidence", UNSET)
+        confidence: Union[Unset, ConfidenceStepConfig]
+        if isinstance(_confidence, Unset):
+            confidence = UNSET
+        else:
+            confidence = ConfidenceStepConfig.from_dict(_confidence)
+
         _tools = d.pop("tools", UNSET)
         tools: Union[Unset, ChatToolsConfig]
         if isinstance(_tools, Unset):
@@ -96,6 +115,7 @@ class ChatAgentSteps:
         chat_agent_steps = cls(
             classification=classification,
             answer=answer,
+            confidence=confidence,
             tools=tools,
         )
 

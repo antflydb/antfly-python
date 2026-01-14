@@ -6,29 +6,25 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="DateRangeResult")
+T = TypeVar("T", bound="AggregationRange")
 
 
 @_attrs_define
-class DateRangeResult:
+class AggregationRange:
     """
     Attributes:
-        name (str):
-        count (int):
-        from_ (Union[Unset, str]):
-        to (Union[Unset, str]):
+        name (str): Name of the range bucket
+        from_ (Union[Unset, float]): Lower bound (inclusive)
+        to (Union[Unset, float]): Upper bound (exclusive)
     """
 
     name: str
-    count: int
-    from_: Union[Unset, str] = UNSET
-    to: Union[Unset, str] = UNSET
+    from_: Union[Unset, float] = UNSET
+    to: Union[Unset, float] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name
-
-        count = self.count
 
         from_ = self.from_
 
@@ -39,7 +35,6 @@ class DateRangeResult:
         field_dict.update(
             {
                 "name": name,
-                "count": count,
             }
         )
         if from_ is not UNSET:
@@ -54,21 +49,18 @@ class DateRangeResult:
         d = dict(src_dict)
         name = d.pop("name")
 
-        count = d.pop("count")
-
         from_ = d.pop("from", UNSET)
 
         to = d.pop("to", UNSET)
 
-        date_range_result = cls(
+        aggregation_range = cls(
             name=name,
-            count=count,
             from_=from_,
             to=to,
         )
 
-        date_range_result.additional_properties = d
-        return date_range_result
+        aggregation_range.additional_properties = d
+        return aggregation_range
 
     @property
     def additional_keys(self) -> list[str]:

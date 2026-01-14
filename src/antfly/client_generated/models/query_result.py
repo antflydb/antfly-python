@@ -7,9 +7,10 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.join_result import JoinResult
     from ..models.query_hits import QueryHits
+    from ..models.query_result_aggregations import QueryResultAggregations
     from ..models.query_result_analyses import QueryResultAnalyses
-    from ..models.query_result_facets import QueryResultFacets
     from ..models.query_result_graph_results import QueryResultGraphResults
 
 
@@ -24,9 +25,12 @@ class QueryResult:
         took (int): Duration of the query in milliseconds.
         status (int): HTTP status code of the query operation.
         hits (Union[Unset, QueryHits]): A list of query hits.
-        facets (Union[Unset, QueryResultFacets]):
+        aggregations (Union[Unset, QueryResultAggregations]): Aggregation results keyed by the user-defined aggregation
+            names from the request.
+            Contains computed metrics or buckets depending on the aggregation type.
         analyses (Union[Unset, QueryResultAnalyses]): Analysis results like PCA and t-SNE per index embeddings.
         graph_results (Union[Unset, QueryResultGraphResults]): Results from declarative graph queries.
+        join_result (Union[Unset, JoinResult]): Statistics and metadata about join execution.
         error (Union[Unset, str]): Error message if the query failed.
         table (Union[Unset, str]): Which table this result came from
     """
@@ -34,9 +38,10 @@ class QueryResult:
     took: int
     status: int
     hits: Union[Unset, "QueryHits"] = UNSET
-    facets: Union[Unset, "QueryResultFacets"] = UNSET
+    aggregations: Union[Unset, "QueryResultAggregations"] = UNSET
     analyses: Union[Unset, "QueryResultAnalyses"] = UNSET
     graph_results: Union[Unset, "QueryResultGraphResults"] = UNSET
+    join_result: Union[Unset, "JoinResult"] = UNSET
     error: Union[Unset, str] = UNSET
     table: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -50,9 +55,9 @@ class QueryResult:
         if not isinstance(self.hits, Unset):
             hits = self.hits.to_dict()
 
-        facets: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.facets, Unset):
-            facets = self.facets.to_dict()
+        aggregations: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.aggregations, Unset):
+            aggregations = self.aggregations.to_dict()
 
         analyses: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.analyses, Unset):
@@ -61,6 +66,10 @@ class QueryResult:
         graph_results: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.graph_results, Unset):
             graph_results = self.graph_results.to_dict()
+
+        join_result: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.join_result, Unset):
+            join_result = self.join_result.to_dict()
 
         error = self.error
 
@@ -76,12 +85,14 @@ class QueryResult:
         )
         if hits is not UNSET:
             field_dict["hits"] = hits
-        if facets is not UNSET:
-            field_dict["facets"] = facets
+        if aggregations is not UNSET:
+            field_dict["aggregations"] = aggregations
         if analyses is not UNSET:
             field_dict["analyses"] = analyses
         if graph_results is not UNSET:
             field_dict["graph_results"] = graph_results
+        if join_result is not UNSET:
+            field_dict["join_result"] = join_result
         if error is not UNSET:
             field_dict["error"] = error
         if table is not UNSET:
@@ -91,9 +102,10 @@ class QueryResult:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.join_result import JoinResult
         from ..models.query_hits import QueryHits
+        from ..models.query_result_aggregations import QueryResultAggregations
         from ..models.query_result_analyses import QueryResultAnalyses
-        from ..models.query_result_facets import QueryResultFacets
         from ..models.query_result_graph_results import QueryResultGraphResults
 
         d = dict(src_dict)
@@ -108,12 +120,12 @@ class QueryResult:
         else:
             hits = QueryHits.from_dict(_hits)
 
-        _facets = d.pop("facets", UNSET)
-        facets: Union[Unset, QueryResultFacets]
-        if isinstance(_facets, Unset):
-            facets = UNSET
+        _aggregations = d.pop("aggregations", UNSET)
+        aggregations: Union[Unset, QueryResultAggregations]
+        if isinstance(_aggregations, Unset):
+            aggregations = UNSET
         else:
-            facets = QueryResultFacets.from_dict(_facets)
+            aggregations = QueryResultAggregations.from_dict(_aggregations)
 
         _analyses = d.pop("analyses", UNSET)
         analyses: Union[Unset, QueryResultAnalyses]
@@ -129,6 +141,13 @@ class QueryResult:
         else:
             graph_results = QueryResultGraphResults.from_dict(_graph_results)
 
+        _join_result = d.pop("join_result", UNSET)
+        join_result: Union[Unset, JoinResult]
+        if isinstance(_join_result, Unset):
+            join_result = UNSET
+        else:
+            join_result = JoinResult.from_dict(_join_result)
+
         error = d.pop("error", UNSET)
 
         table = d.pop("table", UNSET)
@@ -137,9 +156,10 @@ class QueryResult:
             took=took,
             status=status,
             hits=hits,
-            facets=facets,
+            aggregations=aggregations,
             analyses=analyses,
             graph_results=graph_results,
+            join_result=join_result,
             error=error,
             table=table,
         )

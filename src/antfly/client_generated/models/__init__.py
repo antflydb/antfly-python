@@ -1,5 +1,11 @@
 """Contains all the data models used in inputs/outputs"""
 
+from .aggregation_bucket import AggregationBucket
+from .aggregation_bucket_sub_aggregations import AggregationBucketSubAggregations
+from .aggregation_date_range import AggregationDateRange
+from .aggregation_range import AggregationRange
+from .aggregation_result import AggregationResult
+from .aggregation_type import AggregationType
 from .analyses import Analyses
 from .analyses_result import AnalysesResult
 from .answer_agent_result import AnswerAgentResult
@@ -29,6 +35,7 @@ from .bool_field_query import BoolFieldQuery
 from .boolean_query import BooleanQuery
 from .brave_search_config import BraveSearchConfig
 from .brave_search_config_freshness import BraveSearchConfigFreshness
+from .calendar_interval import CalendarInterval
 from .chain_condition import ChainCondition
 from .chain_link import ChainLink
 from .chat_agent_result import ChatAgentResult
@@ -67,14 +74,16 @@ from .create_table_request import CreateTableRequest
 from .create_table_request_indexes import CreateTableRequestIndexes
 from .create_user_request import CreateUserRequest
 from .credentials import Credentials
-from .date_range import DateRange
-from .date_range_result import DateRangeResult
 from .date_range_string_query import DateRangeStringQuery
 from .disjunction_query import DisjunctionQuery
+from .distance_range import DistanceRange
+from .distance_unit import DistanceUnit
 from .doc_id_query import DocIdQuery
 from .document_schema import DocumentSchema
 from .document_schema_schema import DocumentSchemaSchema
 from .duck_duck_go_search_config import DuckDuckGoSearchConfig
+from .dynamic_template import DynamicTemplate
+from .dynamic_template_match_mapping_type import DynamicTemplateMatchMappingType
 from .edge import Edge
 from .edge_direction import EdgeDirection
 from .edge_metadata import EdgeMetadata
@@ -97,11 +106,10 @@ from .eval_summary import EvalSummary
 from .evaluator_name import EvaluatorName
 from .evaluator_score import EvaluatorScore
 from .evaluator_score_metadata import EvaluatorScoreMetadata
-from .facet_option import FacetOption
-from .facet_result import FacetResult
 from .failed_operation import FailedOperation
 from .failed_operation_operation import FailedOperationOperation
 from .fetch_config import FetchConfig
+from .field_statistics import FieldStatistics
 from .filter_spec import FilterSpec
 from .filter_spec_operator import FilterSpecOperator
 from .followup_step_config import FollowupStepConfig
@@ -136,6 +144,11 @@ from .index_status import IndexStatus
 from .index_status_shard_status import IndexStatusShardStatus
 from .index_type import IndexType
 from .ip_range_query import IPRangeQuery
+from .join_condition import JoinCondition
+from .join_operator import JoinOperator
+from .join_result import JoinResult
+from .join_strategy import JoinStrategy
+from .join_type import JoinType
 from .key_range import KeyRange
 from .linear_merge_page_status import LinearMergePageStatus
 from .linear_merge_request import LinearMergeRequest
@@ -154,9 +167,7 @@ from .merge_strategy import MergeStrategy
 from .multi_phrase_query import MultiPhraseQuery
 from .node_filter import NodeFilter
 from .node_filter_filter_query import NodeFilterFilterQuery
-from .numeric_range import NumericRange
 from .numeric_range_query import NumericRangeQuery
-from .numeric_range_result import NumericRangeResult
 from .ollama_embedder_config import OllamaEmbedderConfig
 from .ollama_generator_config import OllamaGeneratorConfig
 from .ollama_reranker_config import OllamaRerankerConfig
@@ -189,8 +200,8 @@ from .query_hit_source import QueryHitSource
 from .query_hits import QueryHits
 from .query_responses import QueryResponses
 from .query_result import QueryResult
+from .query_result_aggregations import QueryResultAggregations
 from .query_result_analyses import QueryResultAnalyses
-from .query_result_facets import QueryResultFacets
 from .query_result_graph_results import QueryResultGraphResults
 from .query_strategy import QueryStrategy
 from .query_string_query import QueryStringQuery
@@ -202,6 +213,7 @@ from .resource_type import ResourceType
 from .restore_table_response_202 import RestoreTableResponse202
 from .retry_config import RetryConfig
 from .route_type import RouteType
+from .schemas_antfly_type import SchemasAntflyType
 from .schemas_chat_agent_result import SchemasChatAgentResult
 from .schemas_chat_agent_result_query_results_item import SchemasChatAgentResultQueryResultsItem
 from .semantic_query_mode import SemanticQueryMode
@@ -209,6 +221,7 @@ from .serper_search_config import SerperSearchConfig
 from .serper_search_config_search_type import SerperSearchConfigSearchType
 from .serper_search_config_time_period import SerperSearchConfigTimePeriod
 from .shard_config import ShardConfig
+from .significance_algorithm import SignificanceAlgorithm
 from .storage_status import StorageStatus
 from .success_message import SuccessMessage
 from .sync_level import SyncLevel
@@ -221,15 +234,18 @@ from .table_restore_status_status import TableRestoreStatusStatus
 from .table_schema import TableSchema
 from .table_schema_document_schemas import TableSchemaDocumentSchemas
 from .table_shards import TableShards
+from .table_statistics import TableStatistics
+from .table_statistics_field_stats import TableStatisticsFieldStats
 from .table_status import TableStatus
 from .tavily_search_config import TavilySearchConfig
 from .tavily_search_config_search_depth import TavilySearchConfigSearchDepth
-from .term_facet_result import TermFacetResult
+from .template_field_mapping import TemplateFieldMapping
 from .term_query import TermQuery
 from .term_range_query import TermRangeQuery
 from .termite_chunker_config import TermiteChunkerConfig
 from .termite_chunker_config_full_text import TermiteChunkerConfigFullText
 from .termite_embedder_config import TermiteEmbedderConfig
+from .termite_generator_config import TermiteGeneratorConfig
 from .termite_reranker_config import TermiteRerankerConfig
 from .transform import Transform
 from .transform_op import TransformOp
@@ -248,6 +264,12 @@ from .web_search_provider import WebSearchProvider
 from .wildcard_query import WildcardQuery
 
 __all__ = (
+    "AggregationBucket",
+    "AggregationBucketSubAggregations",
+    "AggregationDateRange",
+    "AggregationRange",
+    "AggregationResult",
+    "AggregationType",
     "Analyses",
     "AnalysesResult",
     "AnswerAgentResult",
@@ -277,6 +299,7 @@ __all__ = (
     "BoolFieldQuery",
     "BraveSearchConfig",
     "BraveSearchConfigFreshness",
+    "CalendarInterval",
     "ChainCondition",
     "ChainLink",
     "ChatAgentResult",
@@ -315,14 +338,16 @@ __all__ = (
     "CreateTableRequestIndexes",
     "CreateUserRequest",
     "Credentials",
-    "DateRange",
-    "DateRangeResult",
     "DateRangeStringQuery",
     "DisjunctionQuery",
+    "DistanceRange",
+    "DistanceUnit",
     "DocIdQuery",
     "DocumentSchema",
     "DocumentSchemaSchema",
     "DuckDuckGoSearchConfig",
+    "DynamicTemplate",
+    "DynamicTemplateMatchMappingType",
     "Edge",
     "EdgeDirection",
     "EdgeMetadata",
@@ -345,11 +370,10 @@ __all__ = (
     "EvaluatorName",
     "EvaluatorScore",
     "EvaluatorScoreMetadata",
-    "FacetOption",
-    "FacetResult",
     "FailedOperation",
     "FailedOperationOperation",
     "FetchConfig",
+    "FieldStatistics",
     "FilterSpec",
     "FilterSpecOperator",
     "FollowupStepConfig",
@@ -384,6 +408,11 @@ __all__ = (
     "IndexStatusShardStatus",
     "IndexType",
     "IPRangeQuery",
+    "JoinCondition",
+    "JoinOperator",
+    "JoinResult",
+    "JoinStrategy",
+    "JoinType",
     "KeyRange",
     "LinearMergePageStatus",
     "LinearMergeRequest",
@@ -402,9 +431,7 @@ __all__ = (
     "MultiPhraseQuery",
     "NodeFilter",
     "NodeFilterFilterQuery",
-    "NumericRange",
     "NumericRangeQuery",
-    "NumericRangeResult",
     "OllamaEmbedderConfig",
     "OllamaGeneratorConfig",
     "OllamaRerankerConfig",
@@ -437,8 +464,8 @@ __all__ = (
     "QueryHitSource",
     "QueryResponses",
     "QueryResult",
+    "QueryResultAggregations",
     "QueryResultAnalyses",
-    "QueryResultFacets",
     "QueryResultGraphResults",
     "QueryStrategy",
     "QueryStringQuery",
@@ -450,6 +477,7 @@ __all__ = (
     "RestoreTableResponse202",
     "RetryConfig",
     "RouteType",
+    "SchemasAntflyType",
     "SchemasChatAgentResult",
     "SchemasChatAgentResultQueryResultsItem",
     "SemanticQueryMode",
@@ -457,6 +485,7 @@ __all__ = (
     "SerperSearchConfigSearchType",
     "SerperSearchConfigTimePeriod",
     "ShardConfig",
+    "SignificanceAlgorithm",
     "StorageStatus",
     "SuccessMessage",
     "SyncLevel",
@@ -469,13 +498,16 @@ __all__ = (
     "TableSchema",
     "TableSchemaDocumentSchemas",
     "TableShards",
+    "TableStatistics",
+    "TableStatisticsFieldStats",
     "TableStatus",
     "TavilySearchConfig",
     "TavilySearchConfigSearchDepth",
-    "TermFacetResult",
+    "TemplateFieldMapping",
     "TermiteChunkerConfig",
     "TermiteChunkerConfigFullText",
     "TermiteEmbedderConfig",
+    "TermiteGeneratorConfig",
     "TermiteRerankerConfig",
     "TermQuery",
     "TermRangeQuery",

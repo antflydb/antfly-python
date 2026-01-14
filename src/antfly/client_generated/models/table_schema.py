@@ -7,6 +7,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.dynamic_template import DynamicTemplate
     from ..models.table_schema_document_schemas import TableSchemaDocumentSchemas
 
 
@@ -29,6 +30,10 @@ class TableSchema:
         ttl_duration (Union[Unset, str]): The duration after which documents should expire, based on the ttl_field
             timestamp (optional).
             Uses Go duration format (e.g., '24h', '7d', '168h').
+        dynamic_templates (Union[Unset, list['DynamicTemplate']]): Rules for mapping dynamically detected fields. When a
+            document contains fields
+            that don't have explicit mappings and dynamic mapping is enabled, templates are
+            evaluated in order to determine how those fields should be indexed.
     """
 
     version: Union[Unset, int] = UNSET
@@ -37,6 +42,7 @@ class TableSchema:
     document_schemas: Union[Unset, "TableSchemaDocumentSchemas"] = UNSET
     ttl_field: Union[Unset, str] = UNSET
     ttl_duration: Union[Unset, str] = UNSET
+    dynamic_templates: Union[Unset, list["DynamicTemplate"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -54,6 +60,13 @@ class TableSchema:
 
         ttl_duration = self.ttl_duration
 
+        dynamic_templates: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.dynamic_templates, Unset):
+            dynamic_templates = []
+            for dynamic_templates_item_data in self.dynamic_templates:
+                dynamic_templates_item = dynamic_templates_item_data.to_dict()
+                dynamic_templates.append(dynamic_templates_item)
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -69,11 +82,14 @@ class TableSchema:
             field_dict["ttl_field"] = ttl_field
         if ttl_duration is not UNSET:
             field_dict["ttl_duration"] = ttl_duration
+        if dynamic_templates is not UNSET:
+            field_dict["dynamic_templates"] = dynamic_templates
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.dynamic_template import DynamicTemplate
         from ..models.table_schema_document_schemas import TableSchemaDocumentSchemas
 
         d = dict(src_dict)
@@ -94,6 +110,13 @@ class TableSchema:
 
         ttl_duration = d.pop("ttl_duration", UNSET)
 
+        dynamic_templates = []
+        _dynamic_templates = d.pop("dynamic_templates", UNSET)
+        for dynamic_templates_item_data in _dynamic_templates or []:
+            dynamic_templates_item = DynamicTemplate.from_dict(dynamic_templates_item_data)
+
+            dynamic_templates.append(dynamic_templates_item)
+
         table_schema = cls(
             version=version,
             default_type=default_type,
@@ -101,6 +124,7 @@ class TableSchema:
             document_schemas=document_schemas,
             ttl_field=ttl_field,
             ttl_duration=ttl_duration,
+            dynamic_templates=dynamic_templates,
         )
 
         table_schema.additional_properties = d

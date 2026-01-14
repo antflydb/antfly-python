@@ -6,16 +6,16 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="NumericRange")
+T = TypeVar("T", bound="DistanceRange")
 
 
 @_attrs_define
-class NumericRange:
+class DistanceRange:
     """
     Attributes:
-        name (str):
-        from_ (Union[Unset, float]):
-        to (Union[Unset, float]):
+        name (str): Name of the distance range bucket
+        from_ (Union[Unset, float]): Minimum distance (inclusive)
+        to (Union[Unset, float]): Maximum distance (exclusive)
     """
 
     name: str
@@ -53,14 +53,14 @@ class NumericRange:
 
         to = d.pop("to", UNSET)
 
-        numeric_range = cls(
+        distance_range = cls(
             name=name,
             from_=from_,
             to=to,
         )
 
-        numeric_range.additional_properties = d
-        return numeric_range
+        distance_range.additional_properties = d
+        return distance_range
 
     @property
     def additional_keys(self) -> list[str]:
