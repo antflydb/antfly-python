@@ -1,14 +1,10 @@
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
-
-if TYPE_CHECKING:
-    from ..models.termite_chunker_config_full_text import TermiteChunkerConfigFullText
-
 
 T = TypeVar("T", bound="TermiteChunkerConfig")
 
@@ -31,7 +27,7 @@ class TermiteChunkerConfig:
 
         Example:
             {'provider': 'termite', 'api_url': 'http://localhost:8080', 'model': 'fixed', 'target_tokens': 500,
-                'overlap_tokens': 50, 'separator': '\n\n', 'max_chunks': 50, 'full_text': {}}
+                'overlap_tokens': 50, 'separator': '\n\n', 'max_chunks': 50}
 
         Attributes:
             model (str): The chunking model to use. Either 'fixed' for simple token-based chunking, or a model name from
@@ -46,10 +42,6 @@ class TermiteChunkerConfig:
             target_tokens (Union[Unset, int]): Target number of tokens per chunk.
             api_url (Union[Unset, str]): The URL of the Termite API endpoint (e.g., 'http://localhost:8080'). Can also be
                 set via ANTFLY_TERMITE_URL environment variable. Example: http://localhost:8080.
-            full_text (Union[Unset, TermiteChunkerConfigFullText]): Configuration for full-text indexing of chunks in Bleve.
-                When present (even if empty), chunks will be stored with :cft: suffix and indexed in Bleve's _chunks field.
-                When absent, chunks use :c: suffix and are only used for vector embeddings.
-                This object is reserved for future options like boosting, field mapping, etc.
     """
 
     model: str = "fixed"
@@ -59,7 +51,6 @@ class TermiteChunkerConfig:
     threshold: Union[Unset, float] = UNSET
     target_tokens: Union[Unset, int] = UNSET
     api_url: Union[Unset, str] = UNSET
-    full_text: Union[Unset, "TermiteChunkerConfigFullText"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -76,10 +67,6 @@ class TermiteChunkerConfig:
         target_tokens = self.target_tokens
 
         api_url = self.api_url
-
-        full_text: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.full_text, Unset):
-            full_text = self.full_text.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -100,15 +87,11 @@ class TermiteChunkerConfig:
             field_dict["target_tokens"] = target_tokens
         if api_url is not UNSET:
             field_dict["api_url"] = api_url
-        if full_text is not UNSET:
-            field_dict["full_text"] = full_text
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.termite_chunker_config_full_text import TermiteChunkerConfigFullText
-
         d = dict(src_dict)
         model = d.pop("model")
 
@@ -124,13 +107,6 @@ class TermiteChunkerConfig:
 
         api_url = d.pop("api_url", UNSET)
 
-        _full_text = d.pop("full_text", UNSET)
-        full_text: Union[Unset, TermiteChunkerConfigFullText]
-        if isinstance(_full_text, Unset):
-            full_text = UNSET
-        else:
-            full_text = TermiteChunkerConfigFullText.from_dict(_full_text)
-
         termite_chunker_config = cls(
             model=model,
             max_chunks=max_chunks,
@@ -139,7 +115,6 @@ class TermiteChunkerConfig:
             threshold=threshold,
             target_tokens=target_tokens,
             api_url=api_url,
-            full_text=full_text,
         )
 
         termite_chunker_config.additional_properties = d

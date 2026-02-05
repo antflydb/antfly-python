@@ -4,15 +4,14 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="AntflyChunkerConfigFullText")
+T = TypeVar("T", bound="ChunkerConfigFullTextIndex")
 
 
 @_attrs_define
-class AntflyChunkerConfigFullText:
+class ChunkerConfigFullTextIndex:
     """Configuration for full-text indexing of chunks in Bleve.
     When present (even if empty), chunks will be stored with :cft: suffix and indexed in Bleve's _chunks field.
     When absent, chunks use :c: suffix and are only used for vector embeddings.
-    This object is reserved for future options like boosting, field mapping, etc.
 
     """
 
@@ -27,10 +26,10 @@ class AntflyChunkerConfigFullText:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        antfly_chunker_config_full_text = cls()
+        chunker_config_full_text_index = cls()
 
-        antfly_chunker_config_full_text.additional_properties = d
-        return antfly_chunker_config_full_text
+        chunker_config_full_text_index.additional_properties = d
+        return chunker_config_full_text_index
 
     @property
     def additional_keys(self) -> list[str]:

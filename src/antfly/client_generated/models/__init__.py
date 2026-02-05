@@ -13,8 +13,6 @@ from .answer_agent_steps import AnswerAgentSteps
 from .answer_confidence import AnswerConfidence
 from .answer_result import AnswerResult
 from .answer_step_config import AnswerStepConfig
-from .antfly_chunker_config import AntflyChunkerConfig
-from .antfly_chunker_config_full_text import AntflyChunkerConfigFullText
 from .antfly_type import AntflyType
 from .anthropic_generator_config import AnthropicGeneratorConfig
 from .backup_info import BackupInfo
@@ -50,6 +48,7 @@ from .chat_tool_result_result import ChatToolResultResult
 from .chat_tools_config import ChatToolsConfig
 from .chunk_options import ChunkOptions
 from .chunker_config import ChunkerConfig
+from .chunker_config_full_text_index import ChunkerConfigFullTextIndex
 from .chunker_provider import ChunkerProvider
 from .clarification_request import ClarificationRequest
 from .classification_step_config import ClassificationStepConfig
@@ -88,6 +87,7 @@ from .edge import Edge
 from .edge_direction import EdgeDirection
 from .edge_metadata import EdgeMetadata
 from .edge_type_config import EdgeTypeConfig
+from .edge_type_config_topology import EdgeTypeConfigTopology
 from .edges_response import EdgesResponse
 from .embedder_config import EmbedderConfig
 from .embedder_provider import EmbedderProvider
@@ -243,7 +243,6 @@ from .template_field_mapping import TemplateFieldMapping
 from .term_query import TermQuery
 from .term_range_query import TermRangeQuery
 from .termite_chunker_config import TermiteChunkerConfig
-from .termite_chunker_config_full_text import TermiteChunkerConfigFullText
 from .termite_embedder_config import TermiteEmbedderConfig
 from .termite_generator_config import TermiteGeneratorConfig
 from .termite_reranker_config import TermiteRerankerConfig
@@ -277,8 +276,6 @@ __all__ = (
     "AnswerConfidence",
     "AnswerResult",
     "AnswerStepConfig",
-    "AntflyChunkerConfig",
-    "AntflyChunkerConfigFullText",
     "AntflyType",
     "AnthropicGeneratorConfig",
     "BackupInfo",
@@ -313,6 +310,7 @@ __all__ = (
     "ChatToolResultResult",
     "ChatToolsConfig",
     "ChunkerConfig",
+    "ChunkerConfigFullTextIndex",
     "ChunkerProvider",
     "ChunkOptions",
     "ClarificationRequest",
@@ -353,6 +351,7 @@ __all__ = (
     "EdgeMetadata",
     "EdgesResponse",
     "EdgeTypeConfig",
+    "EdgeTypeConfigTopology",
     "EmbedderConfig",
     "EmbedderProvider",
     "EmbeddingIndexConfig",
@@ -505,7 +504,6 @@ __all__ = (
     "TavilySearchConfigSearchDepth",
     "TemplateFieldMapping",
     "TermiteChunkerConfig",
-    "TermiteChunkerConfigFullText",
     "TermiteEmbedderConfig",
     "TermiteGeneratorConfig",
     "TermiteRerankerConfig",
