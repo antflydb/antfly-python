@@ -40,6 +40,8 @@ class TermiteChunkerConfig:
             threshold (Union[Unset, float]): Minimum confidence threshold for separator detection (0.0-1.0). Only used by
                 ONNX models.
             target_tokens (Union[Unset, int]): Target number of tokens per chunk.
+            window_duration_ms (Union[Unset, int]): Window duration in milliseconds for audio chunking (default: 30000).
+            overlap_duration_ms (Union[Unset, int]): Overlap duration in milliseconds between audio chunks (default: 0).
             api_url (Union[Unset, str]): The URL of the Termite API endpoint (e.g., 'http://localhost:8080'). Can also be
                 set via ANTFLY_TERMITE_URL environment variable. Example: http://localhost:8080.
     """
@@ -50,6 +52,8 @@ class TermiteChunkerConfig:
     separator: Union[Unset, str] = UNSET
     threshold: Union[Unset, float] = UNSET
     target_tokens: Union[Unset, int] = UNSET
+    window_duration_ms: Union[Unset, int] = UNSET
+    overlap_duration_ms: Union[Unset, int] = UNSET
     api_url: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -65,6 +69,10 @@ class TermiteChunkerConfig:
         threshold = self.threshold
 
         target_tokens = self.target_tokens
+
+        window_duration_ms = self.window_duration_ms
+
+        overlap_duration_ms = self.overlap_duration_ms
 
         api_url = self.api_url
 
@@ -85,6 +93,10 @@ class TermiteChunkerConfig:
             field_dict["threshold"] = threshold
         if target_tokens is not UNSET:
             field_dict["target_tokens"] = target_tokens
+        if window_duration_ms is not UNSET:
+            field_dict["window_duration_ms"] = window_duration_ms
+        if overlap_duration_ms is not UNSET:
+            field_dict["overlap_duration_ms"] = overlap_duration_ms
         if api_url is not UNSET:
             field_dict["api_url"] = api_url
 
@@ -105,6 +117,10 @@ class TermiteChunkerConfig:
 
         target_tokens = d.pop("target_tokens", UNSET)
 
+        window_duration_ms = d.pop("window_duration_ms", UNSET)
+
+        overlap_duration_ms = d.pop("overlap_duration_ms", UNSET)
+
         api_url = d.pop("api_url", UNSET)
 
         termite_chunker_config = cls(
@@ -114,6 +130,8 @@ class TermiteChunkerConfig:
             separator=separator,
             threshold=threshold,
             target_tokens=target_tokens,
+            window_duration_ms=window_duration_ms,
+            overlap_duration_ms=overlap_duration_ms,
             api_url=api_url,
         )
 

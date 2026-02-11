@@ -11,15 +11,16 @@ if TYPE_CHECKING:
     from ..models.generator_config import GeneratorConfig
 
 
-T = TypeVar("T", bound="AnswerStepConfig")
+T = TypeVar("T", bound="GenerationStepConfig")
 
 
 @_attrs_define
-class AnswerStepConfig:
-    r"""Configuration for the answer generation step. This step generates the final
-    answer from retrieved documents using the reasoning as context.
+class GenerationStepConfig:
+    r"""Configuration for the generation step. This step generates the final
+    response from retrieved documents using the reasoning as context.
 
         Attributes:
+            enabled (Union[Unset, bool]): Enable generation from retrieved documents Default: False.
             generator (Union[Unset, GeneratorConfig]): A unified configuration for a generative AI provider.
 
                 Generators can be configured with custom prompts using templates. Templates use
@@ -185,17 +186,20 @@ class AnswerStepConfig:
             chain (Union[Unset, list['ChainLink']]): Chain of generators to try in order. Mutually exclusive with
                 'generator'.
             system_prompt (Union[Unset, str]): Custom system prompt for answer generation
-            answer_context (Union[Unset, str]): Custom guidance for answer tone, detail level, and style Example: Be concise
-                and technical. Include code examples where relevant..
+            generation_context (Union[Unset, str]): Custom guidance for generation tone, detail level, and style Example: Be
+                concise and technical. Include code examples where relevant..
     """
 
+    enabled: Union[Unset, bool] = False
     generator: Union[Unset, "GeneratorConfig"] = UNSET
     chain: Union[Unset, list["ChainLink"]] = UNSET
     system_prompt: Union[Unset, str] = UNSET
-    answer_context: Union[Unset, str] = UNSET
+    generation_context: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        enabled = self.enabled
+
         generator: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.generator, Unset):
             generator = self.generator.to_dict()
@@ -209,19 +213,21 @@ class AnswerStepConfig:
 
         system_prompt = self.system_prompt
 
-        answer_context = self.answer_context
+        generation_context = self.generation_context
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if enabled is not UNSET:
+            field_dict["enabled"] = enabled
         if generator is not UNSET:
             field_dict["generator"] = generator
         if chain is not UNSET:
             field_dict["chain"] = chain
         if system_prompt is not UNSET:
             field_dict["system_prompt"] = system_prompt
-        if answer_context is not UNSET:
-            field_dict["answer_context"] = answer_context
+        if generation_context is not UNSET:
+            field_dict["generation_context"] = generation_context
 
         return field_dict
 
@@ -231,6 +237,8 @@ class AnswerStepConfig:
         from ..models.generator_config import GeneratorConfig
 
         d = dict(src_dict)
+        enabled = d.pop("enabled", UNSET)
+
         _generator = d.pop("generator", UNSET)
         generator: Union[Unset, GeneratorConfig]
         if isinstance(_generator, Unset):
@@ -247,17 +255,18 @@ class AnswerStepConfig:
 
         system_prompt = d.pop("system_prompt", UNSET)
 
-        answer_context = d.pop("answer_context", UNSET)
+        generation_context = d.pop("generation_context", UNSET)
 
-        answer_step_config = cls(
+        generation_step_config = cls(
+            enabled=enabled,
             generator=generator,
             chain=chain,
             system_prompt=system_prompt,
-            answer_context=answer_context,
+            generation_context=generation_context,
         )
 
-        answer_step_config.additional_properties = d
-        return answer_step_config
+        generation_step_config.additional_properties = d
+        return generation_step_config
 
     @property
     def additional_keys(self) -> list[str]:

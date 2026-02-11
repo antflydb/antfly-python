@@ -22,6 +22,7 @@ class ClassificationStepConfig:
     selects the optimal retrieval strategy, and generates semantic transformations.
 
         Attributes:
+            enabled (Union[Unset, bool]): Enable query classification and strategy selection Default: False.
             generator (Union[Unset, GeneratorConfig]): A unified configuration for a generative AI provider.
 
                 Generators can be configured with custom prompts using templates. Templates use
@@ -200,6 +201,7 @@ class ClassificationStepConfig:
             multi_phrase_count (Union[Unset, int]): Number of alternative query phrasings to generate Default: 3.
     """
 
+    enabled: Union[Unset, bool] = False
     generator: Union[Unset, "GeneratorConfig"] = UNSET
     chain: Union[Unset, list["ChainLink"]] = UNSET
     with_reasoning: Union[Unset, bool] = False
@@ -209,6 +211,8 @@ class ClassificationStepConfig:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        enabled = self.enabled
+
         generator: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.generator, Unset):
             generator = self.generator.to_dict()
@@ -235,6 +239,8 @@ class ClassificationStepConfig:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if enabled is not UNSET:
+            field_dict["enabled"] = enabled
         if generator is not UNSET:
             field_dict["generator"] = generator
         if chain is not UNSET:
@@ -256,6 +262,8 @@ class ClassificationStepConfig:
         from ..models.generator_config import GeneratorConfig
 
         d = dict(src_dict)
+        enabled = d.pop("enabled", UNSET)
+
         _generator = d.pop("generator", UNSET)
         generator: Union[Unset, GeneratorConfig]
         if isinstance(_generator, Unset):
@@ -289,6 +297,7 @@ class ClassificationStepConfig:
         multi_phrase_count = d.pop("multi_phrase_count", UNSET)
 
         classification_step_config = cls(
+            enabled=enabled,
             generator=generator,
             chain=chain,
             with_reasoning=with_reasoning,

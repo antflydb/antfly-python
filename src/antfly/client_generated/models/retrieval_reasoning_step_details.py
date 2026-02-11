@@ -4,46 +4,28 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="GenerateResult")
+T = TypeVar("T", bound="RetrievalReasoningStepDetails")
 
 
 @_attrs_define
-class GenerateResult:
-    """Result of a generate operation. Formatted as markdown by default with inline resource references using [resource_id
-    <id>] or [resource_id <id1>, <id2>] format.
+class RetrievalReasoningStepDetails:
+    """Additional details about the step (e.g., tool arguments, result count)"""
 
-        Attributes:
-            text (str): The generated text in markdown format with inline resource references like [resource_id res1] or
-                [resource_id res1, res2]
-    """
-
-    text: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        text = self.text
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "text": text,
-            }
-        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        text = d.pop("text")
+        retrieval_reasoning_step_details = cls()
 
-        generate_result = cls(
-            text=text,
-        )
-
-        generate_result.additional_properties = d
-        return generate_result
+        retrieval_reasoning_step_details.additional_properties = d
+        return retrieval_reasoning_step_details
 
     @property
     def additional_keys(self) -> list[str]:

@@ -22,6 +22,8 @@ class ChunkOptions:
         threshold (Union[Unset, float]): Minimum confidence threshold for separator detection (0.0-1.0). Only used by
             ONNX models.
         target_tokens (Union[Unset, int]): Target number of tokens per chunk.
+        window_duration_ms (Union[Unset, int]): Window duration in milliseconds for audio chunking (default: 30000).
+        overlap_duration_ms (Union[Unset, int]): Overlap duration in milliseconds between audio chunks (default: 0).
     """
 
     max_chunks: Union[Unset, int] = UNSET
@@ -29,6 +31,8 @@ class ChunkOptions:
     separator: Union[Unset, str] = UNSET
     threshold: Union[Unset, float] = UNSET
     target_tokens: Union[Unset, int] = UNSET
+    window_duration_ms: Union[Unset, int] = UNSET
+    overlap_duration_ms: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -41,6 +45,10 @@ class ChunkOptions:
         threshold = self.threshold
 
         target_tokens = self.target_tokens
+
+        window_duration_ms = self.window_duration_ms
+
+        overlap_duration_ms = self.overlap_duration_ms
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -55,6 +63,10 @@ class ChunkOptions:
             field_dict["threshold"] = threshold
         if target_tokens is not UNSET:
             field_dict["target_tokens"] = target_tokens
+        if window_duration_ms is not UNSET:
+            field_dict["window_duration_ms"] = window_duration_ms
+        if overlap_duration_ms is not UNSET:
+            field_dict["overlap_duration_ms"] = overlap_duration_ms
 
         return field_dict
 
@@ -71,12 +83,18 @@ class ChunkOptions:
 
         target_tokens = d.pop("target_tokens", UNSET)
 
+        window_duration_ms = d.pop("window_duration_ms", UNSET)
+
+        overlap_duration_ms = d.pop("overlap_duration_ms", UNSET)
+
         chunk_options = cls(
             max_chunks=max_chunks,
             overlap_tokens=overlap_tokens,
             separator=separator,
             threshold=threshold,
             target_tokens=target_tokens,
+            window_duration_ms=window_duration_ms,
+            overlap_duration_ms=overlap_duration_ms,
         )
 
         chunk_options.additional_properties = d

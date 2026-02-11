@@ -8,11 +8,6 @@ from .aggregation_result import AggregationResult
 from .aggregation_type import AggregationType
 from .analyses import Analyses
 from .analyses_result import AnalysesResult
-from .answer_agent_result import AnswerAgentResult
-from .answer_agent_steps import AnswerAgentSteps
-from .answer_confidence import AnswerConfidence
-from .answer_result import AnswerResult
-from .answer_step_config import AnswerStepConfig
 from .antfly_type import AntflyType
 from .anthropic_generator_config import AnthropicGeneratorConfig
 from .backup_info import BackupInfo
@@ -36,8 +31,6 @@ from .brave_search_config_freshness import BraveSearchConfigFreshness
 from .calendar_interval import CalendarInterval
 from .chain_condition import ChainCondition
 from .chain_link import ChainLink
-from .chat_agent_result import ChatAgentResult
-from .chat_agent_steps import ChatAgentSteps
 from .chat_message import ChatMessage
 from .chat_message_role import ChatMessageRole
 from .chat_tool_call import ChatToolCall
@@ -50,6 +43,8 @@ from .chunk_options import ChunkOptions
 from .chunker_config import ChunkerConfig
 from .chunker_config_full_text_index import ChunkerConfigFullTextIndex
 from .chunker_provider import ChunkerProvider
+from .citation import Citation
+from .citation_style import CitationStyle
 from .clarification_request import ClarificationRequest
 from .classification_step_config import ClassificationStepConfig
 from .classification_transformation_result import ClassificationTransformationResult
@@ -115,7 +110,7 @@ from .filter_spec_operator import FilterSpecOperator
 from .followup_step_config import FollowupStepConfig
 from .fuzziness_type_1 import FuzzinessType1
 from .fuzzy_query import FuzzyQuery
-from .generate_result import GenerateResult
+from .generation_step_config import GenerationStepConfig
 from .generator_config import GeneratorConfig
 from .generator_provider import GeneratorProvider
 from .geo_bounding_box_query import GeoBoundingBoxQuery
@@ -205,17 +200,20 @@ from .query_result_analyses import QueryResultAnalyses
 from .query_result_graph_results import QueryResultGraphResults
 from .query_strategy import QueryStrategy
 from .query_string_query import QueryStringQuery
-from .rag_result import RAGResult
 from .regexp_query import RegexpQuery
 from .reranker_config import RerankerConfig
 from .reranker_provider import RerankerProvider
 from .resource_type import ResourceType
 from .restore_table_response_202 import RestoreTableResponse202
+from .retrieval_agent_result import RetrievalAgentResult
+from .retrieval_agent_state import RetrievalAgentState
+from .retrieval_agent_steps import RetrievalAgentSteps
+from .retrieval_reasoning_step import RetrievalReasoningStep
+from .retrieval_reasoning_step_details import RetrievalReasoningStepDetails
+from .retrieval_strategy import RetrievalStrategy
 from .retry_config import RetryConfig
 from .route_type import RouteType
 from .schemas_antfly_type import SchemasAntflyType
-from .schemas_chat_agent_result import SchemasChatAgentResult
-from .schemas_chat_agent_result_query_results_item import SchemasChatAgentResultQueryResultsItem
 from .semantic_query_mode import SemanticQueryMode
 from .serper_search_config import SerperSearchConfig
 from .serper_search_config_search_type import SerperSearchConfigSearchType
@@ -253,6 +251,7 @@ from .traversal_result import TraversalResult
 from .traversal_result_document import TraversalResultDocument
 from .traversal_rules import TraversalRules
 from .traverse_response import TraverseResponse
+from .tree_search_config import TreeSearchConfig
 from .update_password_request import UpdatePasswordRequest
 from .user import User
 from .vertex_embedder_config import VertexEmbedderConfig
@@ -271,11 +270,6 @@ __all__ = (
     "AggregationType",
     "Analyses",
     "AnalysesResult",
-    "AnswerAgentResult",
-    "AnswerAgentSteps",
-    "AnswerConfidence",
-    "AnswerResult",
-    "AnswerStepConfig",
     "AntflyType",
     "AnthropicGeneratorConfig",
     "BackupInfo",
@@ -299,8 +293,6 @@ __all__ = (
     "CalendarInterval",
     "ChainCondition",
     "ChainLink",
-    "ChatAgentResult",
-    "ChatAgentSteps",
     "ChatMessage",
     "ChatMessageRole",
     "ChatToolCall",
@@ -313,6 +305,8 @@ __all__ = (
     "ChunkerConfigFullTextIndex",
     "ChunkerProvider",
     "ChunkOptions",
+    "Citation",
+    "CitationStyle",
     "ClarificationRequest",
     "ClassificationStepConfig",
     "ClassificationTransformationResult",
@@ -378,7 +372,7 @@ __all__ = (
     "FollowupStepConfig",
     "FuzzinessType1",
     "FuzzyQuery",
-    "GenerateResult",
+    "GenerationStepConfig",
     "GeneratorConfig",
     "GeneratorProvider",
     "GeoBoundingBoxQuery",
@@ -468,17 +462,20 @@ __all__ = (
     "QueryResultGraphResults",
     "QueryStrategy",
     "QueryStringQuery",
-    "RAGResult",
     "RegexpQuery",
     "RerankerConfig",
     "RerankerProvider",
     "ResourceType",
     "RestoreTableResponse202",
+    "RetrievalAgentResult",
+    "RetrievalAgentState",
+    "RetrievalAgentSteps",
+    "RetrievalReasoningStep",
+    "RetrievalReasoningStepDetails",
+    "RetrievalStrategy",
     "RetryConfig",
     "RouteType",
     "SchemasAntflyType",
-    "SchemasChatAgentResult",
-    "SchemasChatAgentResultQueryResultsItem",
     "SemanticQueryMode",
     "SerperSearchConfig",
     "SerperSearchConfigSearchType",
@@ -516,6 +513,7 @@ __all__ = (
     "TraversalResultDocument",
     "TraversalRules",
     "TraverseResponse",
+    "TreeSearchConfig",
     "UpdatePasswordRequest",
     "User",
     "VertexEmbedderConfig",

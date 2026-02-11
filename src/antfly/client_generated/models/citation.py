@@ -1,56 +1,67 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="AnswerConfidence")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="Citation")
 
 
 @_attrs_define
-class AnswerConfidence:
-    """Confidence assessment for the generated answer
+class Citation:
+    """A citation extracted from the generated response
 
     Attributes:
-        answer_confidence (float): Overall confidence in the answer (0.0 to 1.0). Considers both ability to answer from
-            provided resources and general knowledge.
-        context_relevance (float): Relevance of the provided resources to the question (0.0 to 1.0)
+        document_id (str): ID of the cited document
+        text (Union[Unset, str]): Relevant text from the document
+        score (Union[Unset, float]): Relevance score of the citation
     """
 
-    answer_confidence: float
-    context_relevance: float
+    document_id: str
+    text: Union[Unset, str] = UNSET
+    score: Union[Unset, float] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        answer_confidence = self.answer_confidence
+        document_id = self.document_id
 
-        context_relevance = self.context_relevance
+        text = self.text
+
+        score = self.score
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "answer_confidence": answer_confidence,
-                "context_relevance": context_relevance,
+                "document_id": document_id,
             }
         )
+        if text is not UNSET:
+            field_dict["text"] = text
+        if score is not UNSET:
+            field_dict["score"] = score
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        answer_confidence = d.pop("answer_confidence")
+        document_id = d.pop("document_id")
 
-        context_relevance = d.pop("context_relevance")
+        text = d.pop("text", UNSET)
 
-        answer_confidence = cls(
-            answer_confidence=answer_confidence,
-            context_relevance=context_relevance,
+        score = d.pop("score", UNSET)
+
+        citation = cls(
+            document_id=document_id,
+            text=text,
+            score=score,
         )
 
-        answer_confidence.additional_properties = d
-        return answer_confidence
+        citation.additional_properties = d
+        return citation
 
     @property
     def additional_keys(self) -> list[str]:

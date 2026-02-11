@@ -11,17 +11,19 @@ T = TypeVar("T", bound="ClarificationRequest")
 
 @_attrs_define
 class ClarificationRequest:
-    """A request for clarification from the user
+    """Request for clarification from the user
 
     Attributes:
-        question (str): The clarifying question to ask the user
-        options (Union[Unset, list[str]]): Optional list of suggested answers for the user to choose from
-        required (Union[Unset, bool]): Whether the clarification is required before proceeding Default: False.
+        question (str): The clarifying question to ask the user Example: Did you mean OAuth 1.0 or OAuth 2.0?.
+        options (Union[Unset, list[str]]): Optional list of choices for the user Example: ['OAuth 1.0', 'OAuth 2.0',
+            'Both'].
+        reason (Union[Unset, str]): Why clarification is needed Example: The query mentions OAuth but doesn't specify
+            which version.
     """
 
     question: str
     options: Union[Unset, list[str]] = UNSET
-    required: Union[Unset, bool] = False
+    reason: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -31,7 +33,7 @@ class ClarificationRequest:
         if not isinstance(self.options, Unset):
             options = self.options
 
-        required = self.required
+        reason = self.reason
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -42,8 +44,8 @@ class ClarificationRequest:
         )
         if options is not UNSET:
             field_dict["options"] = options
-        if required is not UNSET:
-            field_dict["required"] = required
+        if reason is not UNSET:
+            field_dict["reason"] = reason
 
         return field_dict
 
@@ -54,12 +56,12 @@ class ClarificationRequest:
 
         options = cast(list[str], d.pop("options", UNSET))
 
-        required = d.pop("required", UNSET)
+        reason = d.pop("reason", UNSET)
 
         clarification_request = cls(
             question=question,
             options=options,
-            required=required,
+            reason=reason,
         )
 
         clarification_request.additional_properties = d
