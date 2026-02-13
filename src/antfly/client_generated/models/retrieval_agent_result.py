@@ -10,7 +10,6 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.chat_message import ChatMessage
-    from ..models.citation import Citation
     from ..models.clarification_request import ClarificationRequest
     from ..models.classification_transformation_result import ClassificationTransformationResult
     from ..models.eval_result import EvalResult
@@ -50,7 +49,6 @@ class RetrievalAgentResult:
             result combining all query enhancements including strategy selection and semantic optimization
         generation (Union[Unset, str]): Generated response in markdown format. Present when steps.generation
             was configured.
-        citations (Union[Unset, list['Citation']]): Citations extracted from the generated response
         generation_confidence (Union[Unset, float]): Confidence in the generated response (requires steps.confidence)
         context_relevance (Union[Unset, float]): Relevance of retrieved documents to the query (requires
             steps.confidence)
@@ -68,7 +66,6 @@ class RetrievalAgentResult:
     messages: Union[Unset, list["ChatMessage"]] = UNSET
     classification: Union[Unset, "ClassificationTransformationResult"] = UNSET
     generation: Union[Unset, str] = UNSET
-    citations: Union[Unset, list["Citation"]] = UNSET
     generation_confidence: Union[Unset, float] = UNSET
     context_relevance: Union[Unset, float] = UNSET
     followup_questions: Union[Unset, list[str]] = UNSET
@@ -120,13 +117,6 @@ class RetrievalAgentResult:
 
         generation = self.generation
 
-        citations: Union[Unset, list[dict[str, Any]]] = UNSET
-        if not isinstance(self.citations, Unset):
-            citations = []
-            for citations_item_data in self.citations:
-                citations_item = citations_item_data.to_dict()
-                citations.append(citations_item)
-
         generation_confidence = self.generation_confidence
 
         context_relevance = self.context_relevance
@@ -163,8 +153,6 @@ class RetrievalAgentResult:
             field_dict["classification"] = classification
         if generation is not UNSET:
             field_dict["generation"] = generation
-        if citations is not UNSET:
-            field_dict["citations"] = citations
         if generation_confidence is not UNSET:
             field_dict["generation_confidence"] = generation_confidence
         if context_relevance is not UNSET:
@@ -179,7 +167,6 @@ class RetrievalAgentResult:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.chat_message import ChatMessage
-        from ..models.citation import Citation
         from ..models.clarification_request import ClarificationRequest
         from ..models.classification_transformation_result import ClassificationTransformationResult
         from ..models.eval_result import EvalResult
@@ -243,13 +230,6 @@ class RetrievalAgentResult:
 
         generation = d.pop("generation", UNSET)
 
-        citations = []
-        _citations = d.pop("citations", UNSET)
-        for citations_item_data in _citations or []:
-            citations_item = Citation.from_dict(citations_item_data)
-
-            citations.append(citations_item)
-
         generation_confidence = d.pop("generation_confidence", UNSET)
 
         context_relevance = d.pop("context_relevance", UNSET)
@@ -274,7 +254,6 @@ class RetrievalAgentResult:
             messages=messages,
             classification=classification,
             generation=generation,
-            citations=citations,
             generation_confidence=generation_confidence,
             context_relevance=context_relevance,
             followup_questions=followup_questions,

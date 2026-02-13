@@ -16,16 +16,18 @@ class TreeSearchConfig:
 
         Attributes:
             index (str): Name of the graph index to use for tree navigation Example: doc_hierarchy.
-            start_nodes (str): Reference to starting nodes for tree search:
-                - "$query_name" - Results from a prior named query in the pipeline
+            start_nodes (Union[Unset, str]): Starting nodes for tree search:
                 - "$roots" - Query for root nodes (nodes with no parents)
-                 Example: $semantic_results.
+                - Comma-separated explicit node IDs
+                When omitted and combined with a QueryRequest in a RetrievalQueryRequest,
+                the query results are used as start nodes.
+                 Example: $roots.
             max_depth (Union[Unset, int]): Maximum depth to traverse in the tree Default: 5.
             beam_width (Union[Unset, int]): Number of branches to explore at each level Default: 3.
     """
 
     index: str
-    start_nodes: str
+    start_nodes: Union[Unset, str] = UNSET
     max_depth: Union[Unset, int] = 5
     beam_width: Union[Unset, int] = 3
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -44,9 +46,10 @@ class TreeSearchConfig:
         field_dict.update(
             {
                 "index": index,
-                "start_nodes": start_nodes,
             }
         )
+        if start_nodes is not UNSET:
+            field_dict["start_nodes"] = start_nodes
         if max_depth is not UNSET:
             field_dict["max_depth"] = max_depth
         if beam_width is not UNSET:
@@ -59,7 +62,7 @@ class TreeSearchConfig:
         d = dict(src_dict)
         index = d.pop("index")
 
-        start_nodes = d.pop("start_nodes")
+        start_nodes = d.pop("start_nodes", UNSET)
 
         max_depth = d.pop("max_depth", UNSET)
 
