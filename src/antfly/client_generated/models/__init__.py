@@ -108,6 +108,9 @@ from .field_statistics import FieldStatistics
 from .filter_spec import FilterSpec
 from .filter_spec_operator import FilterSpecOperator
 from .followup_step_config import FollowupStepConfig
+from .foreign_column import ForeignColumn
+from .foreign_source import ForeignSource
+from .foreign_source_type import ForeignSourceType
 from .fuzziness_type_1 import FuzzinessType1
 from .fuzzy_query import FuzzyQuery
 from .generation_step_config import GenerationStepConfig
@@ -370,6 +373,9 @@ __all__ = (
     "FilterSpec",
     "FilterSpecOperator",
     "FollowupStepConfig",
+    "ForeignColumn",
+    "ForeignSource",
+    "ForeignSourceType",
     "FuzzinessType1",
     "FuzzyQuery",
     "GenerationStepConfig",
