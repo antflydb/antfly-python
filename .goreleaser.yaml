@@ -2,8 +2,8 @@
 version: 2
 builds:
   - id: wheel
-    builder: poetry
+    builder: uv
     buildmode: wheel
   - id: sdist
-    builder: poetry
+    builder: uv
     buildmode: sdist

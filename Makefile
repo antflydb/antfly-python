@@ -1,4 +1,4 @@
-.PHONY: generate clean install test build publish docs fmt
+.PHONY: generate clean install test build publish docs fmt check update-deps
 
 generate:
 	openapi-python-client generate --path ../openapi.yaml --output-path src/antfly --overwrite --config .openapi-generator-config.yaml
@@ -9,24 +9,24 @@ clean:
 	find . -type f -name "*.pyc" -delete
 
 install:
-	pip install -e ".[dev]"
+	uv sync
 
 test:
-	pytest tests --cov=antfly --cov-report=xml
+	uv run pytest tests --cov=antfly --cov-report=xml
 
 build: clean generate
-	python -m build
+	uv build
 
 publish: build
-	python -m twine upload dist/*
+	uv publish
 
 docs:
 	cd docs && make html
 
 check:
-	ruff check src tests --fix
-	ruff format src tests --fix
-	pyright src tests
+	uv run ruff check src tests --fix
+	uv run ruff format src tests --fix
+	uv run pyright src tests
 
 update-deps:
-	poetry update
+	uv lock --upgrade && uv sync

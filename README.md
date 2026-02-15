@@ -88,14 +88,8 @@ user = client.get(table="users", key="user:1")
 2. Install development dependencies:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-python3 -m pip install --upgrade pip poetry
-poetry install
-deactivate
+uv sync
 ```
-
-The development dependencies are listed in `pyproject.toml` under `[project.optional-dependencies.dev]`.
 
 
 ### Generate Client
