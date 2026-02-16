@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class EmbedderProvider(str, Enum):
+    ANTFLY = "antfly"
     BEDROCK = "bedrock"
     COHERE = "cohere"
     GEMINI = "gemini"
