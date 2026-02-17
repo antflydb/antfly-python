@@ -34,10 +34,9 @@ def _get_kwargs(
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
 ) -> Optional[Union[BatchResponse, Error]]:
-    if response.status_code == 201:
-        response_201 = BatchResponse.from_dict(response.json())
-
-        return response_201
+    # Accept both 200 and 201 as success - server may return either
+    if response.status_code in (200, 201):
+        return BatchResponse.from_dict(response.json())
 
     if response.status_code == 400:
         response_400 = Error.from_dict(response.json())
