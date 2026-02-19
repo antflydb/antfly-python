@@ -223,6 +223,10 @@ from .retrieval_strategy import RetrievalStrategy
 from .retry_config import RetryConfig
 from .route_type import RouteType
 from .schemas_antfly_type import SchemasAntflyType
+from .secret_entry import SecretEntry
+from .secret_list import SecretList
+from .secret_status import SecretStatus
+from .secret_write_request import SecretWriteRequest
 from .semantic_query_mode import SemanticQueryMode
 from .serper_search_config import SerperSearchConfig
 from .serper_search_config_search_type import SerperSearchConfigSearchType
@@ -501,6 +505,10 @@ __all__ = (
     "RetryConfig",
     "RouteType",
     "SchemasAntflyType",
+    "SecretEntry",
+    "SecretList",
+    "SecretStatus",
+    "SecretWriteRequest",
     "SemanticQueryMode",
     "SerperSearchConfig",
     "SerperSearchConfigSearchType",

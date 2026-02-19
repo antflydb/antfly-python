@@ -17,11 +17,13 @@ class ClusterStatus:
         health (ClusterHealth): Overall health status of the cluster
         message (Union[Unset, str]): Optional message providing details about the health status
         auth_enabled (Union[Unset, bool]): Indicates whether authentication is enabled for the cluster
+        swarm_mode (Union[Unset, bool]): Indicates whether the cluster is running in single-node swarm mode
     """
 
     health: ClusterHealth
     message: Union[Unset, str] = UNSET
     auth_enabled: Union[Unset, bool] = UNSET
+    swarm_mode: Union[Unset, bool] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -30,6 +32,8 @@ class ClusterStatus:
         message = self.message
 
         auth_enabled = self.auth_enabled
+
+        swarm_mode = self.swarm_mode
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -42,6 +46,8 @@ class ClusterStatus:
             field_dict["message"] = message
         if auth_enabled is not UNSET:
             field_dict["auth_enabled"] = auth_enabled
+        if swarm_mode is not UNSET:
+            field_dict["swarm_mode"] = swarm_mode
 
         return field_dict
 
@@ -54,10 +60,13 @@ class ClusterStatus:
 
         auth_enabled = d.pop("auth_enabled", UNSET)
 
+        swarm_mode = d.pop("swarm_mode", UNSET)
+
         cluster_status = cls(
             health=health,
             message=message,
             auth_enabled=auth_enabled,
+            swarm_mode=swarm_mode,
         )
 
         cluster_status.additional_properties = d
