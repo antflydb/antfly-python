@@ -1,18 +1,20 @@
 """Main client interface for Antfly SDK."""
 
+import base64
 from typing import Any, Optional, cast
 
 from httpx import Timeout
 
 from antfly.client_generated import Client
-from antfly.client_generated.api.api_table import (
-    batch,
+from antfly.client_generated.api.table_management import (
     create_table,
     drop_table,
     get_table,
     list_tables,
+)
+from antfly.client_generated.api.data_operations import (
+    batch_write as batch,
     lookup_key,
-    query_table,
 )
 from antfly.client_generated.client import AuthenticatedClient
 from antfly.client_generated.models import (
@@ -21,9 +23,6 @@ from antfly.client_generated.models import (
     CreateTableRequest,
     CreateTableRequestIndexes,
     Error,
-    QueryRequest,
-    QueryRequestFullTextSearch,
-    QueryResponses,
     Table,
     TableSchema,
     TableStatus,
@@ -41,28 +40,57 @@ class AntflyClient:
         base_url: str,
         username: Optional[str] = None,
         password: Optional[str] = None,
+        api_key: Optional[tuple[str, str]] = None,
+        bearer_token: Optional[str] = None,
         timeout: float = 30.0,
     ):
         """
         Initialize Antfly client.
 
+        Supports three authentication methods (mutually exclusive):
+        - Basic auth: provide ``username`` and ``password``
+        - API key: provide ``api_key`` as ``(key_id, key_secret)``
+        - Bearer token: provide ``bearer_token``
+
         Args:
             base_url: Base URL of the Antfly server
-            username: Username for authentication (optional)
-            password: Password for authentication (optional)
+            username: Username for basic authentication (optional)
+            password: Password for basic authentication (optional)
+            api_key: Tuple of (key_id, key_secret) for API key authentication (optional)
+            bearer_token: Bearer token string for token authentication (optional)
             timeout: Request timeout in seconds
         """
         self.base_url = base_url.rstrip("/")
 
         httpx_args: dict[str, Any] = {}
-        if username and password:
-            httpx_args["auth"] = (username, password)
 
-        self._client = Client(
-            base_url=self.base_url,
-            timeout=Timeout(timeout),
-            httpx_args=httpx_args,
-        )
+        if api_key is not None:
+            key_id, key_secret = api_key
+            encoded = base64.b64encode(f"{key_id}:{key_secret}".encode()).decode()
+            self._client = AuthenticatedClient(
+                base_url=self.base_url,
+                token=encoded,
+                prefix="ApiKey",
+                timeout=Timeout(timeout),
+                httpx_args=httpx_args,
+            )
+        elif bearer_token is not None:
+            self._client = AuthenticatedClient(
+                base_url=self.base_url,
+                token=bearer_token,
+                prefix="Bearer",
+                timeout=Timeout(timeout),
+                httpx_args=httpx_args,
+            )
+        else:
+            if username and password:
+                httpx_args["auth"] = (username, password)
+
+            self._client = Client(
+                base_url=self.base_url,
+                timeout=Timeout(timeout),
+                httpx_args=httpx_args,
+            )
 
     # Table operations
 
@@ -170,70 +198,6 @@ class AntflyClient:
             raise AntflyException(f"Failed to drop table '{name}': {response.error}")
         if response is None:
             raise AntflyException(f"Failed to drop table '{name}'")
-
-    # Query operations
-
-    def query(
-        self,
-        table: Optional[str] = None,
-        full_text_search: Optional[dict[str, Any]] = None,
-        semantic_search: Optional[str] = None,
-        filter_prefix: Optional[str] = None,
-        limit: int = 10,
-        offset: int = 0,
-        **kwargs: Any,
-    ) -> QueryResponses:
-        """
-        Query a table or perform global query.
-
-        Args:
-            table: Table name (optional for global query)
-            full_text_search: Full-text search query
-            semantic_search: Semantic search query
-            filter_prefix: Key prefix filter
-            limit: Maximum number of results
-            offset: Number of results to skip
-            **kwargs: Additional query parameters
-
-        Returns:
-            Query result object
-
-        Raises:
-            AntflyException: If query fails
-        """
-        request = QueryRequest(
-            table=table if table is not None else UNSET,
-            full_text_search=(
-                cast(QueryRequestFullTextSearch, full_text_search) if full_text_search is not None else UNSET
-            ),
-            semantic_search=semantic_search if semantic_search is not None else UNSET,
-            filter_prefix=filter_prefix if filter_prefix is not None else UNSET,
-            limit=limit,
-            offset=offset,
-            **kwargs,
-        )
-
-        if table:
-            response = query_table.sync(
-                table_name=table,
-                client=cast(AuthenticatedClient, self._client),
-                body=request,
-            )
-        else:
-            # Use global query endpoint
-            from antfly.client_generated.api.api_table import global_query
-
-            response = global_query.sync(
-                client=cast(AuthenticatedClient, self._client),
-                body=request,
-            )
-
-        if isinstance(response, Error):
-            raise AntflyException(f"Query failed: {response.error}")
-        if response is None:
-            raise AntflyException("Query failed")
-
-        return response
 
     def get(self, table: str, key: str) -> dict[str, Any]:
         """
