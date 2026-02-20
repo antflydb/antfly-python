@@ -14,6 +14,8 @@ from .antfly_embedder_config import AntflyEmbedderConfig
 from .antfly_reranker_config import AntflyRerankerConfig
 from .antfly_type import AntflyType
 from .anthropic_generator_config import AnthropicGeneratorConfig
+from .api_key import ApiKey
+from .api_key_with_secret import ApiKeyWithSecret
 from .backup_info import BackupInfo
 from .backup_list_response import BackupListResponse
 from .backup_request import BackupRequest
@@ -66,6 +68,7 @@ from .cohere_generator_config import CohereGeneratorConfig
 from .cohere_reranker_config import CohereRerankerConfig
 from .confidence_step_config import ConfidenceStepConfig
 from .conjunction_query import ConjunctionQuery
+from .create_api_key_request import CreateApiKeyRequest
 from .create_table_request import CreateTableRequest
 from .create_table_request_indexes import CreateTableRequestIndexes
 from .create_user_request import CreateUserRequest
@@ -223,6 +226,10 @@ from .retrieval_strategy import RetrievalStrategy
 from .retry_config import RetryConfig
 from .route_type import RouteType
 from .schemas_antfly_type import SchemasAntflyType
+from .secret_entry import SecretEntry
+from .secret_list import SecretList
+from .secret_status import SecretStatus
+from .secret_write_request import SecretWriteRequest
 from .semantic_query_mode import SemanticQueryMode
 from .serper_search_config import SerperSearchConfig
 from .serper_search_config_search_type import SerperSearchConfigSearchType
@@ -292,6 +299,8 @@ __all__ = (
     "AntflyRerankerConfig",
     "AntflyType",
     "AnthropicGeneratorConfig",
+    "ApiKey",
+    "ApiKeyWithSecret",
     "BackupInfo",
     "BackupListResponse",
     "BackupRequest",
@@ -344,6 +353,7 @@ __all__ = (
     "CohereRerankerConfig",
     "ConfidenceStepConfig",
     "ConjunctionQuery",
+    "CreateApiKeyRequest",
     "CreateTableRequest",
     "CreateTableRequestIndexes",
     "CreateUserRequest",
@@ -501,6 +511,10 @@ __all__ = (
     "RetryConfig",
     "RouteType",
     "SchemasAntflyType",
+    "SecretEntry",
+    "SecretList",
+    "SecretStatus",
+    "SecretWriteRequest",
     "SemanticQueryMode",
     "SerperSearchConfig",
     "SerperSearchConfigSearchType",
