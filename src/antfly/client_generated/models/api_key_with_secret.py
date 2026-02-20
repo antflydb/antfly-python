@@ -21,23 +21,24 @@ class ApiKeyWithSecret:
 
     Attributes:
         key_id (str): Unique identifier for the API key. Example: aBcDeFgHiJkLmNoPqRsT.
+        name (str): Human-readable name for the API key. Example: CI pipeline key.
+        username (str): Owner of the API key. Example: johndoe.
+        created_at (datetime.datetime): When the API key was created.
         key_secret (str): Cleartext secret for the API key. Store securely — it cannot be retrieved again. Example:
             dGhpcyBpcyBhIHNlY3JldA.
         encoded (str): Pre-encoded credential ready for the Authorization header: base64(key_id:key_secret). Example:
             YUJjRGVGZ0hpSmtMbU5vUHFSc1Q6ZEdocGN5QnBjeUJoSUhObFkzSmxkQQ==.
-        name (str): Human-readable name for the API key. Example: CI pipeline key.
-        username (str): Owner of the API key. Example: johndoe.
-        created_at (datetime.datetime): When the API key was created.
-        permissions (Union[None, Unset, list['Permission']]): Optional permission scoping.
+        permissions (Union[None, Unset, list['Permission']]): Optional permission scoping. If empty, inherits owner's
+            full permissions.
         expires_at (Union[None, Unset, datetime.datetime]): When the API key expires. Null means never.
     """
 
     key_id: str
-    key_secret: str
-    encoded: str
     name: str
     username: str
     created_at: datetime.datetime
+    key_secret: str
+    encoded: str
     permissions: Union[None, Unset, list["Permission"]] = UNSET
     expires_at: Union[None, Unset, datetime.datetime] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -45,15 +46,15 @@ class ApiKeyWithSecret:
     def to_dict(self) -> dict[str, Any]:
         key_id = self.key_id
 
-        key_secret = self.key_secret
-
-        encoded = self.encoded
-
         name = self.name
 
         username = self.username
 
         created_at = self.created_at.isoformat()
+
+        key_secret = self.key_secret
+
+        encoded = self.encoded
 
         permissions: Union[None, Unset, list[dict[str, Any]]]
         if isinstance(self.permissions, Unset):
@@ -80,11 +81,11 @@ class ApiKeyWithSecret:
         field_dict.update(
             {
                 "key_id": key_id,
-                "key_secret": key_secret,
-                "encoded": encoded,
                 "name": name,
                 "username": username,
                 "created_at": created_at,
+                "key_secret": key_secret,
+                "encoded": encoded,
             }
         )
         if permissions is not UNSET:
@@ -101,15 +102,15 @@ class ApiKeyWithSecret:
         d = dict(src_dict)
         key_id = d.pop("key_id")
 
-        key_secret = d.pop("key_secret")
-
-        encoded = d.pop("encoded")
-
         name = d.pop("name")
 
         username = d.pop("username")
 
         created_at = isoparse(d.pop("created_at"))
+
+        key_secret = d.pop("key_secret")
+
+        encoded = d.pop("encoded")
 
         def _parse_permissions(data: object) -> Union[None, Unset, list["Permission"]]:
             if data is None:
@@ -152,11 +153,11 @@ class ApiKeyWithSecret:
 
         api_key_with_secret = cls(
             key_id=key_id,
-            key_secret=key_secret,
-            encoded=encoded,
             name=name,
             username=username,
             created_at=created_at,
+            key_secret=key_secret,
+            encoded=encoded,
             permissions=permissions,
             expires_at=expires_at,
         )
