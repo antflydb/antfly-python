@@ -33,6 +33,8 @@ class TermiteGeneratorConfig:
             max_tokens (Union[Unset, int]): Maximum number of tokens to generate.
             top_p (Union[Unset, float]): Nucleus sampling parameter.
             top_k (Union[Unset, int]): Top-k sampling parameter.
+            timeout (Union[Unset, int]): HTTP response timeout in seconds for Termite API calls. Defaults to 540 (9
+                minutes). Increase for large models on slow hardware.
     """
 
     model: str
@@ -41,6 +43,7 @@ class TermiteGeneratorConfig:
     max_tokens: Union[Unset, int] = UNSET
     top_p: Union[Unset, float] = UNSET
     top_k: Union[Unset, int] = UNSET
+    timeout: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -55,6 +58,8 @@ class TermiteGeneratorConfig:
         top_p = self.top_p
 
         top_k = self.top_k
+
+        timeout = self.timeout
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -73,6 +78,8 @@ class TermiteGeneratorConfig:
             field_dict["top_p"] = top_p
         if top_k is not UNSET:
             field_dict["top_k"] = top_k
+        if timeout is not UNSET:
+            field_dict["timeout"] = timeout
 
         return field_dict
 
@@ -91,6 +98,8 @@ class TermiteGeneratorConfig:
 
         top_k = d.pop("top_k", UNSET)
 
+        timeout = d.pop("timeout", UNSET)
+
         termite_generator_config = cls(
             model=model,
             api_url=api_url,
@@ -98,6 +107,7 @@ class TermiteGeneratorConfig:
             max_tokens=max_tokens,
             top_p=top_p,
             top_k=top_k,
+            timeout=timeout,
         )
 
         termite_generator_config.additional_properties = d
