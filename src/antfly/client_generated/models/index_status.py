@@ -5,12 +5,12 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.bleve_index_v2_config import BleveIndexV2Config
-    from ..models.bleve_index_v2_stats import BleveIndexV2Stats
-    from ..models.embedding_index_config import EmbeddingIndexConfig
-    from ..models.embedding_index_stats import EmbeddingIndexStats
-    from ..models.graph_index_v0_config import GraphIndexV0Config
-    from ..models.graph_index_v0_stats import GraphIndexV0Stats
+    from ..models.embeddings_index_config import EmbeddingsIndexConfig
+    from ..models.embeddings_index_stats import EmbeddingsIndexStats
+    from ..models.full_text_index_config import FullTextIndexConfig
+    from ..models.full_text_index_stats import FullTextIndexStats
+    from ..models.graph_index_config import GraphIndexConfig
+    from ..models.graph_index_stats import GraphIndexStats
     from ..models.index_status_shard_status import IndexStatusShardStatus
 
 
@@ -22,35 +22,35 @@ class IndexStatus:
     """
     Attributes:
         shard_status (IndexStatusShardStatus):
-        config (Union['BleveIndexV2Config', 'EmbeddingIndexConfig', 'GraphIndexV0Config']): Configuration for an index
-        status (Union['BleveIndexV2Stats', 'EmbeddingIndexStats', 'GraphIndexV0Stats']): Statistics for an index
+        config (Union['EmbeddingsIndexConfig', 'FullTextIndexConfig', 'GraphIndexConfig']): Configuration for an index
+        status (Union['EmbeddingsIndexStats', 'FullTextIndexStats', 'GraphIndexStats']): Statistics for an index
     """
 
     shard_status: "IndexStatusShardStatus"
-    config: Union["BleveIndexV2Config", "EmbeddingIndexConfig", "GraphIndexV0Config"]
-    status: Union["BleveIndexV2Stats", "EmbeddingIndexStats", "GraphIndexV0Stats"]
+    config: Union["EmbeddingsIndexConfig", "FullTextIndexConfig", "GraphIndexConfig"]
+    status: Union["EmbeddingsIndexStats", "FullTextIndexStats", "GraphIndexStats"]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.bleve_index_v2_config import BleveIndexV2Config
-        from ..models.bleve_index_v2_stats import BleveIndexV2Stats
-        from ..models.embedding_index_config import EmbeddingIndexConfig
-        from ..models.embedding_index_stats import EmbeddingIndexStats
+        from ..models.embeddings_index_config import EmbeddingsIndexConfig
+        from ..models.embeddings_index_stats import EmbeddingsIndexStats
+        from ..models.full_text_index_config import FullTextIndexConfig
+        from ..models.full_text_index_stats import FullTextIndexStats
 
         shard_status = self.shard_status.to_dict()
 
         config: dict[str, Any]
-        if isinstance(self.config, BleveIndexV2Config):
+        if isinstance(self.config, FullTextIndexConfig):
             config = self.config.to_dict()
-        elif isinstance(self.config, EmbeddingIndexConfig):
+        elif isinstance(self.config, EmbeddingsIndexConfig):
             config = self.config.to_dict()
         else:
             config = self.config.to_dict()
 
         status: dict[str, Any]
-        if isinstance(self.status, BleveIndexV2Stats):
+        if isinstance(self.status, FullTextIndexStats):
             status = self.status.to_dict()
-        elif isinstance(self.status, EmbeddingIndexStats):
+        elif isinstance(self.status, EmbeddingsIndexStats):
             status = self.status.to_dict()
         else:
             status = self.status.to_dict()
@@ -69,22 +69,22 @@ class IndexStatus:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.bleve_index_v2_config import BleveIndexV2Config
-        from ..models.bleve_index_v2_stats import BleveIndexV2Stats
-        from ..models.embedding_index_config import EmbeddingIndexConfig
-        from ..models.embedding_index_stats import EmbeddingIndexStats
-        from ..models.graph_index_v0_config import GraphIndexV0Config
-        from ..models.graph_index_v0_stats import GraphIndexV0Stats
+        from ..models.embeddings_index_config import EmbeddingsIndexConfig
+        from ..models.embeddings_index_stats import EmbeddingsIndexStats
+        from ..models.full_text_index_config import FullTextIndexConfig
+        from ..models.full_text_index_stats import FullTextIndexStats
+        from ..models.graph_index_config import GraphIndexConfig
+        from ..models.graph_index_stats import GraphIndexStats
         from ..models.index_status_shard_status import IndexStatusShardStatus
 
         d = dict(src_dict)
         shard_status = IndexStatusShardStatus.from_dict(d.pop("shard_status"))
 
-        def _parse_config(data: object) -> Union["BleveIndexV2Config", "EmbeddingIndexConfig", "GraphIndexV0Config"]:
+        def _parse_config(data: object) -> Union["EmbeddingsIndexConfig", "FullTextIndexConfig", "GraphIndexConfig"]:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_index_config_type_0 = BleveIndexV2Config.from_dict(data)
+                componentsschemas_index_config_type_0 = FullTextIndexConfig.from_dict(data)
 
                 return componentsschemas_index_config_type_0
             except:  # noqa: E722
@@ -92,24 +92,24 @@ class IndexStatus:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_index_config_type_1 = EmbeddingIndexConfig.from_dict(data)
+                componentsschemas_index_config_type_1 = EmbeddingsIndexConfig.from_dict(data)
 
                 return componentsschemas_index_config_type_1
             except:  # noqa: E722
                 pass
             if not isinstance(data, dict):
                 raise TypeError()
-            componentsschemas_index_config_type_2 = GraphIndexV0Config.from_dict(data)
+            componentsschemas_index_config_type_2 = GraphIndexConfig.from_dict(data)
 
             return componentsschemas_index_config_type_2
 
         config = _parse_config(d.pop("config"))
 
-        def _parse_status(data: object) -> Union["BleveIndexV2Stats", "EmbeddingIndexStats", "GraphIndexV0Stats"]:
+        def _parse_status(data: object) -> Union["EmbeddingsIndexStats", "FullTextIndexStats", "GraphIndexStats"]:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_index_stats_type_0 = BleveIndexV2Stats.from_dict(data)
+                componentsschemas_index_stats_type_0 = FullTextIndexStats.from_dict(data)
 
                 return componentsschemas_index_stats_type_0
             except:  # noqa: E722
@@ -117,14 +117,14 @@ class IndexStatus:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_index_stats_type_1 = EmbeddingIndexStats.from_dict(data)
+                componentsschemas_index_stats_type_1 = EmbeddingsIndexStats.from_dict(data)
 
                 return componentsschemas_index_stats_type_1
             except:  # noqa: E722
                 pass
             if not isinstance(data, dict):
                 raise TypeError()
-            componentsschemas_index_stats_type_2 = GraphIndexV0Stats.from_dict(data)
+            componentsschemas_index_stats_type_2 = GraphIndexStats.from_dict(data)
 
             return componentsschemas_index_stats_type_2
 

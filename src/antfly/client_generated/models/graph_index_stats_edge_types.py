@@ -4,11 +4,11 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="GraphIndexV0StatsEdgeTypes")
+T = TypeVar("T", bound="GraphIndexStatsEdgeTypes")
 
 
 @_attrs_define
-class GraphIndexV0StatsEdgeTypes:
+class GraphIndexStatsEdgeTypes:
     """Count of edges per edge type"""
 
     additional_properties: dict[str, int] = _attrs_field(init=False, factory=dict)
@@ -22,10 +22,10 @@ class GraphIndexV0StatsEdgeTypes:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        graph_index_v0_stats_edge_types = cls()
+        graph_index_stats_edge_types = cls()
 
-        graph_index_v0_stats_edge_types.additional_properties = d
-        return graph_index_v0_stats_edge_types
+        graph_index_stats_edge_types.additional_properties = d
+        return graph_index_stats_edge_types
 
     @property
     def additional_keys(self) -> list[str]:

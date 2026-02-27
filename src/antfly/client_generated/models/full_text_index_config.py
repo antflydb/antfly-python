@@ -6,11 +6,11 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="BleveIndexV2Config")
+T = TypeVar("T", bound="FullTextIndexConfig")
 
 
 @_attrs_define
-class BleveIndexV2Config:
+class FullTextIndexConfig:
     """
     Attributes:
         mem_only (Union[Unset, bool]): Whether to use memory-only storage
@@ -35,12 +35,12 @@ class BleveIndexV2Config:
         d = dict(src_dict)
         mem_only = d.pop("mem_only", UNSET)
 
-        bleve_index_v2_config = cls(
+        full_text_index_config = cls(
             mem_only=mem_only,
         )
 
-        bleve_index_v2_config.additional_properties = d
-        return bleve_index_v2_config
+        full_text_index_config.additional_properties = d
+        return full_text_index_config
 
     @property
     def additional_keys(self) -> list[str]:

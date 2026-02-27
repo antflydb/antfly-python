@@ -6,23 +6,26 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="EmbeddingIndexStats")
+T = TypeVar("T", bound="EmbeddingsIndexStats")
 
 
 @_attrs_define
-class EmbeddingIndexStats:
-    """
+class EmbeddingsIndexStats:
+    """Statistics for an embeddings index (dense or sparse)
+
     Attributes:
         error (Union[Unset, str]): Error message if stats could not be retrieved
-        total_indexed (Union[Unset, int]): Number of vectors in the index
+        total_indexed (Union[Unset, int]): Number of vectors/documents in the index
         disk_usage (Union[Unset, int]): Size of the index in bytes
-        total_nodes (Union[Unset, int]): Total number of nodes in the index
+        total_nodes (Union[Unset, int]): Total number of nodes in the index (dense only)
+        total_terms (Union[Unset, int]): Number of unique terms in the inverted index (sparse only)
     """
 
     error: Union[Unset, str] = UNSET
     total_indexed: Union[Unset, int] = UNSET
     disk_usage: Union[Unset, int] = UNSET
     total_nodes: Union[Unset, int] = UNSET
+    total_terms: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -33,6 +36,8 @@ class EmbeddingIndexStats:
         disk_usage = self.disk_usage
 
         total_nodes = self.total_nodes
+
+        total_terms = self.total_terms
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -45,6 +50,8 @@ class EmbeddingIndexStats:
             field_dict["disk_usage"] = disk_usage
         if total_nodes is not UNSET:
             field_dict["total_nodes"] = total_nodes
+        if total_terms is not UNSET:
+            field_dict["total_terms"] = total_terms
 
         return field_dict
 
@@ -59,15 +66,18 @@ class EmbeddingIndexStats:
 
         total_nodes = d.pop("total_nodes", UNSET)
 
-        embedding_index_stats = cls(
+        total_terms = d.pop("total_terms", UNSET)
+
+        embeddings_index_stats = cls(
             error=error,
             total_indexed=total_indexed,
             disk_usage=disk_usage,
             total_nodes=total_nodes,
+            total_terms=total_terms,
         )
 
-        embedding_index_stats.additional_properties = d
-        return embedding_index_stats
+        embeddings_index_stats.additional_properties = d
+        return embeddings_index_stats
 
     @property
     def additional_keys(self) -> list[str]:

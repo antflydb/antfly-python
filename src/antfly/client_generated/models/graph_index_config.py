@@ -11,12 +11,12 @@ if TYPE_CHECKING:
     from ..models.generator_config import GeneratorConfig
 
 
-T = TypeVar("T", bound="GraphIndexV0Config")
+T = TypeVar("T", bound="GraphIndexConfig")
 
 
 @_attrs_define
-class GraphIndexV0Config:
-    r"""Configuration for graph_v0 index type
+class GraphIndexConfig:
+    r"""Configuration for graph index type
 
     Attributes:
         summarizer (Union[Unset, GeneratorConfig]): A unified configuration for a generative AI provider.
@@ -183,7 +183,7 @@ class GraphIndexV0Config:
             'gpt-4.1', 'temperature': 0.7, 'max_tokens': 2048}.
         template (Union[Unset, str]): Handlebars template for generating summarizer input text.
             Uses document fields as template variables.
-            Same pattern as EmbeddingIndexConfig.template.
+            Same pattern as EmbeddingsConfig template.
              Example: {{title}}
             {{content}}.
         edge_types (Union[Unset, list['EdgeTypeConfig']]): List of edge types with their configurations
@@ -250,15 +250,15 @@ class GraphIndexV0Config:
 
         max_edges_per_document = d.pop("max_edges_per_document", UNSET)
 
-        graph_index_v0_config = cls(
+        graph_index_config = cls(
             summarizer=summarizer,
             template=template,
             edge_types=edge_types,
             max_edges_per_document=max_edges_per_document,
         )
 
-        graph_index_v0_config.additional_properties = d
-        return graph_index_v0_config
+        graph_index_config.additional_properties = d
+        return graph_index_config
 
     @property
     def additional_keys(self) -> list[str]:

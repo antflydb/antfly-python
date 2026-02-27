@@ -7,25 +7,25 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.graph_index_v0_stats_edge_types import GraphIndexV0StatsEdgeTypes
+    from ..models.graph_index_stats_edge_types import GraphIndexStatsEdgeTypes
 
 
-T = TypeVar("T", bound="GraphIndexV0Stats")
+T = TypeVar("T", bound="GraphIndexStats")
 
 
 @_attrs_define
-class GraphIndexV0Stats:
-    """Statistics for graph_v0 index
+class GraphIndexStats:
+    """Statistics for graph index
 
     Attributes:
         error (Union[Unset, str]): Error message if stats could not be retrieved
         total_edges (Union[Unset, int]): Total number of edges in the graph
-        edge_types (Union[Unset, GraphIndexV0StatsEdgeTypes]): Count of edges per edge type
+        edge_types (Union[Unset, GraphIndexStatsEdgeTypes]): Count of edges per edge type
     """
 
     error: Union[Unset, str] = UNSET
     total_edges: Union[Unset, int] = UNSET
-    edge_types: Union[Unset, "GraphIndexV0StatsEdgeTypes"] = UNSET
+    edge_types: Union[Unset, "GraphIndexStatsEdgeTypes"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -51,7 +51,7 @@ class GraphIndexV0Stats:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.graph_index_v0_stats_edge_types import GraphIndexV0StatsEdgeTypes
+        from ..models.graph_index_stats_edge_types import GraphIndexStatsEdgeTypes
 
         d = dict(src_dict)
         error = d.pop("error", UNSET)
@@ -59,20 +59,20 @@ class GraphIndexV0Stats:
         total_edges = d.pop("total_edges", UNSET)
 
         _edge_types = d.pop("edge_types", UNSET)
-        edge_types: Union[Unset, GraphIndexV0StatsEdgeTypes]
+        edge_types: Union[Unset, GraphIndexStatsEdgeTypes]
         if isinstance(_edge_types, Unset):
             edge_types = UNSET
         else:
-            edge_types = GraphIndexV0StatsEdgeTypes.from_dict(_edge_types)
+            edge_types = GraphIndexStatsEdgeTypes.from_dict(_edge_types)
 
-        graph_index_v0_stats = cls(
+        graph_index_stats = cls(
             error=error,
             total_edges=total_edges,
             edge_types=edge_types,
         )
 
-        graph_index_v0_stats.additional_properties = d
-        return graph_index_v0_stats
+        graph_index_stats.additional_properties = d
+        return graph_index_stats
 
     @property
     def additional_keys(self) -> list[str]:

@@ -28,8 +28,6 @@ from .bedrock_embedder_config import BedrockEmbedderConfig
 from .bedrock_generator_config import BedrockGeneratorConfig
 from .bing_search_config import BingSearchConfig
 from .bing_search_config_freshness import BingSearchConfigFreshness
-from .bleve_index_v2_config import BleveIndexV2Config
-from .bleve_index_v2_stats import BleveIndexV2Stats
 from .bool_field_query import BoolFieldQuery
 from .boolean_query import BooleanQuery
 from .brave_search_config import BraveSearchConfig
@@ -91,8 +89,8 @@ from .edge_type_config_topology import EdgeTypeConfigTopology
 from .edges_response import EdgesResponse
 from .embedder_config import EmbedderConfig
 from .embedder_provider import EmbedderProvider
-from .embedding_index_config import EmbeddingIndexConfig
-from .embedding_index_stats import EmbeddingIndexStats
+from .embeddings_index_config import EmbeddingsIndexConfig
+from .embeddings_index_stats import EmbeddingsIndexStats
 from .error import Error
 from .eval_config import EvalConfig
 from .eval_options import EvalOptions
@@ -116,6 +114,8 @@ from .followup_step_config import FollowupStepConfig
 from .foreign_column import ForeignColumn
 from .foreign_source import ForeignSource
 from .foreign_source_type import ForeignSourceType
+from .full_text_index_config import FullTextIndexConfig
+from .full_text_index_stats import FullTextIndexStats
 from .fuzziness_type_1 import FuzzinessType1
 from .fuzzy_query import FuzzyQuery
 from .generation_step_config import GenerationStepConfig
@@ -131,9 +131,9 @@ from .google_embedder_config import GoogleEmbedderConfig
 from .google_generator_config import GoogleGeneratorConfig
 from .google_search_config import GoogleSearchConfig
 from .google_search_config_search_type import GoogleSearchConfigSearchType
-from .graph_index_v0_config import GraphIndexV0Config
-from .graph_index_v0_stats import GraphIndexV0Stats
-from .graph_index_v0_stats_edge_types import GraphIndexV0StatsEdgeTypes
+from .graph_index_config import GraphIndexConfig
+from .graph_index_stats import GraphIndexStats
+from .graph_index_stats_edge_types import GraphIndexStatsEdgeTypes
 from .graph_node_selector import GraphNodeSelector
 from .graph_query import GraphQuery
 from .graph_query_params import GraphQueryParams
@@ -313,8 +313,6 @@ __all__ = (
     "BedrockGeneratorConfig",
     "BingSearchConfig",
     "BingSearchConfigFreshness",
-    "BleveIndexV2Config",
-    "BleveIndexV2Stats",
     "BooleanQuery",
     "BoolFieldQuery",
     "BraveSearchConfig",
@@ -376,8 +374,8 @@ __all__ = (
     "EdgeTypeConfigTopology",
     "EmbedderConfig",
     "EmbedderProvider",
-    "EmbeddingIndexConfig",
-    "EmbeddingIndexStats",
+    "EmbeddingsIndexConfig",
+    "EmbeddingsIndexStats",
     "Error",
     "EvalConfig",
     "EvalOptions",
@@ -401,6 +399,8 @@ __all__ = (
     "ForeignColumn",
     "ForeignSource",
     "ForeignSourceType",
+    "FullTextIndexConfig",
+    "FullTextIndexStats",
     "FuzzinessType1",
     "FuzzyQuery",
     "GenerationStepConfig",
@@ -416,9 +416,9 @@ __all__ = (
     "GoogleGeneratorConfig",
     "GoogleSearchConfig",
     "GoogleSearchConfigSearchType",
-    "GraphIndexV0Config",
-    "GraphIndexV0Stats",
-    "GraphIndexV0StatsEdgeTypes",
+    "GraphIndexConfig",
+    "GraphIndexStats",
+    "GraphIndexStatsEdgeTypes",
     "GraphNodeSelector",
     "GraphQuery",
     "GraphQueryParams",

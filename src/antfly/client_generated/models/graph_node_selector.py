@@ -21,7 +21,7 @@ class GraphNodeSelector:
         keys (Union[Unset, list[str]]): Explicit list of node keys
         result_ref (Union[Unset, str]): Reference to search results to use as nodes:
             - "$full_text_results" - use full-text search results
-            - "$aknn_results.index_name" - use vector search results from specific index
+            - "$embeddings_results.index_name" - use vector search results from specific index
         limit (Union[Unset, int]): Maximum number of nodes to select from the referenced results
         node_filter (Union[Unset, NodeFilter]): Filter nodes during graph traversal using existing query primitives
     """

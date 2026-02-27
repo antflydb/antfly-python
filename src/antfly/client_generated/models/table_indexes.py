@@ -5,9 +5,9 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.bleve_index_v2_config import BleveIndexV2Config
-    from ..models.embedding_index_config import EmbeddingIndexConfig
-    from ..models.graph_index_v0_config import GraphIndexV0Config
+    from ..models.embeddings_index_config import EmbeddingsIndexConfig
+    from ..models.full_text_index_config import FullTextIndexConfig
+    from ..models.graph_index_config import GraphIndexConfig
 
 
 T = TypeVar("T", bound="TableIndexes")
@@ -17,19 +17,19 @@ T = TypeVar("T", bound="TableIndexes")
 class TableIndexes:
     """ """
 
-    additional_properties: dict[str, Union["BleveIndexV2Config", "EmbeddingIndexConfig", "GraphIndexV0Config"]] = (
+    additional_properties: dict[str, Union["EmbeddingsIndexConfig", "FullTextIndexConfig", "GraphIndexConfig"]] = (
         _attrs_field(init=False, factory=dict)
     )
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.bleve_index_v2_config import BleveIndexV2Config
-        from ..models.embedding_index_config import EmbeddingIndexConfig
+        from ..models.embeddings_index_config import EmbeddingsIndexConfig
+        from ..models.full_text_index_config import FullTextIndexConfig
 
         field_dict: dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
-            if isinstance(prop, BleveIndexV2Config):
+            if isinstance(prop, FullTextIndexConfig):
                 field_dict[prop_name] = prop.to_dict()
-            elif isinstance(prop, EmbeddingIndexConfig):
+            elif isinstance(prop, EmbeddingsIndexConfig):
                 field_dict[prop_name] = prop.to_dict()
             else:
                 field_dict[prop_name] = prop.to_dict()
@@ -38,9 +38,9 @@ class TableIndexes:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.bleve_index_v2_config import BleveIndexV2Config
-        from ..models.embedding_index_config import EmbeddingIndexConfig
-        from ..models.graph_index_v0_config import GraphIndexV0Config
+        from ..models.embeddings_index_config import EmbeddingsIndexConfig
+        from ..models.full_text_index_config import FullTextIndexConfig
+        from ..models.graph_index_config import GraphIndexConfig
 
         d = dict(src_dict)
         table_indexes = cls()
@@ -50,11 +50,11 @@ class TableIndexes:
 
             def _parse_additional_property(
                 data: object,
-            ) -> Union["BleveIndexV2Config", "EmbeddingIndexConfig", "GraphIndexV0Config"]:
+            ) -> Union["EmbeddingsIndexConfig", "FullTextIndexConfig", "GraphIndexConfig"]:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
-                    componentsschemas_index_config_type_0 = BleveIndexV2Config.from_dict(data)
+                    componentsschemas_index_config_type_0 = FullTextIndexConfig.from_dict(data)
 
                     return componentsschemas_index_config_type_0
                 except:  # noqa: E722
@@ -62,14 +62,14 @@ class TableIndexes:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
-                    componentsschemas_index_config_type_1 = EmbeddingIndexConfig.from_dict(data)
+                    componentsschemas_index_config_type_1 = EmbeddingsIndexConfig.from_dict(data)
 
                     return componentsschemas_index_config_type_1
                 except:  # noqa: E722
                     pass
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_index_config_type_2 = GraphIndexV0Config.from_dict(data)
+                componentsschemas_index_config_type_2 = GraphIndexConfig.from_dict(data)
 
                 return componentsschemas_index_config_type_2
 
@@ -84,11 +84,11 @@ class TableIndexes:
     def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> Union["BleveIndexV2Config", "EmbeddingIndexConfig", "GraphIndexV0Config"]:
+    def __getitem__(self, key: str) -> Union["EmbeddingsIndexConfig", "FullTextIndexConfig", "GraphIndexConfig"]:
         return self.additional_properties[key]
 
     def __setitem__(
-        self, key: str, value: Union["BleveIndexV2Config", "EmbeddingIndexConfig", "GraphIndexV0Config"]
+        self, key: str, value: Union["EmbeddingsIndexConfig", "FullTextIndexConfig", "GraphIndexConfig"]
     ) -> None:
         self.additional_properties[key] = value
 

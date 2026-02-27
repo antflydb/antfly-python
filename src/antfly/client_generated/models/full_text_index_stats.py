@@ -6,11 +6,11 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="BleveIndexV2Stats")
+T = TypeVar("T", bound="FullTextIndexStats")
 
 
 @_attrs_define
-class BleveIndexV2Stats:
+class FullTextIndexStats:
     """
     Attributes:
         error (Union[Unset, str]): Error message if stats could not be retrieved
@@ -59,15 +59,15 @@ class BleveIndexV2Stats:
 
         rebuilding = d.pop("rebuilding", UNSET)
 
-        bleve_index_v2_stats = cls(
+        full_text_index_stats = cls(
             error=error,
             total_indexed=total_indexed,
             disk_usage=disk_usage,
             rebuilding=rebuilding,
         )
 
-        bleve_index_v2_stats.additional_properties = d
-        return bleve_index_v2_stats
+        full_text_index_stats.additional_properties = d
+        return full_text_index_stats
 
     @property
     def additional_keys(self) -> list[str]:

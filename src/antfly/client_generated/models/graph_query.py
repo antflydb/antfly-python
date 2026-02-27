@@ -22,7 +22,7 @@ class GraphQuery:
 
     Attributes:
         type_ (GraphQueryType): Type of graph query to execute
-        index_name (str): Graph index name (must be graph_v0 type)
+        index_name (str): Graph index name (must be graph type)
         start_nodes (Union[Unset, GraphNodeSelector]): Defines how to select start/target nodes for graph queries
         target_nodes (Union[Unset, GraphNodeSelector]): Defines how to select start/target nodes for graph queries
         params (Union[Unset, GraphQueryParams]): Parameters for graph traversal and pathfinding

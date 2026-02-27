@@ -5,10 +5,10 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.bleve_index_v2_config import BleveIndexV2Config
-from ...models.embedding_index_config import EmbeddingIndexConfig
+from ...models.embeddings_index_config import EmbeddingsIndexConfig
 from ...models.error import Error
-from ...models.graph_index_v0_config import GraphIndexV0Config
+from ...models.full_text_index_config import FullTextIndexConfig
+from ...models.graph_index_config import GraphIndexConfig
 from ...types import Response
 
 
@@ -16,7 +16,7 @@ def _get_kwargs(
     table_name: str,
     index_name: str,
     *,
-    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig", "GraphIndexV0Config"],
+    body: Union["EmbeddingsIndexConfig", "FullTextIndexConfig", "GraphIndexConfig"],
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -26,9 +26,9 @@ def _get_kwargs(
     }
 
     _kwargs["json"]: dict[str, Any]
-    if isinstance(body, BleveIndexV2Config):
+    if isinstance(body, FullTextIndexConfig):
         _kwargs["json"] = body.to_dict()
-    elif isinstance(body, EmbeddingIndexConfig):
+    elif isinstance(body, EmbeddingsIndexConfig):
         _kwargs["json"] = body.to_dict()
     else:
         _kwargs["json"] = body.to_dict()
@@ -78,14 +78,14 @@ def sync_detailed(
     index_name: str,
     *,
     client: AuthenticatedClient,
-    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig", "GraphIndexV0Config"],
+    body: Union["EmbeddingsIndexConfig", "FullTextIndexConfig", "GraphIndexConfig"],
 ) -> Response[Union[Any, Error]]:
     """Add an index to a table
 
     Args:
         table_name (str):
         index_name (str):
-        body (Union['BleveIndexV2Config', 'EmbeddingIndexConfig', 'GraphIndexV0Config']):
+        body (Union['EmbeddingsIndexConfig', 'FullTextIndexConfig', 'GraphIndexConfig']):
             Configuration for an index
 
     Raises:
@@ -114,14 +114,14 @@ def sync(
     index_name: str,
     *,
     client: AuthenticatedClient,
-    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig", "GraphIndexV0Config"],
+    body: Union["EmbeddingsIndexConfig", "FullTextIndexConfig", "GraphIndexConfig"],
 ) -> Optional[Union[Any, Error]]:
     """Add an index to a table
 
     Args:
         table_name (str):
         index_name (str):
-        body (Union['BleveIndexV2Config', 'EmbeddingIndexConfig', 'GraphIndexV0Config']):
+        body (Union['EmbeddingsIndexConfig', 'FullTextIndexConfig', 'GraphIndexConfig']):
             Configuration for an index
 
     Raises:
@@ -145,14 +145,14 @@ async def asyncio_detailed(
     index_name: str,
     *,
     client: AuthenticatedClient,
-    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig", "GraphIndexV0Config"],
+    body: Union["EmbeddingsIndexConfig", "FullTextIndexConfig", "GraphIndexConfig"],
 ) -> Response[Union[Any, Error]]:
     """Add an index to a table
 
     Args:
         table_name (str):
         index_name (str):
-        body (Union['BleveIndexV2Config', 'EmbeddingIndexConfig', 'GraphIndexV0Config']):
+        body (Union['EmbeddingsIndexConfig', 'FullTextIndexConfig', 'GraphIndexConfig']):
             Configuration for an index
 
     Raises:
@@ -179,14 +179,14 @@ async def asyncio(
     index_name: str,
     *,
     client: AuthenticatedClient,
-    body: Union["BleveIndexV2Config", "EmbeddingIndexConfig", "GraphIndexV0Config"],
+    body: Union["EmbeddingsIndexConfig", "FullTextIndexConfig", "GraphIndexConfig"],
 ) -> Optional[Union[Any, Error]]:
     """Add an index to a table
 
     Args:
         table_name (str):
         index_name (str):
-        body (Union['BleveIndexV2Config', 'EmbeddingIndexConfig', 'GraphIndexV0Config']):
+        body (Union['EmbeddingsIndexConfig', 'FullTextIndexConfig', 'GraphIndexConfig']):
             Configuration for an index
 
     Raises:
