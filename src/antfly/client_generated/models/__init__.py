@@ -166,6 +166,8 @@ from .match_none_query_match_none import MatchNoneQueryMatchNone
 from .match_phrase_query import MatchPhraseQuery
 from .match_query import MatchQuery
 from .match_query_operator import MatchQueryOperator
+from .merge_config import MergeConfig
+from .merge_config_weights import MergeConfigWeights
 from .merge_strategy import MergeStrategy
 from .multi_batch_request import MultiBatchRequest
 from .multi_batch_request_tables import MultiBatchRequestTables
@@ -451,6 +453,8 @@ __all__ = (
     "MatchPhraseQuery",
     "MatchQuery",
     "MatchQueryOperator",
+    "MergeConfig",
+    "MergeConfigWeights",
     "MergeStrategy",
     "MultiBatchRequest",
     "MultiBatchRequestTables",
