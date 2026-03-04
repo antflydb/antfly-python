@@ -89,6 +89,7 @@ from .edge_type_config_topology import EdgeTypeConfigTopology
 from .edges_response import EdgesResponse
 from .embedder_config import EmbedderConfig
 from .embedder_provider import EmbedderProvider
+from .embedding_type_1 import EmbeddingType1
 from .embeddings_index_config import EmbeddingsIndexConfig
 from .embeddings_index_stats import EmbeddingsIndexStats
 from .error import Error
@@ -215,6 +216,9 @@ from .query_result_graph_results import QueryResultGraphResults
 from .query_strategy import QueryStrategy
 from .query_string_query import QueryStringQuery
 from .regexp_query import RegexpQuery
+from .replication_source import ReplicationSource
+from .replication_source_type import ReplicationSourceType
+from .replication_transform_op import ReplicationTransformOp
 from .reranker_config import RerankerConfig
 from .reranker_provider import RerankerProvider
 from .resource_type import ResourceType
@@ -378,6 +382,7 @@ __all__ = (
     "EmbedderProvider",
     "EmbeddingsIndexConfig",
     "EmbeddingsIndexStats",
+    "EmbeddingType1",
     "Error",
     "EvalConfig",
     "EvalOptions",
@@ -502,6 +507,9 @@ __all__ = (
     "QueryStrategy",
     "QueryStringQuery",
     "RegexpQuery",
+    "ReplicationSource",
+    "ReplicationSourceType",
+    "ReplicationTransformOp",
     "RerankerConfig",
     "RerankerProvider",
     "ResourceType",

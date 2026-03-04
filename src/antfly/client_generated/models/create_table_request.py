@@ -8,6 +8,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.create_table_request_indexes import CreateTableRequestIndexes
+    from ..models.replication_source import ReplicationSource
     from ..models.table_schema import TableSchema
 
 
@@ -62,12 +63,20 @@ class CreateTableRequest:
              Example: {'search_index': {'type': 'full_text_v0'}, 'embedding_index': {'type': 'aknn_v0', 'dimension': 384,
             'embedder': {'provider': 'ollama', 'model': 'all-minilm'}}}.
         schema (Union[Unset, TableSchema]): Schema definition for a table with multiple document types
+        replication_sources (Union[Unset, list['ReplicationSource']]): PostgreSQL CDC replication sources. Streams
+            INSERT/UPDATE/DELETE changes from
+            PostgreSQL tables into this Antfly table via logical replication.
+
+            Multiple sources can feed into a single table (e.g., `users` + `scores` → Antfly `users`).
+            Each source uses `on_update`/`on_delete` transforms to control how PG events map to
+            Antfly document operations. Requires `wal_level=logical` on the PostgreSQL source.
     """
 
     num_shards: Union[Unset, int] = UNSET
     description: Union[Unset, str] = UNSET
     indexes: Union[Unset, "CreateTableRequestIndexes"] = UNSET
     schema: Union[Unset, "TableSchema"] = UNSET
+    replication_sources: Union[Unset, list["ReplicationSource"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -83,6 +92,13 @@ class CreateTableRequest:
         if not isinstance(self.schema, Unset):
             schema = self.schema.to_dict()
 
+        replication_sources: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.replication_sources, Unset):
+            replication_sources = []
+            for replication_sources_item_data in self.replication_sources:
+                replication_sources_item = replication_sources_item_data.to_dict()
+                replication_sources.append(replication_sources_item)
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -94,12 +110,15 @@ class CreateTableRequest:
             field_dict["indexes"] = indexes
         if schema is not UNSET:
             field_dict["schema"] = schema
+        if replication_sources is not UNSET:
+            field_dict["replication_sources"] = replication_sources
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.create_table_request_indexes import CreateTableRequestIndexes
+        from ..models.replication_source import ReplicationSource
         from ..models.table_schema import TableSchema
 
         d = dict(src_dict)
@@ -121,11 +140,19 @@ class CreateTableRequest:
         else:
             schema = TableSchema.from_dict(_schema)
 
+        replication_sources = []
+        _replication_sources = d.pop("replication_sources", UNSET)
+        for replication_sources_item_data in _replication_sources or []:
+            replication_sources_item = ReplicationSource.from_dict(replication_sources_item_data)
+
+            replication_sources.append(replication_sources_item)
+
         create_table_request = cls(
             num_shards=num_shards,
             description=description,
             indexes=indexes,
             schema=schema,
+            replication_sources=replication_sources,
         )
 
         create_table_request.additional_properties = d

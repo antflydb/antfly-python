@@ -3,6 +3,7 @@ Antfly SDK - Python client for Antfly distributed key-value store and search eng
 """
 
 from .client import AntflyClient
+from .client_generated.models.embedding_type_1 import EmbeddingType1 as SparseEmbedding
 from .exceptions import AntflyAuthError, AntflyConnectionError, AntflyException
 
 __version__ = "0.1.0"
@@ -12,5 +13,6 @@ __all__ = [
     "AntflyException",
     "AntflyConnectionError",
     "AntflyAuthError",
+    "SparseEmbedding",
     "__version__",
 ]

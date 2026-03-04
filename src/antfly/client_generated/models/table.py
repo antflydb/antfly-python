@@ -7,6 +7,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.replication_source import ReplicationSource
     from ..models.table_indexes import TableIndexes
     from ..models.table_schema import TableSchema
     from ..models.table_shards import TableShards
@@ -24,6 +25,8 @@ class Table:
         shards (TableShards):
         description (Union[Unset, str]): Optional description of the table. Example: Table for user data.
         schema (Union[Unset, TableSchema]): Schema definition for a table with multiple document types
+        replication_sources (Union[Unset, list['ReplicationSource']]): PostgreSQL CDC replication sources configured for
+            this table.
     """
 
     name: str
@@ -31,6 +34,7 @@ class Table:
     shards: "TableShards"
     description: Union[Unset, str] = UNSET
     schema: Union[Unset, "TableSchema"] = UNSET
+    replication_sources: Union[Unset, list["ReplicationSource"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -46,6 +50,13 @@ class Table:
         if not isinstance(self.schema, Unset):
             schema = self.schema.to_dict()
 
+        replication_sources: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.replication_sources, Unset):
+            replication_sources = []
+            for replication_sources_item_data in self.replication_sources:
+                replication_sources_item = replication_sources_item_data.to_dict()
+                replication_sources.append(replication_sources_item)
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -59,11 +70,14 @@ class Table:
             field_dict["description"] = description
         if schema is not UNSET:
             field_dict["schema"] = schema
+        if replication_sources is not UNSET:
+            field_dict["replication_sources"] = replication_sources
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.replication_source import ReplicationSource
         from ..models.table_indexes import TableIndexes
         from ..models.table_schema import TableSchema
         from ..models.table_shards import TableShards
@@ -84,12 +98,20 @@ class Table:
         else:
             schema = TableSchema.from_dict(_schema)
 
+        replication_sources = []
+        _replication_sources = d.pop("replication_sources", UNSET)
+        for replication_sources_item_data in _replication_sources or []:
+            replication_sources_item = ReplicationSource.from_dict(replication_sources_item_data)
+
+            replication_sources.append(replication_sources_item)
+
         table = cls(
             name=name,
             indexes=indexes,
             shards=shards,
             description=description,
             schema=schema,
+            replication_sources=replication_sources,
         )
 
         table.additional_properties = d
