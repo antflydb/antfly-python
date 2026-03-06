@@ -1,10 +1,15 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.audio_chunk_options import AudioChunkOptions
+    from ..models.text_chunk_options import TextChunkOptions
+
 
 T = TypeVar("T", bound="TermiteChunkerConfig")
 
@@ -26,34 +31,25 @@ class TermiteChunkerConfig:
     - Singleflight deduplication for concurrent identical requests
 
         Example:
-            {'provider': 'termite', 'api_url': 'http://localhost:8080', 'model': 'fixed', 'target_tokens': 500,
-                'overlap_tokens': 50, 'separator': '\n\n', 'max_chunks': 50}
+            {'provider': 'termite', 'api_url': 'http://localhost:8080', 'model': 'fixed', 'max_chunks': 50, 'text':
+                {'target_tokens': 500, 'overlap_tokens': 50, 'separator': '\n\n'}}
 
         Attributes:
             model (str): The chunking model to use. Either 'fixed' for simple token-based chunking, or a model name from
                 models/chunkers/{name}/. Default: 'fixed'. Example: fixed.
             max_chunks (Union[Unset, int]): Maximum number of chunks to generate per document.
-            overlap_tokens (Union[Unset, int]): Number of tokens to overlap between consecutive chunks. Helps maintain
-                context across chunk boundaries. Only used by fixed-size chunkers.
-            separator (Union[Unset, str]): Separator string for splitting (e.g., '\n\n' for paragraphs). Only used by fixed-
-                size chunkers.
-            threshold (Union[Unset, float]): Minimum confidence threshold for separator detection (0.0-1.0). Only used by
-                ONNX models.
-            target_tokens (Union[Unset, int]): Target number of tokens per chunk.
-            window_duration_ms (Union[Unset, int]): Window duration in milliseconds for audio chunking (default: 30000).
-            overlap_duration_ms (Union[Unset, int]): Overlap duration in milliseconds between audio chunks (default: 0).
+            threshold (Union[Unset, float]): Confidence threshold for model-based chunking (0.0-1.0).
+            text (Union[Unset, TextChunkOptions]): Options specific to text chunking.
+            audio (Union[Unset, AudioChunkOptions]): Options specific to audio chunking.
             api_url (Union[Unset, str]): The URL of the Termite API endpoint (e.g., 'http://localhost:8080'). Can also be
                 set via ANTFLY_TERMITE_URL environment variable. Example: http://localhost:8080.
     """
 
     model: str = "fixed"
     max_chunks: Union[Unset, int] = UNSET
-    overlap_tokens: Union[Unset, int] = UNSET
-    separator: Union[Unset, str] = UNSET
     threshold: Union[Unset, float] = UNSET
-    target_tokens: Union[Unset, int] = UNSET
-    window_duration_ms: Union[Unset, int] = UNSET
-    overlap_duration_ms: Union[Unset, int] = UNSET
+    text: Union[Unset, "TextChunkOptions"] = UNSET
+    audio: Union[Unset, "AudioChunkOptions"] = UNSET
     api_url: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -62,17 +58,15 @@ class TermiteChunkerConfig:
 
         max_chunks = self.max_chunks
 
-        overlap_tokens = self.overlap_tokens
-
-        separator = self.separator
-
         threshold = self.threshold
 
-        target_tokens = self.target_tokens
+        text: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.text, Unset):
+            text = self.text.to_dict()
 
-        window_duration_ms = self.window_duration_ms
-
-        overlap_duration_ms = self.overlap_duration_ms
+        audio: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.audio, Unset):
+            audio = self.audio.to_dict()
 
         api_url = self.api_url
 
@@ -85,18 +79,12 @@ class TermiteChunkerConfig:
         )
         if max_chunks is not UNSET:
             field_dict["max_chunks"] = max_chunks
-        if overlap_tokens is not UNSET:
-            field_dict["overlap_tokens"] = overlap_tokens
-        if separator is not UNSET:
-            field_dict["separator"] = separator
         if threshold is not UNSET:
             field_dict["threshold"] = threshold
-        if target_tokens is not UNSET:
-            field_dict["target_tokens"] = target_tokens
-        if window_duration_ms is not UNSET:
-            field_dict["window_duration_ms"] = window_duration_ms
-        if overlap_duration_ms is not UNSET:
-            field_dict["overlap_duration_ms"] = overlap_duration_ms
+        if text is not UNSET:
+            field_dict["text"] = text
+        if audio is not UNSET:
+            field_dict["audio"] = audio
         if api_url is not UNSET:
             field_dict["api_url"] = api_url
 
@@ -104,34 +92,38 @@ class TermiteChunkerConfig:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.audio_chunk_options import AudioChunkOptions
+        from ..models.text_chunk_options import TextChunkOptions
+
         d = dict(src_dict)
         model = d.pop("model")
 
         max_chunks = d.pop("max_chunks", UNSET)
 
-        overlap_tokens = d.pop("overlap_tokens", UNSET)
-
-        separator = d.pop("separator", UNSET)
-
         threshold = d.pop("threshold", UNSET)
 
-        target_tokens = d.pop("target_tokens", UNSET)
+        _text = d.pop("text", UNSET)
+        text: Union[Unset, TextChunkOptions]
+        if isinstance(_text, Unset):
+            text = UNSET
+        else:
+            text = TextChunkOptions.from_dict(_text)
 
-        window_duration_ms = d.pop("window_duration_ms", UNSET)
-
-        overlap_duration_ms = d.pop("overlap_duration_ms", UNSET)
+        _audio = d.pop("audio", UNSET)
+        audio: Union[Unset, AudioChunkOptions]
+        if isinstance(_audio, Unset):
+            audio = UNSET
+        else:
+            audio = AudioChunkOptions.from_dict(_audio)
 
         api_url = d.pop("api_url", UNSET)
 
         termite_chunker_config = cls(
             model=model,
             max_chunks=max_chunks,
-            overlap_tokens=overlap_tokens,
-            separator=separator,
             threshold=threshold,
-            target_tokens=target_tokens,
-            window_duration_ms=window_duration_ms,
-            overlap_duration_ms=overlap_duration_ms,
+            text=text,
+            audio=audio,
             api_url=api_url,
         )
 

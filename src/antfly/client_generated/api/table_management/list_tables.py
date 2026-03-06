@@ -6,7 +6,6 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error import Error
-from ...models.table_status import TableStatus
 from ...types import UNSET, Response, Unset
 
 
@@ -32,19 +31,7 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Error, list["TableStatus"]]]:
-    if response.status_code == 200:
-        response_200 = []
-        _response_200 = response.json()
-        for response_200_item_data in _response_200:
-            response_200_item = TableStatus.from_dict(response_200_item_data)
-
-            response_200.append(response_200_item)
-
-        return response_200
-
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Error]:
     if response.status_code == 400:
         response_400 = Error.from_dict(response.json())
 
@@ -61,9 +48,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Error, list["TableStatus"]]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -77,7 +62,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     prefix: Union[Unset, str] = UNSET,
     pattern: Union[Unset, str] = UNSET,
-) -> Response[Union[Error, list["TableStatus"]]]:
+) -> Response[Error]:
     """List all tables
 
     Args:
@@ -89,7 +74,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, list['TableStatus']]]
+        Response[Error]
     """
 
     kwargs = _get_kwargs(
@@ -109,7 +94,7 @@ def sync(
     client: AuthenticatedClient,
     prefix: Union[Unset, str] = UNSET,
     pattern: Union[Unset, str] = UNSET,
-) -> Optional[Union[Error, list["TableStatus"]]]:
+) -> Optional[Error]:
     """List all tables
 
     Args:
@@ -121,7 +106,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Error, list['TableStatus']]
+        Error
     """
 
     return sync_detailed(
@@ -136,7 +121,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     prefix: Union[Unset, str] = UNSET,
     pattern: Union[Unset, str] = UNSET,
-) -> Response[Union[Error, list["TableStatus"]]]:
+) -> Response[Error]:
     """List all tables
 
     Args:
@@ -148,7 +133,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Error, list['TableStatus']]]
+        Response[Error]
     """
 
     kwargs = _get_kwargs(
@@ -166,7 +151,7 @@ async def asyncio(
     client: AuthenticatedClient,
     prefix: Union[Unset, str] = UNSET,
     pattern: Union[Unset, str] = UNSET,
-) -> Optional[Union[Error, list["TableStatus"]]]:
+) -> Optional[Error]:
     """List all tables
 
     Args:
@@ -178,7 +163,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Error, list['TableStatus']]
+        Error
     """
 
     return (

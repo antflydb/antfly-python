@@ -16,6 +16,7 @@ from .antfly_type import AntflyType
 from .anthropic_generator_config import AnthropicGeneratorConfig
 from .api_key import ApiKey
 from .api_key_with_secret import ApiKeyWithSecret
+from .audio_chunk_options import AudioChunkOptions
 from .backup_info import BackupInfo
 from .backup_list_response import BackupListResponse
 from .backup_request import BackupRequest
@@ -67,8 +68,6 @@ from .cohere_reranker_config import CohereRerankerConfig
 from .confidence_step_config import ConfidenceStepConfig
 from .conjunction_query import ConjunctionQuery
 from .create_api_key_request import CreateApiKeyRequest
-from .create_table_request import CreateTableRequest
-from .create_table_request_indexes import CreateTableRequestIndexes
 from .create_user_request import CreateUserRequest
 from .credentials import Credentials
 from .date_range_string_query import DateRangeStringQuery
@@ -144,6 +143,8 @@ from .graph_query_type import GraphQueryType
 from .graph_result_node import GraphResultNode
 from .graph_result_node_document import GraphResultNodeDocument
 from .ground_truth import GroundTruth
+from .incomplete_details import IncompleteDetails
+from .incomplete_details_reason import IncompleteDetailsReason
 from .index_status import IndexStatus
 from .index_status_shard_status import IndexStatusShardStatus
 from .index_type import IndexType
@@ -200,6 +201,7 @@ from .permission import Permission
 from .permission_type import PermissionType
 from .phrase_query import PhraseQuery
 from .prefix_query import PrefixQuery
+from .prune_stats import PruneStats
 from .pruner import Pruner
 from .query_builder_request import QueryBuilderRequest
 from .query_builder_result import QueryBuilderResult
@@ -216,18 +218,18 @@ from .query_result_graph_results import QueryResultGraphResults
 from .query_strategy import QueryStrategy
 from .query_string_query import QueryStringQuery
 from .regexp_query import RegexpQuery
-from .replication_source import ReplicationSource
-from .replication_source_type import ReplicationSourceType
 from .replication_transform_op import ReplicationTransformOp
 from .reranker_config import RerankerConfig
 from .reranker_provider import RerankerProvider
 from .resource_type import ResourceType
 from .restore_table_response_202 import RestoreTableResponse202
 from .retrieval_agent_result import RetrievalAgentResult
-from .retrieval_agent_state import RetrievalAgentState
+from .retrieval_agent_status import RetrievalAgentStatus
 from .retrieval_agent_steps import RetrievalAgentSteps
+from .retrieval_agent_usage import RetrievalAgentUsage
 from .retrieval_reasoning_step import RetrievalReasoningStep
 from .retrieval_reasoning_step_details import RetrievalReasoningStepDetails
+from .retrieval_reasoning_step_status import RetrievalReasoningStepStatus
 from .retrieval_strategy import RetrievalStrategy
 from .retry_config import RetryConfig
 from .route_type import RouteType
@@ -245,18 +247,14 @@ from .significance_algorithm import SignificanceAlgorithm
 from .storage_status import StorageStatus
 from .success_message import SuccessMessage
 from .sync_level import SyncLevel
-from .table import Table
 from .table_backup_status import TableBackupStatus
 from .table_backup_status_status import TableBackupStatusStatus
-from .table_indexes import TableIndexes
 from .table_restore_status import TableRestoreStatus
 from .table_restore_status_status import TableRestoreStatusStatus
 from .table_schema import TableSchema
 from .table_schema_document_schemas import TableSchemaDocumentSchemas
-from .table_shards import TableShards
 from .table_statistics import TableStatistics
 from .table_statistics_field_stats import TableStatisticsFieldStats
-from .table_status import TableStatus
 from .tavily_search_config import TavilySearchConfig
 from .tavily_search_config_search_depth import TavilySearchConfigSearchDepth
 from .template_field_mapping import TemplateFieldMapping
@@ -266,6 +264,7 @@ from .termite_chunker_config import TermiteChunkerConfig
 from .termite_embedder_config import TermiteEmbedderConfig
 from .termite_generator_config import TermiteGeneratorConfig
 from .termite_reranker_config import TermiteRerankerConfig
+from .text_chunk_options import TextChunkOptions
 from .transaction_commit_request import TransactionCommitRequest
 from .transaction_commit_request_tables import TransactionCommitRequestTables
 from .transaction_commit_response import TransactionCommitResponse
@@ -307,6 +306,7 @@ __all__ = (
     "AnthropicGeneratorConfig",
     "ApiKey",
     "ApiKeyWithSecret",
+    "AudioChunkOptions",
     "BackupInfo",
     "BackupListResponse",
     "BackupRequest",
@@ -358,8 +358,6 @@ __all__ = (
     "ConfidenceStepConfig",
     "ConjunctionQuery",
     "CreateApiKeyRequest",
-    "CreateTableRequest",
-    "CreateTableRequestIndexes",
     "CreateUserRequest",
     "Credentials",
     "DateRangeStringQuery",
@@ -435,6 +433,8 @@ __all__ = (
     "GraphResultNode",
     "GraphResultNodeDocument",
     "GroundTruth",
+    "IncompleteDetails",
+    "IncompleteDetailsReason",
     "IndexStatus",
     "IndexStatusShardStatus",
     "IndexType",
@@ -492,6 +492,7 @@ __all__ = (
     "PhraseQuery",
     "PrefixQuery",
     "Pruner",
+    "PruneStats",
     "QueryBuilderRequest",
     "QueryBuilderResult",
     "QueryBuilderResultQuery",
@@ -507,18 +508,18 @@ __all__ = (
     "QueryStrategy",
     "QueryStringQuery",
     "RegexpQuery",
-    "ReplicationSource",
-    "ReplicationSourceType",
     "ReplicationTransformOp",
     "RerankerConfig",
     "RerankerProvider",
     "ResourceType",
     "RestoreTableResponse202",
     "RetrievalAgentResult",
-    "RetrievalAgentState",
+    "RetrievalAgentStatus",
     "RetrievalAgentSteps",
+    "RetrievalAgentUsage",
     "RetrievalReasoningStep",
     "RetrievalReasoningStepDetails",
+    "RetrievalReasoningStepStatus",
     "RetrievalStrategy",
     "RetryConfig",
     "RouteType",
@@ -536,18 +537,14 @@ __all__ = (
     "StorageStatus",
     "SuccessMessage",
     "SyncLevel",
-    "Table",
     "TableBackupStatus",
     "TableBackupStatusStatus",
-    "TableIndexes",
     "TableRestoreStatus",
     "TableRestoreStatusStatus",
     "TableSchema",
     "TableSchemaDocumentSchemas",
-    "TableShards",
     "TableStatistics",
     "TableStatisticsFieldStats",
-    "TableStatus",
     "TavilySearchConfig",
     "TavilySearchConfigSearchDepth",
     "TemplateFieldMapping",
@@ -557,6 +554,7 @@ __all__ = (
     "TermiteRerankerConfig",
     "TermQuery",
     "TermRangeQuery",
+    "TextChunkOptions",
     "TransactionCommitRequest",
     "TransactionCommitRequestTables",
     "TransactionCommitResponse",

@@ -19,7 +19,7 @@ class ChunkerConfig:
     """A unified configuration for a chunking provider.
 
     Example:
-        {'provider': 'termite', 'model': 'fixed', 'target_tokens': 500, 'overlap_tokens': 50}
+        {'provider': 'termite', 'model': 'fixed', 'text': {'target_tokens': 500, 'overlap_tokens': 50}}
 
     Attributes:
         provider (ChunkerProvider): The chunking provider to use.

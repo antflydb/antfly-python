@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.retrieval_agent_state import RetrievalAgentState
+from ..models.retrieval_agent_status import RetrievalAgentStatus
 from ..models.retrieval_strategy import RetrievalStrategy
 from ..types import UNSET, Unset
 
@@ -14,7 +14,9 @@ if TYPE_CHECKING:
     from ..models.classification_transformation_result import ClassificationTransformationResult
     from ..models.eval_result import EvalResult
     from ..models.filter_spec import FilterSpec
+    from ..models.incomplete_details import IncompleteDetails
     from ..models.query_hit import QueryHit
+    from ..models.retrieval_agent_usage import RetrievalAgentUsage
     from ..models.retrieval_reasoning_step import RetrievalReasoningStep
 
 
@@ -26,11 +28,19 @@ class RetrievalAgentResult:
     """Result from the retrieval agent
 
     Attributes:
+        status (RetrievalAgentStatus): Current status of the retrieval agent execution:
+            - completed: Agent finished successfully
+            - in_progress: Agent is still executing (streaming context)
+            - incomplete: Agent stopped before completion (see incomplete_details)
+            - failed: Error occurred during execution
         hits (list['QueryHit']): Retrieved query hits
-        state (RetrievalAgentState): Current state of the retrieval agent:
-            - tool_calling: Agent is actively calling tools to find documents
-            - complete: Retrieval finished
-            - awaiting_clarification: Paused waiting for user input
+        id (Union[Unset, str]): Unique response ID for logging and tracing Example: ragr_cr3ig20h5tbs73e3ahrg.
+        model (Union[Unset, str]): LLM model used for generation Example: gemini-2.0-flash.
+        created_at (Union[Unset, int]): Unix timestamp (seconds) when the response was created
+        incomplete_details (Union[Unset, IncompleteDetails]): Explains why the agent stopped before completion. Present
+            when status is "incomplete".
+        usage (Union[Unset, RetrievalAgentUsage]): Token usage and resource statistics from the retrieval agent
+            execution
         reasoning_chain (Union[Unset, list['RetrievalReasoningStep']]): Steps taken during retrieval (tool calls,
             actions)
         strategy_used (Union[Unset, RetrievalStrategy]): Strategy for document retrieval:
@@ -56,8 +66,13 @@ class RetrievalAgentResult:
         eval_result (Union[Unset, EvalResult]): Complete evaluation result
     """
 
+    status: RetrievalAgentStatus
     hits: list["QueryHit"]
-    state: RetrievalAgentState
+    id: Union[Unset, str] = UNSET
+    model: Union[Unset, str] = UNSET
+    created_at: Union[Unset, int] = UNSET
+    incomplete_details: Union[Unset, "IncompleteDetails"] = UNSET
+    usage: Union[Unset, "RetrievalAgentUsage"] = UNSET
     reasoning_chain: Union[Unset, list["RetrievalReasoningStep"]] = UNSET
     strategy_used: Union[Unset, RetrievalStrategy] = UNSET
     clarification_request: Union[Unset, "ClarificationRequest"] = UNSET
@@ -73,12 +88,26 @@ class RetrievalAgentResult:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        status = self.status.value
+
         hits = []
         for hits_item_data in self.hits:
             hits_item = hits_item_data.to_dict()
             hits.append(hits_item)
 
-        state = self.state.value
+        id = self.id
+
+        model = self.model
+
+        created_at = self.created_at
+
+        incomplete_details: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.incomplete_details, Unset):
+            incomplete_details = self.incomplete_details.to_dict()
+
+        usage: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.usage, Unset):
+            usage = self.usage.to_dict()
 
         reasoning_chain: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.reasoning_chain, Unset):
@@ -133,10 +162,20 @@ class RetrievalAgentResult:
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
+                "status": status,
                 "hits": hits,
-                "state": state,
             }
         )
+        if id is not UNSET:
+            field_dict["id"] = id
+        if model is not UNSET:
+            field_dict["model"] = model
+        if created_at is not UNSET:
+            field_dict["created_at"] = created_at
+        if incomplete_details is not UNSET:
+            field_dict["incomplete_details"] = incomplete_details
+        if usage is not UNSET:
+            field_dict["usage"] = usage
         if reasoning_chain is not UNSET:
             field_dict["reasoning_chain"] = reasoning_chain
         if strategy_used is not UNSET:
@@ -171,10 +210,14 @@ class RetrievalAgentResult:
         from ..models.classification_transformation_result import ClassificationTransformationResult
         from ..models.eval_result import EvalResult
         from ..models.filter_spec import FilterSpec
+        from ..models.incomplete_details import IncompleteDetails
         from ..models.query_hit import QueryHit
+        from ..models.retrieval_agent_usage import RetrievalAgentUsage
         from ..models.retrieval_reasoning_step import RetrievalReasoningStep
 
         d = dict(src_dict)
+        status = RetrievalAgentStatus(d.pop("status"))
+
         hits = []
         _hits = d.pop("hits")
         for hits_item_data in _hits:
@@ -182,7 +225,25 @@ class RetrievalAgentResult:
 
             hits.append(hits_item)
 
-        state = RetrievalAgentState(d.pop("state"))
+        id = d.pop("id", UNSET)
+
+        model = d.pop("model", UNSET)
+
+        created_at = d.pop("created_at", UNSET)
+
+        _incomplete_details = d.pop("incomplete_details", UNSET)
+        incomplete_details: Union[Unset, IncompleteDetails]
+        if isinstance(_incomplete_details, Unset):
+            incomplete_details = UNSET
+        else:
+            incomplete_details = IncompleteDetails.from_dict(_incomplete_details)
+
+        _usage = d.pop("usage", UNSET)
+        usage: Union[Unset, RetrievalAgentUsage]
+        if isinstance(_usage, Unset):
+            usage = UNSET
+        else:
+            usage = RetrievalAgentUsage.from_dict(_usage)
 
         reasoning_chain = []
         _reasoning_chain = d.pop("reasoning_chain", UNSET)
@@ -244,8 +305,13 @@ class RetrievalAgentResult:
             eval_result = EvalResult.from_dict(_eval_result)
 
         retrieval_agent_result = cls(
+            status=status,
             hits=hits,
-            state=state,
+            id=id,
+            model=model,
+            created_at=created_at,
+            incomplete_details=incomplete_details,
+            usage=usage,
             reasoning_chain=reasoning_chain,
             strategy_used=strategy_used,
             clarification_request=clarification_request,

@@ -362,7 +362,7 @@ class EmbeddingsIndexConfig:
                 - Test templates with representative data before production use Example: {'provider': 'openai', 'model':
                 'gpt-4.1', 'temperature': 0.7, 'max_tokens': 2048}.
             chunker (Union[Unset, ChunkerConfig]): A unified configuration for a chunking provider. Example: {'provider':
-                'termite', 'model': 'fixed', 'target_tokens': 500, 'overlap_tokens': 50}.
+                'termite', 'model': 'fixed', 'text': {'target_tokens': 500, 'overlap_tokens': 50}}.
             top_k (Union[Unset, int]): Default number of results to return from search (sparse only) Default: 10.
             min_weight (Union[Unset, float]): Minimum weight threshold for sparse vector entries (sparse only) Default: 0.0.
             chunk_size (Union[Unset, int]): Number of documents per posting list chunk (sparse only) Default: 1024.
