@@ -72,6 +72,7 @@ from .create_user_request import CreateUserRequest
 from .credentials import Credentials
 from .date_range_string_query import DateRangeStringQuery
 from .disjunction_query import DisjunctionQuery
+from .distance_metric import DistanceMetric
 from .distance_range import DistanceRange
 from .distance_unit import DistanceUnit
 from .doc_id_query import DocIdQuery
@@ -362,6 +363,7 @@ __all__ = (
     "Credentials",
     "DateRangeStringQuery",
     "DisjunctionQuery",
+    "DistanceMetric",
     "DistanceRange",
     "DistanceUnit",
     "DocIdQuery",

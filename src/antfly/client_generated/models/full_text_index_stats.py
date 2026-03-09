@@ -17,12 +17,16 @@ class FullTextIndexStats:
         total_indexed (Union[Unset, int]): Number of documents in the index
         disk_usage (Union[Unset, int]): Size of the index in bytes
         rebuilding (Union[Unset, bool]): Whether the index is currently rebuilding
+        backfill_progress (Union[Unset, float]): Progress of ongoing rebuild as fraction [0.0, 1.0]
+        backfill_items_processed (Union[Unset, int]): Number of documents indexed during current rebuild
     """
 
     error: Union[Unset, str] = UNSET
     total_indexed: Union[Unset, int] = UNSET
     disk_usage: Union[Unset, int] = UNSET
     rebuilding: Union[Unset, bool] = UNSET
+    backfill_progress: Union[Unset, float] = UNSET
+    backfill_items_processed: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -33,6 +37,10 @@ class FullTextIndexStats:
         disk_usage = self.disk_usage
 
         rebuilding = self.rebuilding
+
+        backfill_progress = self.backfill_progress
+
+        backfill_items_processed = self.backfill_items_processed
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -45,6 +53,10 @@ class FullTextIndexStats:
             field_dict["disk_usage"] = disk_usage
         if rebuilding is not UNSET:
             field_dict["rebuilding"] = rebuilding
+        if backfill_progress is not UNSET:
+            field_dict["backfill_progress"] = backfill_progress
+        if backfill_items_processed is not UNSET:
+            field_dict["backfill_items_processed"] = backfill_items_processed
 
         return field_dict
 
@@ -59,11 +71,17 @@ class FullTextIndexStats:
 
         rebuilding = d.pop("rebuilding", UNSET)
 
+        backfill_progress = d.pop("backfill_progress", UNSET)
+
+        backfill_items_processed = d.pop("backfill_items_processed", UNSET)
+
         full_text_index_stats = cls(
             error=error,
             total_indexed=total_indexed,
             disk_usage=disk_usage,
             rebuilding=rebuilding,
+            backfill_progress=backfill_progress,
+            backfill_items_processed=backfill_items_processed,
         )
 
         full_text_index_stats.additional_properties = d

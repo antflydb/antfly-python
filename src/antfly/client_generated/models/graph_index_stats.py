@@ -21,11 +21,17 @@ class GraphIndexStats:
         error (Union[Unset, str]): Error message if stats could not be retrieved
         total_edges (Union[Unset, int]): Total number of edges in the graph
         edge_types (Union[Unset, GraphIndexStatsEdgeTypes]): Count of edges per edge type
+        rebuilding (Union[Unset, bool]): Whether the index is currently rebuilding
+        backfill_progress (Union[Unset, float]): Rebuild progress as a ratio from 0.0 to 1.0
+        backfill_items_processed (Union[Unset, int]): Number of edges indexed during current rebuild
     """
 
     error: Union[Unset, str] = UNSET
     total_edges: Union[Unset, int] = UNSET
     edge_types: Union[Unset, "GraphIndexStatsEdgeTypes"] = UNSET
+    rebuilding: Union[Unset, bool] = UNSET
+    backfill_progress: Union[Unset, float] = UNSET
+    backfill_items_processed: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -37,6 +43,12 @@ class GraphIndexStats:
         if not isinstance(self.edge_types, Unset):
             edge_types = self.edge_types.to_dict()
 
+        rebuilding = self.rebuilding
+
+        backfill_progress = self.backfill_progress
+
+        backfill_items_processed = self.backfill_items_processed
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -46,6 +58,12 @@ class GraphIndexStats:
             field_dict["total_edges"] = total_edges
         if edge_types is not UNSET:
             field_dict["edge_types"] = edge_types
+        if rebuilding is not UNSET:
+            field_dict["rebuilding"] = rebuilding
+        if backfill_progress is not UNSET:
+            field_dict["backfill_progress"] = backfill_progress
+        if backfill_items_processed is not UNSET:
+            field_dict["backfill_items_processed"] = backfill_items_processed
 
         return field_dict
 
@@ -65,10 +83,19 @@ class GraphIndexStats:
         else:
             edge_types = GraphIndexStatsEdgeTypes.from_dict(_edge_types)
 
+        rebuilding = d.pop("rebuilding", UNSET)
+
+        backfill_progress = d.pop("backfill_progress", UNSET)
+
+        backfill_items_processed = d.pop("backfill_items_processed", UNSET)
+
         graph_index_stats = cls(
             error=error,
             total_edges=total_edges,
             edge_types=edge_types,
+            rebuilding=rebuilding,
+            backfill_progress=backfill_progress,
+            backfill_items_processed=backfill_items_processed,
         )
 
         graph_index_stats.additional_properties = d

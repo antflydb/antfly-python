@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any, TypeVar, Union
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.distance_metric import DistanceMetric
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -30,6 +31,9 @@ class EmbeddingsIndexConfig:
             template (Union[Unset, str]): Handlebars template for generating prompts. See https://handlebarsjs.com/guide/
                 for more information. Example: Hello, {{#if (eq Name "John")}}Johnathan{{else}}{{Name}}{{/if}}! You are {{Age}}
                 years old..
+            distance_metric (Union[Unset, DistanceMetric]): Distance metric for the vector index (dense only). Use "cosine"
+                for models trained with cosine similarity (e.g. CLIP, OpenAI). Use "inner_product" for models trained with dot
+                product similarity. Use "l2_squared" (default) for models trained with Euclidean distance.
             mem_only (Union[Unset, bool]): Whether to use in-memory only storage (dense only)
             embedder (Union[Unset, EmbedderConfig]): A unified configuration for an embedding provider.
 
@@ -372,6 +376,7 @@ class EmbeddingsIndexConfig:
     dimension: Union[Unset, int] = UNSET
     field: Union[Unset, str] = UNSET
     template: Union[Unset, str] = UNSET
+    distance_metric: Union[Unset, DistanceMetric] = UNSET
     mem_only: Union[Unset, bool] = UNSET
     embedder: Union[Unset, "EmbedderConfig"] = UNSET
     summarizer: Union[Unset, "GeneratorConfig"] = UNSET
@@ -389,6 +394,10 @@ class EmbeddingsIndexConfig:
         field = self.field
 
         template = self.template
+
+        distance_metric: Union[Unset, str] = UNSET
+        if not isinstance(self.distance_metric, Unset):
+            distance_metric = self.distance_metric.value
 
         mem_only = self.mem_only
 
@@ -421,6 +430,8 @@ class EmbeddingsIndexConfig:
             field_dict["field"] = field
         if template is not UNSET:
             field_dict["template"] = template
+        if distance_metric is not UNSET:
+            field_dict["distance_metric"] = distance_metric
         if mem_only is not UNSET:
             field_dict["mem_only"] = mem_only
         if embedder is not UNSET:
@@ -452,6 +463,13 @@ class EmbeddingsIndexConfig:
         field = d.pop("field", UNSET)
 
         template = d.pop("template", UNSET)
+
+        _distance_metric = d.pop("distance_metric", UNSET)
+        distance_metric: Union[Unset, DistanceMetric]
+        if isinstance(_distance_metric, Unset):
+            distance_metric = UNSET
+        else:
+            distance_metric = DistanceMetric(_distance_metric)
 
         mem_only = d.pop("mem_only", UNSET)
 
@@ -487,6 +505,7 @@ class EmbeddingsIndexConfig:
             dimension=dimension,
             field=field,
             template=template,
+            distance_metric=distance_metric,
             mem_only=mem_only,
             embedder=embedder,
             summarizer=summarizer,
